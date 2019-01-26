@@ -4,8 +4,8 @@ return [
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=map.madetec.uz',
-            'username' => 'root',
-            'password' => 'vfrtgb45',
+            'username' => 'map.madetec',
+            'password' => 'ezDqsL5qpMW7F49D',
             'charset' => 'utf8',
         ],
         'mailer' => [
