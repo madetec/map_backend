@@ -1,5 +1,7 @@
 <?php
 return [
+    'name' => 'Telecom Car',
+    'language' => 'ru',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
