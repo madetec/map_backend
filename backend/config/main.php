@@ -7,7 +7,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
+    'id' => 'telecom-car-app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -23,8 +23,7 @@ return [
             'loginUrl' => ['auth/sign-in'],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => 'telecom-car-backend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -51,6 +50,10 @@ return [
         'class' => 'yii\filters\AccessControl',
         'except' => ['auth/sign-in', 'auth/sign-up', 'site/error', 'auth/sign-out'],
         'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['admin']
+            ]
         ],
     ],
     'params' => $params,

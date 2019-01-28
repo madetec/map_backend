@@ -30,7 +30,6 @@ class AuthController extends Controller
         return [
             'verbs' => [
                 'class' => VerbFilter::class,
-
                 'actions' => [
                     'sign-out' => ['post'],
                 ],
@@ -67,6 +66,8 @@ class AuthController extends Controller
                 $this->service->signIn($form);
                 return $this->goBack();
             } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error',$e->getMessage());
+                return $this->goBack();
             }
         }
 

@@ -49,7 +49,7 @@ $fieldOptions2 = [
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Войти в систему</p>
-
+        <?= \dmstr\widgets\Alert::widget() ?>
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
         <?= $form

@@ -35,7 +35,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $user = new static();
         $user->username = $username;
-        $user->role = 'admin';
         $user->status = self::STATUS_ACTIVE;
         return $user;
     }
