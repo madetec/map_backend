@@ -17,9 +17,10 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'uztelecom\entities\user\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'loginUrl' => ['auth/sign-in'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -42,9 +43,15 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
             ],
         ],
-
+    ],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['auth/sign-in', 'auth/sign-up', 'site/error', 'auth/sign-out'],
+        'rules' => [
+        ],
     ],
     'params' => $params,
 ];
