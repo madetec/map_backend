@@ -1,2 +1,0 @@
-2019/01/26 18:40:44 [error] 1788#1788: *1 directory index of "/app/static/" is forbidden, client: 192.168.94.1, server: static.telecom-car.test, request: "GET / HTTP/1.1", host: "static.telecom-car.test"
-2019/01/26 18:40:44 [error] 1788#1788: *2 open() "/app/static/favicon.ico" failed (2: No such file or directory), client: 192.168.94.1, server: static.telecom-car.test, request: "GET /favicon.ico HTTP/1.1", host: "static.telecom-car.test", referrer: "http://static.telecom-car.test/"
