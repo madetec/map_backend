@@ -28,7 +28,7 @@ class AuthService
      * @throws \DomainException
      * @throws \uztelecom\exceptions\NotFoundException
      */
-    public function signIn(SignInForm $form)
+    public function signIn(SignInForm $form): void
     {
         $user = $this->users->findByUsername($form->username);
         $duration = $form->rememberMe ? $user::REMEMBER_ME_DURATION : 0;
