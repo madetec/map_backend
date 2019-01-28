@@ -1,0 +1,3 @@
+2019/01/28 14:49:50 [error] 26492#26492: *1 directory index of "/app/backend/web/" is forbidden, client: 192.168.55.1, server: telecom-car.test, request: "GET / HTTP/1.1", host: "telecom-car.test"
+2019/01/28 14:53:58 [error] 1966#1966: *1 directory index of "/app/backend/web/" is forbidden, client: 192.168.55.1, server: telecom-car.test, request: "GET / HTTP/1.1", host: "telecom-car.test"
+2019/01/28 14:56:21 [error] 1966#1966: *3 directory index of "/app/backend/web/" is forbidden, client: 192.168.55.1, server: telecom-car.test, request: "GET / HTTP/1.1", host: "telecom-car.test"
