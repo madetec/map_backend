@@ -30,6 +30,7 @@ class AuthController extends Controller
         return [
             'verbs' => [
                 'class' => VerbFilter::class,
+
                 'actions' => [
                     'sign-out' => ['post'],
                 ],
