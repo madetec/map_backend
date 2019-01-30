@@ -30,4 +30,12 @@ class SignInForm extends Model
             }
         }
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'password' => 'Пароль',
+        ];
+    }
 }
