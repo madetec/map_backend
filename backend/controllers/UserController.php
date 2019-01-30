@@ -8,6 +8,7 @@ use uztelecom\searches\user\UserSearch;
 use uztelecom\services\UserManageService;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -41,10 +42,6 @@ class UserController extends Controller
         ];
     }
 
-    /**
-     * Lists all User models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new UserSearch();
@@ -77,7 +74,6 @@ class UserController extends Controller
     public function actionCreate()
     {
         $form = new UserForm();
-
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $user = $this->service->create($form);

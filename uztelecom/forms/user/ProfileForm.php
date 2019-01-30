@@ -10,7 +10,10 @@ namespace uztelecom\forms\user;
 
 
 use uztelecom\forms\CompositeForm;
-
+/**
+ * @property PhoneForm $phone
+ * @property AddressForm $address
+ */
 class ProfileForm extends CompositeForm
 {
     public $name;
@@ -18,6 +21,13 @@ class ProfileForm extends CompositeForm
     public $father_name;
     public $subdivision;
     public $position;
+
+    public function __construct(array $config = [])
+    {
+        $this->phone = new PhoneForm();
+        $this->address = new AddressForm();
+        parent::__construct($config);
+    }
 
     public function rules()
     {
@@ -34,7 +44,7 @@ class ProfileForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return [];
+        return ['phone','address'];
     }
 
 }

@@ -35,6 +35,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model->profile, 'father_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model->profile, 'subdivision')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model->profile, 'position')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model->profile->phone, 'number')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model->profile->address, 'name')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 
