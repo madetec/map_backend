@@ -46,18 +46,6 @@ class RbacController extends Controller
 
         $this->stdout(PHP_EOL . 'create role admin done!');
 
-        // add children role
-
-        $auth->addChild($administrator, $crud);
-
-        $auth->addChild($administrator, $driver);
-
-        $this->stdout(PHP_EOL . 'Add child admin -> driver done!');
-
-        $auth->addChild($driver, $user);
-
-        $this->stdout(PHP_EOL . 'Add child driver -> user done!' . PHP_EOL);
-
 
         $this->stdout('RBAC configure Done!' . PHP_EOL);
     }

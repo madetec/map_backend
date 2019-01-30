@@ -5,6 +5,7 @@ namespace uztelecom\entities\user;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -22,6 +23,7 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property Profile $profile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -37,6 +39,11 @@ class User extends ActiveRecord implements IdentityInterface
         $user->username = $username;
         $user->status = self::STATUS_ACTIVE;
         return $user;
+    }
+
+    public function getProfile(): ActiveQuery
+    {
+        return $this->hasOne(Profile::class, ['user_id' => 'id']);
     }
 
 
@@ -91,7 +98,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
