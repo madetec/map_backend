@@ -3,6 +3,7 @@
 namespace uztelecom\entities\user;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\forms\user\ProfileForm;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -35,10 +36,18 @@ class User extends ActiveRecord implements IdentityInterface
     const REMEMBER_ME_DURATION = 3600 * 24 * 30;
 
 
-    public static function create($username)
+    public static function create($username, $password, $role, ProfileForm $profile)
     {
         $user = new static();
         $user->username = $username;
+        $user->profile = Profile::create(
+            $profile->name,
+            $profile->last_name,
+            $profile->father_name,
+            $profile->subdivision,
+            $profile->position);
+        $user->setPassword($password);
+        $user->generateAuthKey();
         return $user;
     }
 
