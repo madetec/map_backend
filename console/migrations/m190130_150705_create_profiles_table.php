@@ -41,7 +41,7 @@ class m190130_150705_create_profiles_table extends Migration
         $this->createIndex(
             '{{%idx-profiles-user_id}}',
             '{{%profiles}}',
-        'user_id',
+            'user_id',
             'user_id'
         );
     }

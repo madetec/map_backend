@@ -2,29 +2,31 @@
 /**
  * Created by PhpStorm.
  * User: HP
- * Date: 30.01.2019
- * Time: 21:48
+ * Date: 02.02.2019
+ * Time: 12:44
+ *
  */
 
 namespace uztelecom\forms\user;
 
 
+use uztelecom\entities\user\User;
 use uztelecom\forms\CompositeForm;
-
 /**
  * @property ProfileForm $profile
  */
-class UserForm extends CompositeForm
+class UserEditForm extends CompositeForm
 {
     public $username;
     public $password;
 
-    public function __construct(array $config = [])
+    public function __construct(User $user, $config = [])
     {
+        $this->username = $user->username;
+        $this->password = $user->password;
         $this->profile = new ProfileForm();
         parent::__construct($config);
     }
-
 
     public function rules()
     {
@@ -45,5 +47,4 @@ class UserForm extends CompositeForm
     {
         return ['profile'];
     }
-
 }

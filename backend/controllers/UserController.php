@@ -3,14 +3,17 @@
 namespace backend\controllers;
 
 use uztelecom\entities\user\User;
+use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
 use uztelecom\searches\user\UserSearch;
 use uztelecom\services\UserManageService;
+use uztelecom\repositories\UserRepository;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use uztelecom\readmodels\UserReadModel;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -19,12 +22,13 @@ class UserController extends Controller
 {
 
     public $service;
-
+    public $repository;
     public function __construct(string $id, $module, UserManageService $userManageService, array $config = [])
     {
         parent::__construct($id, $module, $config);
 
         $this->service = $userManageService;
+
     }
 
     /**
@@ -99,14 +103,14 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $user = UserReadModel::find($id);
+        $form = new UserEditForm($user);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            return $this->redirect(['view', 'id' => $form->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $user,
         ]);
     }
 

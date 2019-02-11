@@ -45,4 +45,6 @@ class UserManageService
         VarDumper::dump($user,10,true);die;
 
     }
+
+
 }

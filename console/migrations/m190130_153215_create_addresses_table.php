@@ -12,12 +12,16 @@ class m190130_153215_create_addresses_table extends Migration
      */
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
         $this->createTable('{{%addresses}}', [
             'id' => $this->primaryKey(),
             'sort' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'profile_id' => $this->integer()->notNull(),
-        ]);
+        ],$tableOptions);
 
         $this->addForeignKey(
             '{{%fk-addresses-profile_id}}',
@@ -31,6 +35,7 @@ class m190130_153215_create_addresses_table extends Migration
         $this->createIndex(
             '{{%idx-addresses-profile_id}}',
             '{{%addresses}}',
+            'profile_id',
             'profile_id'
         );
     }
@@ -40,6 +45,6 @@ class m190130_153215_create_addresses_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('addresses');
+        $this->dropTable('{{%addresses}}');
     }
 }
