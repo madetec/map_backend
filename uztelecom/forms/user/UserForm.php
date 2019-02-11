@@ -9,6 +9,7 @@
 namespace uztelecom\forms\user;
 
 
+use uztelecom\entities\user\User;
 use uztelecom\forms\CompositeForm;
 use yii\helpers\ArrayHelper;
 
@@ -23,9 +24,17 @@ class UserForm extends CompositeForm
     public $password;
     public $role;
 
-    public function __construct(array $config = [])
+
+    public function __construct(User $user = null, array $config = [])
     {
-        $this->profile = new ProfileForm();
+        if($user){
+            $this->username = $user->username;
+            $this->role = $user->role;
+            $this->profile = new ProfileForm($user->profile);
+        }else{
+            $this->profile = new ProfileForm();
+        }
+
         parent::__construct($config);
     }
 
@@ -51,6 +60,7 @@ class UserForm extends CompositeForm
         $roles = ArrayHelper::getColumn($roles, 'name');
         return $roles;
     }
+
     protected function getRoles(): array
     {
         $roles = \Yii::$app->authManager->getRoles();

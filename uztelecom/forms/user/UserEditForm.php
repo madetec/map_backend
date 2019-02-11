@@ -23,7 +23,6 @@ class UserEditForm extends CompositeForm
     public function __construct(User $user, $config = [])
     {
         $this->username = $user->username;
-        $this->password = $user->password;
         $this->profile = new ProfileForm();
         parent::__construct($config);
     }

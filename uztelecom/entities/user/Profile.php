@@ -13,6 +13,11 @@ use yii\db\ActiveRecord;
  * User: HP
  * Date: 30.01.2019
  * Time: 20:25
+ * @property string $name
+ * @property string $last_name
+ * @property string $father_name
+ * @property string $subdivision
+ * @property string $position
  * @property User $user
  * @property Phone[] $phones
  * @property Address[] $addresses
@@ -20,7 +25,7 @@ use yii\db\ActiveRecord;
  */
 class Profile extends ActiveRecord
 {
-    public static function create($name, $last_name, $father_name, $subdivision, $position)
+    public static function create($name, $last_name, $father_name, $subdivision, $position,$phone)
     {
         $profile = new static();
         $profile->name = $name;
@@ -30,6 +35,15 @@ class Profile extends ActiveRecord
         $profile->position = $position;
         return $profile;
 
+    }
+
+    public function edit($name, $last_name, $father_name, $subdivision, $position)
+    {
+        $this->name = $name;
+        $this->last_name = $last_name;
+        $this->father_name = $father_name;
+        $this->subdivision = $subdivision;
+        $this->position = $position;
     }
     public static function tableName()
     {

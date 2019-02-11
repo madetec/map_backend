@@ -9,7 +9,9 @@
 namespace uztelecom\forms\user;
 
 
+use uztelecom\entities\user\Profile;
 use uztelecom\forms\CompositeForm;
+
 /**
  * @property PhoneForm $phone
  * @property AddressForm $address
@@ -22,8 +24,15 @@ class ProfileForm extends CompositeForm
     public $subdivision;
     public $position;
 
-    public function __construct(array $config = [])
+    public function __construct(Profile $profile = null, array $config = [])
     {
+        if ($profile) {
+            $this->name = $profile->name;
+            $this->last_name = $profile->last_name;
+            $this->father_name = $profile->father_name;
+            $this->subdivision = $profile->subdivision;
+            $this->position = $profile->position;
+        }
         $this->phone = new PhoneForm();
         $this->address = new AddressForm();
         parent::__construct($config);

@@ -3,8 +3,12 @@
 namespace backend\controllers;
 
 use uztelecom\entities\user\User;
+use uztelecom\forms\user\AddressForm;
+use uztelecom\forms\user\PhoneForm;
+use uztelecom\forms\user\ProfileForm;
 use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
+use uztelecom\readModels\UserReadRepository;
 use uztelecom\searches\user\UserSearch;
 use uztelecom\services\UserManageService;
 use uztelecom\repositories\UserRepository;
@@ -17,17 +21,24 @@ use uztelecom\readmodels\UserReadModel;
 
 /**
  * UserController implements the CRUD actions for User model.
+ * @property UserManageService $service
+ * @property UserReadRepository $users
  */
 class UserController extends Controller
 {
 
     public $service;
-    public $repository;
-    public function __construct(string $id, $module, UserManageService $userManageService, array $config = [])
+    public $users;
+    public function __construct(
+        string $id, $module,
+        UserManageService $userManageService,
+        UserReadRepository $readRepository,
+        array $config = [])
     {
         parent::__construct($id, $module, $config);
 
         $this->service = $userManageService;
+        $this->users = $readRepository;
 
     }
 
@@ -58,22 +69,21 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->users->find($id),
         ]);
     }
 
     /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionCreate()
     {
@@ -95,52 +105,45 @@ class UserController extends Controller
     }
 
     /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionUpdate($id)
     {
-        $user = UserReadModel::find($id);
-        $form = new UserEditForm($user);
+        $user = $this->users->find($id);
+        $form = new UserForm($user);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            return $this->redirect(['view', 'id' => $form->id]);
+            try{
+                $this->service->edit($user, $form);
+                Yii::$app->session->setFlash('success', 'Пользователь успешно обновлен.');
+            }catch (\Exception $e){
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+            return $this->redirect(['view', 'id' => $user->id]);
         }
-
         return $this->render('update', [
-            'model' => $user,
+            'user' => $user,
+            'form' => $form,
         ]);
     }
 
     /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        try{
+            $this->service->remove($id);
+            Yii::$app->session->setFlash('success','Пользователь успешно удален.');
+        }catch (\Exception $e){
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }

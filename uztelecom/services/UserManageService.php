@@ -13,6 +13,14 @@ use uztelecom\entities\user\User;
 use uztelecom\forms\user\UserForm;
 use uztelecom\repositories\UserRepository;
 
+/**
+ * Created by Madetec-Solution.
+ * Developer: Mirkhanov Z.S.
+ * Class UserManageService
+ * @package uztelecom\services
+ * @property  UserRepository $users
+ */
+
 class UserManageService
 {
     private $users;
@@ -32,6 +40,31 @@ class UserManageService
         $user = User::create($form->username, $form->password, $form->profile);
         $this->users->save($user);
         return $user;
+    }
+
+    /**
+     * @param User $user
+     * @param UserForm $form
+     * @throws \DomainException
+     * @throws \yii\base\Exception
+     */
+    public function edit(User $user, UserForm $form): void
+    {
+        $user->edit($form->username, $form->password, $form->profile);
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @throws \DomainException
+     * @throws \Throwable
+     * @throws \uztelecom\exceptions\NotFoundException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function remove($id)
+    {
+        $user = $this->users->find($id);
+        $this->users->remove($user);
     }
 
 

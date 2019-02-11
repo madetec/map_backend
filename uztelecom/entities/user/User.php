@@ -5,11 +5,9 @@ namespace uztelecom\entities\user;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use uztelecom\forms\user\ProfileForm;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
 
 /**
  * User model
@@ -49,6 +47,35 @@ class User extends ActiveRecord
         $user->setPassword($password);
         $user->generateAuthKey();
         return $user;
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @param ProfileForm $profile
+     * @throws \yii\base\Exception
+     */
+
+    public function edit($username, $password, ProfileForm $profile): void
+    {
+        $this->username = $username;
+        $this->setPassword($password);
+        $this->updateProfile($profile);
+
+    }
+
+
+    private function updateProfile(ProfileForm $form)
+    {
+        $profile = $this->profile;
+        $profile->edit(
+            $form->name,
+            $form->last_name,
+            $form->father_name,
+            $form->subdivision,
+            $form->position
+        );
+        $this->profile = $profile;
     }
 
     public static function signUp($username)
