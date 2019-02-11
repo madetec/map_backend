@@ -20,6 +20,7 @@ use yii\widgets\ActiveForm;
         <div class="box-body">
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'role')->dropDownList($model->roles) ?>
 
         </div>
     </div>

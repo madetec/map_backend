@@ -6,6 +6,7 @@
 
 namespace uztelecom\services;
 
+use common\auth\Identity;
 use common\components\AuthManager;
 use uztelecom\entities\user\User;
 use uztelecom\forms\auth\SignInForm;
@@ -41,7 +42,7 @@ class AuthService
         $user = $this->users->findByUsername($form->username);
         $duration = $form->rememberMe ? $user::REMEMBER_ME_DURATION : 0;
 
-        if (!Yii::$app->user->login($user, $duration)) {
+        if (!Yii::$app->user->login(new Identity($user), $duration)) {
             throw new \DomainException('Sign in error');
         }
 

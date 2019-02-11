@@ -9,9 +9,6 @@ $params = array_merge(
 return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),
-    'aliases' => [
-        '@staticUrl' => $params['staticHostInfo'],
-    ],
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => [
         'log',
@@ -23,14 +20,36 @@ return [
         ],
     ],
 
+    'modules' => [
+        'oauth2' => [
+            'class' => 'filsh\yii2\oauth2server\Module',
+            'components' => [
+                'request' => function () {
+                    return \filsh\yii2\oauth2server\Request::createFromGlobals();
+                },
+                'response' => [
+                    'class' => \filsh\yii2\oauth2server\Response::class,
+                ],
+            ],
+            'tokenParamName' => 'accessToken',
+            'tokenAccessLifetime' => 3600 * 24,
+            'storageMap' => [
+                'user_credentials' => 'common\auth\Identity',
+            ],
+            'grantTypes' => [
+                'user_credentials' => [
+                    'class' => 'OAuth2\GrantType\UserCredentials',
+                ],
+                'refresh_token' => [
+                    'class' => 'OAuth2\GrantType\RefreshToken',
+                    'always_issue_new_refresh_token' => true
+                ]
+            ]
+        ]
+    ],
+
     'components' => [
         'request' => [
-            "csrfCookie" => [
-                "httpOnly" => false
-            ],
-            'enableCookieValidation' => false,
-            'enableCsrfValidation' => false,
-            "enableCsrfCookie" => false,
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
@@ -45,7 +64,7 @@ return [
             ],
         ],
         'user' => [
-            'identityClass' => 'box\entities\user\User',
+            'identityClass' => 'common\auth\Identity',
             'enableAutoLogin' => false,
             'enableSession' => false,
         ],
@@ -59,6 +78,27 @@ return [
             ],
         ],
         'urlManager' => require __DIR__ . '/urlManager.php',
+    ],
+    'as authenticator' => [
+        'class' => 'filsh\yii2\oauth2server\filters\auth\CompositeAuth',
+        'except' => ['site/index', 'oauth2/rest/token'],
+        'authMethods' => [
+            ['class' => 'yii\filters\auth\HttpBearerAuth'],
+            ['class' => 'yii\filters\auth\QueryParamAuth', 'tokenParam' => 'accessToken'],
+        ]
+    ],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['site/index', 'oauth2/rest/token'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+    ],
+    'as exceptionFilter' => [
+        'class' => 'filsh\yii2\oauth2server\filters\ErrorToExceptionFilter',
     ],
     'params' => $params,
 ];

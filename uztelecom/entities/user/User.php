@@ -3,6 +3,7 @@
 namespace uztelecom\entities\user;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\forms\user\ProfileForm;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -26,7 +27,7 @@ use yii\web\IdentityInterface;
  * @property string $password write-only password
  * @property Profile $profile
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord
 {
     const STATUS_DELETED = 0;
     const STATUS_BLOCKED = 5;
@@ -35,10 +36,18 @@ class User extends ActiveRecord implements IdentityInterface
     const REMEMBER_ME_DURATION = 3600 * 24 * 30;
 
 
-    public static function create($username)
+    public static function create($username, $password, ProfileForm $profile)
     {
         $user = new static();
         $user->username = $username;
+        $user->profile = Profile::create(
+            $profile->name,
+            $profile->last_name,
+            $profile->father_name,
+            $profile->subdivision,
+            $profile->position);
+        $user->setPassword($password);
+        $user->generateAuthKey();
         return $user;
     }
 
@@ -72,15 +81,6 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
 
     public static function findByUsername($username)
     {
@@ -117,44 +117,35 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param $password
+     * @return bool
+     * @throws \yii\base\InvalidArgumentException
      */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
+    /**
+     * @param $password
+     * @throws \yii\base\Exception
+     */
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
+    /**
+     * @throws \yii\base\Exception
+     */
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
+    /**
+     * @throws \yii\base\Exception
+     */
     public function generatePasswordResetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
