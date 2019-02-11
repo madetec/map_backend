@@ -9,6 +9,7 @@ return [
     'enableStrictParsing' => true,
     'showScriptName' => false,
     'rules' => [
-        'GET,HEAD /' => 'site/index',
+        '' => 'site/index',
+        'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
     ]
 ];

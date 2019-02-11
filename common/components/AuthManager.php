@@ -3,6 +3,7 @@
 namespace common\components;
 
 use uztelecom\entities\user\User;
+use uztelecom\readModels\UserReadRepository;
 use Yii;
 use yii\rbac\Assignment;
 use yii\rbac\PhpManager;
@@ -61,7 +62,7 @@ class AuthManager extends PhpManager
     private function getUser($userId)
     {
         if (!Yii::$app->user->isGuest && Yii::$app->user->id == $userId) {
-            return Yii::$app->user->identity;
+            return self::getRepository()->findActiveById($userId);
         } else {
             return User::findOne($userId);
         }
@@ -71,6 +72,11 @@ class AuthManager extends PhpManager
     {
         $user->role = $roleName;
         $user->updateAttributes(['role' => $roleName]);
+    }
+
+    private static function getRepository(): UserReadRepository
+    {
+        return \Yii::$container->get(UserReadRepository::class);
     }
 
 }

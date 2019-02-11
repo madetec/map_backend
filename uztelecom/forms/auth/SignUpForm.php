@@ -16,9 +16,8 @@ class SignUpForm extends Model
             [['username', 'password'], 'required'],
         ];
     }
-
-
-    public function attributeLabels($attribute)
+    
+    public function attributeLabels()
     {
         return [
             'username' => 'Логин',

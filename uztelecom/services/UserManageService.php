@@ -22,10 +22,14 @@ class UserManageService
         $this->users = $userRepository;
     }
 
-
+    /**
+     * @param UserForm $form
+     * @return User
+     * @throws \DomainException
+     */
     public function create(UserForm $form): User
     {
-        $user = User::create($form->username, $form->password, $form->role, $form->profile);
+        $user = User::create($form->username, $form->password, $form->profile);
         $this->users->save($user);
         return $user;
     }
