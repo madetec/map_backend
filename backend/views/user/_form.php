@@ -8,9 +8,6 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-
-
-
 <?php $form = ActiveForm::begin(); ?>
 <div class="col-md-4">
     <div class="box">
