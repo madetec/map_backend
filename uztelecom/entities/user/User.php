@@ -43,7 +43,9 @@ class User extends ActiveRecord
             $profile->last_name,
             $profile->father_name,
             $profile->subdivision,
-            $profile->position);
+            $profile->position,
+            $profile->phone
+            );
         $user->setPassword($password);
         $user->generateAuthKey();
         return $user;

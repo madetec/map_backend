@@ -79,4 +79,12 @@ class UserForm extends CompositeForm
         return $roles;
     }
 
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'password' => 'пароль'
+        ];
+    }
 }
