@@ -29,19 +29,19 @@ class RbacController extends Controller
 
 
         $user = $auth->createRole('user');
-        $user->description = 'User';
+        $user->description = 'Пользователь';
         $auth->add($user);
 
         $this->stdout(PHP_EOL . 'create role user done!');
 
         $driver = $auth->createRole('driver');
-        $driver->description = 'driver';
+        $driver->description = 'Водитель';
         $auth->add($driver);
 
         $this->stdout(PHP_EOL . 'create role driver done!');
 
         $administrator = $auth->createRole('admin');
-        $administrator->description = 'admin';
+        $administrator->description = 'Диспечер';
         $auth->add($administrator);
 
         $this->stdout(PHP_EOL . 'create role admin done!');

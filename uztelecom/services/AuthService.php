@@ -59,7 +59,7 @@ class AuthService
      */
     public function signUp(SignUpForm $form)
     {
-        $user  = User::signUp($form->username);
+        $user = User::signUp($form->username, $form->name, $form->last_name, $form->subdivision_id, $form->position);
         $user->setPassword($form->password);
         $user->generateAuthKey();
         $this->users->save($user);

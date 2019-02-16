@@ -5,21 +5,14 @@ return [
     ],
     'user' => [
         'type' => 1,
-        'description' => 'User',
+        'description' => 'Пользователь',
     ],
     'driver' => [
         'type' => 1,
-        'description' => 'driver',
-        'children' => [
-            'user',
-        ],
+        'description' => 'Водитель',
     ],
     'admin' => [
         'type' => 1,
-        'description' => 'admin',
-        'children' => [
-            'crud',
-            'driver',
-        ],
+        'description' => 'Диспечер',
     ],
 ];

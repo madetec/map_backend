@@ -1,9 +1,11 @@
 <?php
-use yii\helpers\Html;
+
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
+/* @var $model \uztelecom\forms\auth\SignUpForm */
 
 $this->title = 'Регистрация в системе | Telecom Car';
 
@@ -60,6 +62,22 @@ $fieldOptions2 = [
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+        <?= $form
+            ->field($model, 'name', $fieldOptions2)
+            ->label(false)
+            ->textInput(['placeholder' => $model->getAttributeLabel('name')]) ?>
+        <?= $form
+            ->field($model, 'last_name', $fieldOptions2)
+            ->label(false)
+            ->textInput(['placeholder' => $model->getAttributeLabel('last_name')]) ?>
+        <?= $form
+            ->field($model, 'subdivision_id', $fieldOptions2)
+            ->label(false)
+            ->dropDownList($model->subdivisionsList()) ?>
+        <?= $form
+            ->field($model, 'position', $fieldOptions2)
+            ->label(false)
+            ->textInput(['placeholder' => $model->getAttributeLabel('position')]) ?>
 
         <div class="row">
             <!-- /.col -->

@@ -43,8 +43,7 @@ class User extends ActiveRecord
             $profile->last_name,
             $profile->father_name,
             $profile->subdivision,
-            $profile->position,
-            $profile->phone
+            $profile->position
             );
         $user->setPassword($password);
         $user->generateAuthKey();
@@ -74,17 +73,18 @@ class User extends ActiveRecord
             $form->name,
             $form->last_name,
             $form->father_name,
-            $form->subdivision,
+            $form->subdivision_id,
             $form->position
         );
         $this->profile = $profile;
     }
 
-    public static function signUp($username)
+    public static function signUp($username, $name, $last_name, $subdivision_id, $position)
     {
         $user = new static();
         $user->username = $username;
         $user->status = self::STATUS_ACTIVE;
+        $user->profile = Profile::create($name, $last_name, null, $subdivision_id, $position);
         return $user;
     }
 
@@ -183,5 +183,18 @@ class User extends ActiveRecord
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'status' => 'Состояние',
+            'role' => 'Роль',
+            'created_at' => 'Дата создания',
+            'fullName' => 'Ф.И.О',
+            'subdivision' => 'Подрозделение',
+        ];
     }
 }

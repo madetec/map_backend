@@ -2,22 +2,14 @@
 
 namespace backend\controllers;
 
-use uztelecom\entities\user\User;
-use uztelecom\forms\user\AddressForm;
-use uztelecom\forms\user\PhoneForm;
-use uztelecom\forms\user\ProfileForm;
-use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
 use uztelecom\readModels\UserReadRepository;
-use uztelecom\searches\user\UserSearch;
+use backend\forms\UserSearch;
 use uztelecom\services\UserManageService;
-use uztelecom\repositories\UserRepository;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use uztelecom\readmodels\UserReadModel;
 
 /**
  * UserController implements the CRUD actions for User model.
