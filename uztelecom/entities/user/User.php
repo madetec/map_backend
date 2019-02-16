@@ -42,7 +42,7 @@ class User extends ActiveRecord
             $profile->name,
             $profile->last_name,
             $profile->father_name,
-            $profile->subdivision,
+            $profile->subdivision_id,
             $profile->position
             );
         $user->setPassword($password);
@@ -53,29 +53,28 @@ class User extends ActiveRecord
     /**
      * @param $username
      * @param $password
-     * @param ProfileForm $profile
+     * @param ProfileForm $profileForm
      * @throws \yii\base\Exception
      */
 
-    public function edit($username, $password, ProfileForm $profile): void
+    public function edit($username, $password, ProfileForm $profileForm): void
     {
         $this->username = $username;
         $this->setPassword($password);
+        $profile = $this->profile;
+        $profile->edit(
+            $profileForm->name,
+            $profileForm->last_name,
+            $profileForm->father_name,
+            $profileForm->subdivision_id,
+            $profileForm->position
+        );
         $this->updateProfile($profile);
 
     }
 
-
-    private function updateProfile(ProfileForm $form)
+    public function updateProfile(Profile $profile): void
     {
-        $profile = $this->profile;
-        $profile->edit(
-            $form->name,
-            $form->last_name,
-            $form->father_name,
-            $form->subdivision_id,
-            $form->position
-        );
         $this->profile = $profile;
     }
 

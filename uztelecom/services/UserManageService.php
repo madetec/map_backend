@@ -38,6 +38,7 @@ class UserManageService
     public function create(UserForm $form): User
     {
         $user = User::create($form->username, $form->password, $form->profile);
+        $user->profile->addPhone($form->profile->phone->number);
         $this->users->save($user);
         return $user;
     }
@@ -64,7 +65,53 @@ class UserManageService
     public function remove($id)
     {
         $user = $this->users->find($id);
-        $this->users->remove($user);
+        $user->status = User::STATUS_DELETED;
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @param $phoneId
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function movePhoneUp($id, $phoneId): void
+    {
+        $user = $this->users->find($id);
+        $profile = $user->profile;
+        $profile->movePhoneUp($phoneId);
+        $user->updateProfile($profile);
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @param $phoneId
+     * @throws \DomainException
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function movePhoneDown($id, $phoneId): void
+    {
+        $user = $this->users->find($id);
+        $profile = $user->profile;
+        $profile->movePhoneDown($phoneId);
+        $user->updateProfile($profile);
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @param $phoneId
+     * @throws \DomainException
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function removePhone($id, $phoneId): void
+    {
+        $user = $this->users->find($id);
+        $profile = $user->profile;
+        $profile->removePhone($phoneId);
+        $user->updateProfile($profile);
+        $this->users->save($user);
     }
 
 

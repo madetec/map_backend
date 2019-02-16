@@ -18,6 +18,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function (\uztelecom\entities\user\User $model, $index, $widget, $grid){
+            switch ($model->status){
+                case \uztelecom\entities\user\User::STATUS_ACTIVE:
+                    return ['class' => 'info'];
+                case \uztelecom\entities\user\User::STATUS_BLOCKED:
+                    return ['class' => 'danger'];
+                case \uztelecom\entities\user\User::STATUS_DELETED:
+                    return ['class' => 'default'];
+            }
+        },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
@@ -35,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter' => \yii\helpers\Html::activeDropDownList(
                     $searchModel,
-                    'status',
+                    'role',
                     $searchModel->rolesList(),
                     ['class' => 'form-control', 'prompt' => 'Все']),
                 'format' => 'raw',

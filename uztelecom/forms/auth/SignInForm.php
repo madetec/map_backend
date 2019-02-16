@@ -21,12 +21,17 @@ class SignInForm extends Model
         ];
     }
 
+    /**
+     * @param $attribute
+     * @param $params
+     * @throws \yii\base\InvalidArgumentException
+     */
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
             $user = User::findByUsername($this->username);
             if (!$user || !$user->validatePassword($this->password)) {
-                    $this->addError($attribute, 'Incorrect username or password.');
+                    $this->addError($attribute, 'Не верный логин или пароль');
             }
         }
     }

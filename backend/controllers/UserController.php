@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
+use backend\forms\UserSearch;
 use uztelecom\forms\user\UserForm;
 use uztelecom\readModels\UserReadRepository;
-use backend\forms\UserSearch;
 use uztelecom\services\UserManageService;
 use Yii;
 use yii\filters\VerbFilter;
@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public $service;
     public $users;
+
     public function __construct(
         string $id, $module,
         UserManageService $userManageService,
@@ -136,6 +137,48 @@ class UserController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $id
+     * @param $phone_id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionDeletePhone($id, $phone_id)
+    {
+        try {
+            $this->service->removePhone($id, $phone_id);
+        } catch (\DomainException $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    /**
+     * @param $id
+     * @param $phone_id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \DomainException
+     */
+    public function actionMovePhoneUp($id, $phone_id)
+    {
+        $this->service->movePhoneUp($id, $phone_id);
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    /**
+     * @param $id
+     * @param $phone_id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \DomainException
+     */
+    public function actionMovePhoneDown($id, $phone_id)
+    {
+        $this->service->movePhoneDown($id, $phone_id);
+        return $this->redirect(['view', 'id' => $id]);
     }
 
 }
