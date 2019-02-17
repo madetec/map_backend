@@ -14,7 +14,7 @@ use yii\console\Controller;
 class RbacController extends Controller
 {
     /**
-     * @throws \yii\base\Exception
+     * @throws \Exception
      */
     public function actionInit()
     {
@@ -22,30 +22,42 @@ class RbacController extends Controller
         $auth = \Yii::$app->authManager;
         $auth->removeAll();
 
-        $crud = $auth->createPermission('crud');
-        $auth->add($crud);
-
-        $this->stdout(PHP_EOL . 'create crud permission done!');
+//        $create_dispatcher = $auth->createPermission('create dispatcher');
+//        $auth->add($create_dispatcher);
+//
+//
+//        $this->stdout(PHP_EOL . 'create crud permission done!');
 
 
         $user = $auth->createRole('user');
-        $user->description = 'User';
+        $user->description = 'Пользователь';
         $auth->add($user);
 
         $this->stdout(PHP_EOL . 'create role user done!');
 
         $driver = $auth->createRole('driver');
-        $driver->description = 'driver';
+        $driver->description = 'Водитель';
         $auth->add($driver);
 
         $this->stdout(PHP_EOL . 'create role driver done!');
 
-        $administrator = $auth->createRole('admin');
-        $administrator->description = 'admin';
+        $dispatcher = $auth->createRole('dispatcher');
+        $dispatcher->description = 'Диспечер';
+        $auth->add($dispatcher);
+
+        $this->stdout(PHP_EOL . 'create role dispatcher done!');
+
+        $administrator = $auth->createRole('administrator');
+        $administrator->description = 'Администратор';
         $auth->add($administrator);
 
         $this->stdout(PHP_EOL . 'create role admin done!');
 
+
+        $auth->addChild($dispatcher, $user);
+        $auth->addChild($administrator, $dispatcher);
+
+        $this->stdout(PHP_EOL . 'add child done!');
 
         $this->stdout('RBAC configure Done!' . PHP_EOL);
     }

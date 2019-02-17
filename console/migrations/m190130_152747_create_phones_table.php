@@ -35,7 +35,6 @@ class m190130_152747_create_phones_table extends Migration
         $this->createIndex(
             '{{%idx-phones-profile_id}}',
             '{{%phones}}',
-            'profile_id',
             'profile_id'
         );
     }

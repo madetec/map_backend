@@ -1,25 +1,25 @@
 <?php
 return [
-    'crud' => [
-        'type' => 2,
-    ],
     'user' => [
         'type' => 1,
-        'description' => 'User',
+        'description' => 'Пользователь',
     ],
     'driver' => [
         'type' => 1,
-        'description' => 'driver',
+        'description' => 'Водитель',
+    ],
+    'dispatcher' => [
+        'type' => 1,
+        'description' => 'Диспечер',
         'children' => [
             'user',
         ],
     ],
-    'admin' => [
+    'administrator' => [
         'type' => 1,
-        'description' => 'admin',
+        'description' => 'Администратор',
         'children' => [
-            'crud',
-            'driver',
+            'dispatcher',
         ],
     ],
 ];

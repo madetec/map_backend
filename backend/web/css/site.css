@@ -148,6 +148,31 @@ a.desc:after {
     color: #f5f5f5;
 }
 
+.btn-telecom-car-delete {
+    background: #ff6368; /* Old browsers */
+    background: -moz-linear-gradient(top, #ff6368 3%, #ff3836 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ff6368 3%, #ff3836 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ff6368 3%, #ff3836 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff6368', endColorstr='#ff3836', GradientType=0); /* IE6-9 */
+    border-radius: 50px !important;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-telecom-car-delete:hover, .btn-telecom-car-delete:focus {
+    color: #f5f5f5;
+}
+
+.btn-telecom-car-delete:active {
+    background: #ff6368; /* Old browsers */
+    background: -moz-linear-gradient(top, #ff6368 3%, #ff3836 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ff6368 3%, #ff3836 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ff6368 3%, #ff3836 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff6368', endColorstr='#ff3836', GradientType=0); /* IE6-9 */
+    color: #f5f5f5;
+}
+
+
 .login-box-body{
     -webkit-box-shadow: 0px 15px 31px -23px rgba(0,0,0,1);
     -moz-box-shadow: 0px 15px 31px -23px rgba(0,0,0,1);

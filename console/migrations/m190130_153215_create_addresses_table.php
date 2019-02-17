@@ -35,7 +35,6 @@ class m190130_153215_create_addresses_table extends Migration
         $this->createIndex(
             '{{%idx-addresses-profile_id}}',
             '{{%addresses}}',
-            'profile_id',
             'profile_id'
         );
     }

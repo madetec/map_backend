@@ -26,4 +26,11 @@ class AddressForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Адрес',
+        ];
+    }
+
 }

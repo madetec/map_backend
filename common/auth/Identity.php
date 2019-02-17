@@ -51,6 +51,11 @@ class Identity implements IdentityInterface, UserCredentialsInterface
         return $this->user->id;
     }
 
+    public function getUsername()
+    {
+        return $this->user->username;
+    }
+
     public function getAuthKey(): string
     {
         return $this->user->auth_key;
@@ -86,7 +91,11 @@ class Identity implements IdentityInterface, UserCredentialsInterface
     public function getUserDetails($username): array
     {
         $user = self::getRepository()->findActiveByUsername($username);
-        return ['user_id' => $user->id];
+        return [
+            'user_id' => $user->id,
+            'fullName' => $user->profile->fullName,
+            'role' => $user->role,
+        ];
     }
 
     /**

@@ -21,7 +21,8 @@
         "dmstr/yii2-adminlte-asset": "^2.1",
         "la-haute-societe/yii2-save-relations-behavior": "*",
         "filsh/yii2-oauth2-server": "^2.0",
-        "guzzlehttp/guzzle": ">=4.1.4 <7.0"
+        "guzzlehttp/guzzle": ">=4.1.4 <7.0",
+        "consik/yii2-websocket": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -29,7 +30,8 @@
         "yiisoft/yii2-faker": "~2.0.0",
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",
-        "flow/jsonpath": "^0.4.0"
+        "flow/jsonpath": "^0.4.0",
+        "zircote/swagger-php": "^2.0"
     },
     "config": {
         "process-timeout": 1800,

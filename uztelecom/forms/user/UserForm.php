@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * @property ProfileForm $profile
- * @property array $roles
+ * @property array $rolesFilter
  * @property array $rolesList
  */
 class UserForm extends CompositeForm
@@ -45,7 +45,7 @@ class UserForm extends CompositeForm
             [['username', 'password'], 'required'],
             [['username', 'password'], 'string'],
             ['username', 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Your username can only contain alphanumeric characters, underscores and dashes.'],
-            ['role', 'in', 'range' => $this->rolesList]
+            ['role', 'in', 'range' => $this->rolesFilter]
         ];
     }
 
@@ -53,30 +53,14 @@ class UserForm extends CompositeForm
     {
         return ['profile'];
     }
-
-    protected function getRolesList(): array
+    public function getRolesList(): array
     {
-        $roles = \Yii::$app->authManager->getRoles();
-        $roles = ArrayHelper::getColumn($roles, 'name');
-        return $roles;
+        return ArrayHelper::map(\Yii::$app->authManager->getRoles(), 'name', 'description');
     }
 
-    protected function getRoles(): array
+    public function getRolesFilter()
     {
-        $roles = \Yii::$app->authManager->getRoles();
-        $roles = ArrayHelper::getColumn($roles, function ($model) {
-            switch ($model->name) {
-                case 'user':
-                    return 'Пользователь';
-                case 'driver':
-                    return 'Водитель';
-                case 'admin':
-                    return 'Диспечер';
-                default:
-                    return $model->name;
-            }
-        });
-        return $roles;
+        return ArrayHelper::getColumn(\Yii::$app->authManager->getRoles(), 'name');
     }
 
 
@@ -84,7 +68,8 @@ class UserForm extends CompositeForm
     {
         return [
             'username' => 'Логин',
-            'password' => 'пароль'
+            'password' => 'Пароль',
+            'role' => 'Роль',
         ];
     }
 }

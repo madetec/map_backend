@@ -23,7 +23,7 @@ class m190130_150705_create_profiles_table extends Migration
             'name' => $this->string()->notNull(),
             'last_name' => $this->string()->notNull(),
             'father_name' => $this->string(),
-            'subdivision' => $this->string()->notNull(),
+            'subdivision_id' => $this->integer()->notNull(),
             'position' => $this->string()->notNull(),
             'main_phone_id' => $this->integer(),
             'main_address_id' => $this->integer(),
@@ -43,6 +43,14 @@ class m190130_150705_create_profiles_table extends Migration
             '{{%profiles}}',
             'user_id',
             'user_id'
+        );
+
+        $this->addForeignKey(
+            '{{%fk-profiles-subdivision_id}}',
+            '{{%profiles}}',
+            'subdivision_id',
+            '{{%subdivisions}}',
+            'id'
         );
     }
 

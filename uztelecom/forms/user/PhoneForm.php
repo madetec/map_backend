@@ -36,4 +36,11 @@ class PhoneForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'number' => 'Номер телефона',
+        ];
+    }
+
 }

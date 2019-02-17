@@ -5,7 +5,8 @@
  */
 
 namespace api\tests\api;
-use backend\tests\ApiTester;
+use api\tests\ApiTester;
+use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
 use yii\helpers\VarDumper;
 
@@ -17,6 +18,10 @@ class AuthCest
             'user' => [
                 'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir('login_data.php')
+            ],
+            'profile' => [
+                'class' => ProfileFixture::class,
+                'dataFile' => codecept_data_dir('login_profiles.php')
             ]
         ];
     }
@@ -29,6 +34,7 @@ class AuthCest
             'client_id' => 'testclient',
             'client_secret' => 'testpass'
         ]);
+
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -36,6 +42,7 @@ class AuthCest
             'token_type' => 'Bearer',
             'scope' => null,
         ]);
+
         $I->seeResponseJsonMatchesJsonPath('$.access_token');
         $I->seeResponseJsonMatchesJsonPath('$.refresh_token');
     }

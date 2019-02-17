@@ -42,10 +42,16 @@ class User extends ActiveRecord
             $profile->name,
             $profile->last_name,
             $profile->father_name,
+<<<<<<< HEAD
             $profile->subdivision,
             $profile->position,
             $profile->phone
         );
+=======
+            $profile->subdivision_id,
+            $profile->position
+            );
+>>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
         $user->setPassword($password);
         $user->generateAuthKey();
         return $user;
@@ -54,21 +60,29 @@ class User extends ActiveRecord
     /**
      * @param $username
      * @param $password
-     * @param ProfileForm $profile
+     * @param ProfileForm $profileForm
      * @throws \yii\base\Exception
      */
 
-    public function edit($username, $password, ProfileForm $profile): void
+    public function edit($username, $password, ProfileForm $profileForm): void
     {
         $this->username = $username;
         $this->setPassword($password);
+        $profile = $this->profile;
+        $profile->edit(
+            $profileForm->name,
+            $profileForm->last_name,
+            $profileForm->father_name,
+            $profileForm->subdivision_id,
+            $profileForm->position
+        );
         $this->updateProfile($profile);
 
     }
 
-
-    private function updateProfile(ProfileForm $form)
+    public function updateProfile(Profile $profile): void
     {
+<<<<<<< HEAD
         $profile = $this->profile;
         $profile->edit(
             $form->name,
@@ -78,14 +92,17 @@ class User extends ActiveRecord
             $form->position,
             $form->phone
         );
+=======
+>>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
         $this->profile = $profile;
     }
 
-    public static function signUp($username)
+    public static function signUp($username, $name, $last_name, $subdivision_id, $position)
     {
         $user = new static();
         $user->username = $username;
         $user->status = self::STATUS_ACTIVE;
+        $user->profile = Profile::create($name, $last_name, null, $subdivision_id, $position);
         return $user;
     }
 
@@ -184,5 +201,18 @@ class User extends ActiveRecord
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'status' => 'Состояние',
+            'role' => 'Роль',
+            'created_at' => 'Дата создания',
+            'fullName' => 'Ф.И.О',
+            'subdivision' => 'Подрозделение',
+        ];
     }
 }
