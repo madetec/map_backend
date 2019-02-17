@@ -33,15 +33,26 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model->profile, 'father_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model->profile, 'subdivision')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model->profile, 'position')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model->profile->phone, 'number')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model->profile->address, 'name')->textInput(['maxlength' => true]) ?>
+
         </div>
     </div>
 
 
-    <div class="form-group">
+</div>
+
+<div class="col-md-4" >
+    <div class="box" >
+        <div class="box-header" >
+            <h3>Addresses-Pnones</h3>
+            <div class="box-body" >
+                <?= $form->field($model->profile->phone, 'number')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model->profile->address, 'name')->textInput(['maxlength' => true]) ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="form-group" style="position:relative; float: right; top: 200px;"  >
         <?= Html::submitButton('Save', ['class' => 'btn btn-telecom-car btn-success']) ?>
     </div>
-    <?php ActiveForm::end(); ?>
-
-</div>
+<?php ActiveForm::end(); ?>

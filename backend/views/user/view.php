@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model uztelecom\entities\user\User */
+/* @var $phone uztelecom\entities\user\Phone*/
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
@@ -26,8 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+<!--    <pre>-->
+<!--        --><?php //print_r($model)?>
+<!--    </pre>-->
+
     <?= DetailView::widget([
         'model' => $model,
+//        'phone' => $phone,
         'attributes' => [
             'id',
             'auth_key',
@@ -38,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'role',
             'created_at',
             'updated_at',
+//            'phone',
         ],
     ]) ?>
 

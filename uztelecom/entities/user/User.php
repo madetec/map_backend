@@ -45,7 +45,7 @@ class User extends ActiveRecord
             $profile->subdivision,
             $profile->position,
             $profile->phone
-            );
+        );
         $user->setPassword($password);
         $user->generateAuthKey();
         return $user;
@@ -75,7 +75,8 @@ class User extends ActiveRecord
             $form->last_name,
             $form->father_name,
             $form->subdivision,
-            $form->position
+            $form->position,
+            $form->phone
         );
         $this->profile = $profile;
     }

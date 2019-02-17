@@ -33,6 +33,8 @@ class Profile extends ActiveRecord
         $profile->father_name = $father_name;
         $profile->subdivision = $subdivision;
         $profile->position = $position;
+        $profile->phones = $phone;
+
         return $profile;
 
     }
