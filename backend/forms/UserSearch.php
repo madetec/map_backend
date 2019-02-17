@@ -51,8 +51,9 @@ class UserSearch extends Model
             'u.status' => $this->status,
         ]);
 
+        $query->innerJoin('{{%profiles}} p', 'p.user_id = u.id');
+
         if ($this->fullName) {
-            $query->innerJoin('{{%profiles}} p', 'p.user_id = u.id');
             $query->andFilterWhere([
                 'or',
                 ['like', 'p.name', $this->fullName],
@@ -62,7 +63,6 @@ class UserSearch extends Model
         }
 
         if ($this->subdivision) {
-            $query->innerJoin('{{%profiles}} p', 'p.user_id = u.id');
             $query->innerJoin('{{%subdivisions}} s', 's.id = p.subdivision_id');
             $query->andFilterWhere(['s.id' => $this->subdivision]);
         }
