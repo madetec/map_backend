@@ -9,7 +9,7 @@ use common\fixtures\UserFixture;
 /**
  * Class SignInCest
  */
-class SignInCest
+class UserCest
 {
     /**
      * Load fixtures before db transaction begin
@@ -31,28 +31,31 @@ class SignInCest
             ]
         ];
     }
-    
+
     /**
      * @param FunctionalTester $I
      */
-    public function signInUser(FunctionalTester $I)
+    public function createUser(FunctionalTester $I)
     {
         $I->amOnPage('/auth/sign-in');
         $I->fillField(['id' => 'signinform-username'], 'userAdmin');
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 
-//        $I->see('Sign out', 'a[data-method="post"]');
+        $I->amOnPage('/user/create');
+        $I->fillField(['id' => 'profileform-name'], 'test');
+        $I->fillField(['id' => 'profileform-last_name'], 'last_test');
+        $I->fillField(['id' => 'profileform-father_name'], 'father_test');
+        $I->fillField(['id' => 'profileform-position'], 'position_test');
+        $I->fillField(['id' => 'phoneform-number'], '974457018');
+        $I->fillField(['id' => 'addressform-name'], 'address_test');
+        $I->fillField(['id' => 'userform-username'], 'username_test');
+        $I->fillField(['id' => 'userform-password'], 'password_test');
+        $I->selectOption('select[id=userform-role]', ['value' => 'user']);
+        $I->click('[type=submit]');
+
+        $I->see('username_test');
+
     }
 
-
-    public function SignInIsAccessDenied(FunctionalTester $I)
-    {
-        $I->amOnPage('/auth/sign-in');
-        $I->fillField(['id' => 'signinform-username'], 'userDriver');
-        $I->fillField(['id' => 'signinform-password'], 'password_0');
-        $I->click('login-button');
-
-        $I->see('Access is denied!');
-    }
 }

@@ -8,10 +8,13 @@ info "Provision-script user: `whoami`"
 
 info "Install project dependencies"
 cd /app
-composer --no-progress --prefer-dist install
+composer update
 
 info "Init project"
 php init --env=Development --overwrite=y
+
+info "rbac init"
+php yii rbac/init
 
 info "Apply migrations"
 php yii migrate --interactive=0

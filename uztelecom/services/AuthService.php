@@ -46,7 +46,7 @@ class AuthService
             throw new \DomainException('Sign in error');
         }
 
-        if (!Yii::$app->user->can('admin')) {
+        if (!Yii::$app->user->can('administrator')) {
             Yii::$app->user->logout();
             throw new ForbiddenHttpException('Access is denied!');
         }
@@ -63,7 +63,7 @@ class AuthService
         $user->setPassword($form->password);
         $user->generateAuthKey();
         $this->users->save($user);
-        $role = $this->authManager->getRole('admin');
+        $role = $this->authManager->getRole('administrator');
         $this->authManager->assign($role, $user->id);
     }
 

@@ -1,8 +1,5 @@
 <?php
 return [
-    'crud' => [
-        'type' => 2,
-    ],
     'user' => [
         'type' => 1,
         'description' => 'Пользователь',
@@ -11,8 +8,18 @@ return [
         'type' => 1,
         'description' => 'Водитель',
     ],
-    'admin' => [
+    'dispatcher' => [
         'type' => 1,
         'description' => 'Диспечер',
+        'children' => [
+            'user',
+        ],
+    ],
+    'administrator' => [
+        'type' => 1,
+        'description' => 'Администратор',
+        'children' => [
+            'dispatcher',
+        ],
     ],
 ];
