@@ -26,11 +26,18 @@ use yii\db\ActiveRecord;
  * @property Address[] $addresses
  * @property string $fullName
  *
+ * @property Phone $mainPhone
+ * @property Address $mainAddress
+ *
  * @property Subdivision $subdivision
  *
  */
 class Profile extends ActiveRecord
 {
+
+    const TYPE_PHONES = 5;
+    const TYPE_ADDRESSES = 10;
+
     public static function create($name, $last_name, $father_name, $subdivision_id, $position)
     {
         $profile = new static();
@@ -57,38 +64,76 @@ class Profile extends ActiveRecord
         return $this->main_phone_id == $phoneId;
     }
 
+    public function isMainAddress(int $addressId): bool
+    {
+        return $this->main_address_id == $addressId;
+    }
+
+    /**
+     * @param int $number
+     * @throws \LogicException
+     */
     public function addPhone(int $number): void
     {
         $phones = $this->phones;
         $phones[] = Phone::create($number);
-        $this->updatePhones($phones);
+        $this->updateRelations(self::TYPE_PHONES, $phones);
     }
 
     /**
-     * @param $id
-     * @throws \DomainException
+     * @param string $name
+     * @throws \LogicException
      */
-    public function removePhone($id): void
+    public function addAddress(string $name): void
     {
-        $phones = $this->phones;
-        foreach ($phones as $i => $phone) {
-            if ($phone->isIdEqualTo($id)) {
-                unset($phones[$i]);
-                $this->updatePhones($phones);
+        $addresses = $this->addresses;
+        $addresses[] = Address::create($name);
+        $this->updateRelations(self::TYPE_ADDRESSES, $addresses);
+    }
+
+    /**
+     * @param $type
+     * @param $relationId
+     * @throws \DomainException
+     * @throws \LogicException
+     */
+    public function removeRelation($type, $relationId): void
+    {
+        switch ($type) {
+            case self::TYPE_PHONES:
+                $items = $this->phones;
+                $relationName = 'Phone';
+                break;
+            case self::TYPE_ADDRESSES:
+                $items = $this->addresses;
+                $relationName = 'Address';
+                break;
+            default:
+                throw new \LogicException('removeRelation() incorrect type');
+        }
+
+        foreach ($items as $i => $item) {
+            if ($item->isIdEqualTo($relationId)) {
+                unset($items[$i]);
+                $this->updateRelations($type, $items);
                 return;
             }
         }
-        throw new \DomainException('Phone is not found.');
+        throw new \DomainException($relationName . ' is not found.');
     }
 
+    /**
+     * @throws \LogicException
+     */
     public function removePhones(): void
     {
-        $this->updatePhones([]);
+        $this->updateRelations(self::TYPE_PHONES, []);
     }
 
     /**
      * @param $id
      * @throws \DomainException
+     * @throws \LogicException
      */
     public function movePhoneUp($id): void
     {
@@ -98,7 +143,7 @@ class Profile extends ActiveRecord
                 if ($prev = $phones[$i - 1] ?? null) {
                     $phones[$i - 1] = $phone;
                     $phones[$i] = $prev;
-                    $this->updatePhones($phones);
+                    $this->updateRelations(self::TYPE_PHONES, $phones);
                 }
                 return;
             }
@@ -109,6 +154,7 @@ class Profile extends ActiveRecord
     /**
      * @param $id
      * @throws \DomainException
+     * @throws \LogicException
      */
     public function movePhoneDown($id): void
     {
@@ -118,7 +164,7 @@ class Profile extends ActiveRecord
                 if ($next = $phones[$i + 1] ?? null) {
                     $phones[$i] = $next;
                     $phones[$i + 1] = $phone;
-                    $this->updatePhones($phones);
+                    $this->updateRelations(self::TYPE_PHONES, $phones);
                 }
                 return;
             }
@@ -126,15 +172,31 @@ class Profile extends ActiveRecord
         throw new \DomainException('Phone is not found.');
     }
 
-    private function updatePhones(array $phones): void
+    /**
+     * @param $type
+     * @param array $items
+     * @throws \LogicException
+     */
+    private function updateRelations($type, array $items): void
     {
-        /* @var Phone[] $phones */
-        foreach ($phones as $i => $phone) {
-            $phone->setSort($i);
+        /* @var Phone[]|Address[] $items */
+        switch ($type) {
+            case self::TYPE_PHONES:
+                $populateRelationName = 'mainPhone';
+                $relationName = 'phones';
+                break;
+            case self::TYPE_ADDRESSES:
+                $populateRelationName = 'mainAddress';
+                $relationName = 'addresses';
+                break;
+            default:
+                throw new \LogicException('updateRelations() incorrect type');
         }
-
-        $this->phones = $phones;
-        $this->populateRelation('mainPhone', reset($phones));
+        foreach ($items as $i => $item) {
+            $item->setSort($i);
+        }
+        $this->{$relationName} = $items;
+        $this->populateRelation($populateRelationName, reset($items));
     }
 
     /**
@@ -148,6 +210,9 @@ class Profile extends ActiveRecord
             foreach ($this->phones as $phone) {
                 $phone->delete();
             }
+            foreach ($this->addresses as $address) {
+                $address->delete();
+            }
             return true;
         }
         return false;
@@ -160,11 +225,9 @@ class Profile extends ActiveRecord
         if (array_key_exists('mainPhone', $related)) {
             $this->updateAttributes(['main_phone_id' => $related['mainPhone'] ? $related['mainPhone']->id : null]);
         }
-    }
-
-    public function getSubdivision(): ActiveQuery
-    {
-        return $this->hasOne(Subdivision::class, ['id' => 'subdivision_id']);
+        if (array_key_exists('mainAddress', $related)) {
+            $this->updateAttributes(['main_address_id' => $related['mainAddress'] ? $related['mainAddress']->id : null]);
+        }
     }
 
     public function getFullName()
@@ -174,26 +237,38 @@ class Profile extends ActiveRecord
         return $fullName;
     }
 
-    public static function tableName()
-    {
-
-        return '{{%profiles}}';
-    }
-
+    // user
     public function getUser(): ActiveQuery
     {
-
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+    // subdivision
+    public function getSubdivision(): ActiveQuery
+    {
+        return $this->hasOne(Subdivision::class, ['id' => 'subdivision_id']);
+    }
+
+    // phones
     public function getPhones(): ActiveQuery
     {
         return $this->hasMany(Phone::class, ['profile_id' => 'id'])->orderBy('sort');
     }
 
+    public function getMainPhone(): ActiveQuery
+    {
+        return $this->hasOne(Phone::class, ['id' => 'main_phone_id']);
+    }
+
+    // addresses
     public function getAddresses(): ActiveQuery
     {
         return $this->hasMany(Address::class, ['profile_id' => 'id']);
+    }
+
+    public function getMainAddress(): ActiveQuery
+    {
+        return $this->hasOne(Address::class, ['id' => 'main_address_id']);
     }
 
 
@@ -205,6 +280,11 @@ class Profile extends ActiveRecord
                 'relations' => ['phones', 'addresses']
             ]
         ];
+    }
+
+    public static function tableName()
+    {
+        return '{{%profiles}}';
     }
 
     public function attributeLabels()

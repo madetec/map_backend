@@ -9,6 +9,7 @@
 namespace uztelecom\services;
 
 
+use uztelecom\entities\user\Profile;
 use uztelecom\entities\user\User;
 use uztelecom\forms\user\UserForm;
 use uztelecom\repositories\UserRepository;
@@ -20,7 +21,6 @@ use uztelecom\repositories\UserRepository;
  * @package uztelecom\services
  * @property  UserRepository $users
  */
-
 class UserManageService
 {
     private $users;
@@ -34,11 +34,13 @@ class UserManageService
      * @param UserForm $form
      * @return User
      * @throws \DomainException
+     * @throws \LogicException
      */
     public function create(UserForm $form): User
     {
         $user = User::create($form->username, $form->password, $form->profile);
         $user->profile->addPhone($form->profile->phone->number);
+        $user->profile->addAddress($form->profile->address->name);
         $this->users->save($user);
         return $user;
     }
@@ -88,7 +90,8 @@ class UserManageService
      * @param $id
      * @param $phoneId
      * @throws \DomainException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function movePhoneDown($id, $phoneId): void
     {
@@ -103,13 +106,14 @@ class UserManageService
      * @param $id
      * @param $phoneId
      * @throws \DomainException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function removePhone($id, $phoneId): void
     {
         $user = $this->users->find($id);
         $profile = $user->profile;
-        $profile->removePhone($phoneId);
+        $profile->removeRelation(Profile::TYPE_PHONES, $phoneId);
         $user->updateProfile($profile);
         $this->users->save($user);
     }

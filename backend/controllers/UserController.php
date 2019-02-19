@@ -50,6 +50,10 @@ class UserController extends Controller
         ];
     }
 
+    /**
+     * @return string
+     * @throws \yii\base\InvalidArgumentException
+     */
     public function actionIndex()
     {
         $searchModel = new UserSearch();
@@ -64,7 +68,6 @@ class UserController extends Controller
     /**
      * @param $id
      * @return string
-     * @throws NotFoundHttpException
      * @throws \yii\base\InvalidArgumentException
      */
     public function actionView($id)
@@ -124,9 +127,7 @@ class UserController extends Controller
     /**
      * @param $id
      * @return \yii\web\Response
-     * @throws NotFoundHttpException
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {

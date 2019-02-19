@@ -116,6 +116,68 @@ $this->params['breadcrumbs'][] = $this->title;
                         </table>
                     <?php endif; ?>
                 </div>
+
+                <div class="col-md-6">
+                    <?php if ($model->profile->addresses): ?>
+                        <table class="table table-striped table-bordered detail-view">
+                            <tbody>
+                            <tr>
+                                <th colspan="2">Адреса:</th>
+                            </tr>
+                            <?php foreach ($model->profile->addresses as $address): ?>
+                                <tr>
+                                    <td>
+                                        <?= ($model->profile->isMainAddress($address->id))
+                                            ? Html::tag('i', null, [
+                                                'class' => 'fa fa-check text-success',
+                                                'data-toggle' => 'popover',
+                                                'title' => 'Основной адрес',
+                                                'data-content' => 'На этот адрес будут приходить уведомления',
+                                                'data-placement' => 'top',
+                                                'style' => 'cursor: pointer;'
+                                            ]) . ' <b>' . $address->name . '</b>'
+                                            : $address->name; ?>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <?= Html::a(
+                                                Html::tag(
+                                                    'i',
+                                                    null,
+                                                    ['class' => 'fa fa-long-arrow-down text-success']
+                                                ),
+                                                ['move-address-down', 'id' => $model->id, 'address_id' => $address->id],
+                                                [
+                                                    'class' => 'btn btn-default'
+                                                ]) ?>
+                                            <?= Html::a(
+                                                Html::tag(
+                                                    'i',
+                                                    null,
+                                                    ['class' => 'fa  fa-close text-success']
+                                                ),
+                                                ['delete-address', 'id' => $model->id, 'address_id' => $address->id],
+                                                [
+                                                    'class' => 'btn btn-default'
+                                                ]) ?>
+                                            <?= Html::a(
+                                                Html::tag(
+                                                    'i',
+                                                    null,
+                                                    ['class' => 'fa fa-long-arrow-up text-success']
+                                                ),
+                                                ['move-address-up', 'id' => $model->id, 'address_id' => $address->id],
+                                                [
+                                                    'class' => 'btn btn-default'
+                                                ]) ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 </div>

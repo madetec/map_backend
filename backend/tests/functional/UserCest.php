@@ -55,6 +55,8 @@ class UserCest
         $I->click('[type=submit]');
 
         $I->see('username_test');
+        $I->see('974457018');
+        $I->see('address_test');
 
     }
 
