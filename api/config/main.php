@@ -8,6 +8,10 @@ $params = array_merge(
 
 return [
     'id' => 'app-api',
+    'aliases' => [
+        '@staticRoot' => $params['staticPath'],
+        '@static'   => $params['staticHostInfo'],
+    ],
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => [

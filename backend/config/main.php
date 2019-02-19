@@ -8,6 +8,10 @@ $params = array_merge(
 
 return [
     'id' => 'telecom-car-app-backend',
+    'aliases' => [
+        '@staticRoot' => $params['staticPath'],
+        '@static'   => $params['staticHostInfo'],
+    ],
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],

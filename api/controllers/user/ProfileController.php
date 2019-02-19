@@ -58,6 +58,7 @@ class ProfileController extends Controller
         ];
     }
 }
+
 /**
  *  @SWG\Definition(
  *     definition="Profile",
