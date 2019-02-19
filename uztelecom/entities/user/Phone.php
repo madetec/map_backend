@@ -13,6 +13,23 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
+<<<<<<< HEAD
+ * Class Phone
+ * @package uztelecom\entities\user
+ * @property string $number
+ */
+class Phone extends ActiveRecord
+{
+    public static function create($number)
+    {
+        $phone = new static();
+        $phone->number = $number;
+
+        return $phone;
+    }
+
+    public static function tableName()
+=======
  * @property integer $id
  * @property integer $number
  * @property integer $sort
@@ -38,6 +55,7 @@ class Phone extends ActiveRecord
     }
 
     public static function tableName(): string
+>>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
     {
         return '{{%phones}}';
     }

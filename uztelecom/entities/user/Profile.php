@@ -46,6 +46,8 @@ class Profile extends ActiveRecord
         $profile->father_name = $father_name;
         $profile->subdivision_id = $subdivision_id;
         $profile->position = $position;
+        $profile->phones = $phone;
+
         return $profile;
 
     }
