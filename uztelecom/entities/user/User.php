@@ -42,16 +42,9 @@ class User extends ActiveRecord
             $profile->name,
             $profile->last_name,
             $profile->father_name,
-<<<<<<< HEAD
-            $profile->subdivision,
-            $profile->position,
-            $profile->phone
-        );
-=======
             $profile->subdivision_id,
             $profile->position
             );
->>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
         $user->setPassword($password);
         $user->generateAuthKey();
         return $user;
@@ -82,18 +75,6 @@ class User extends ActiveRecord
 
     public function updateProfile(Profile $profile): void
     {
-<<<<<<< HEAD
-        $profile = $this->profile;
-        $profile->edit(
-            $form->name,
-            $form->last_name,
-            $form->father_name,
-            $form->subdivision,
-            $form->position,
-            $form->phone
-        );
-=======
->>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
         $this->profile = $profile;
     }
 

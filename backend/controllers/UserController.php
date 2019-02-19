@@ -92,9 +92,7 @@ class UserController extends Controller
             } catch (\Exception $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-
         }
-
         return $this->render('create', [
             'model' => $form,
         ]);
@@ -144,7 +142,8 @@ class UserController extends Controller
      * @param $id
      * @param $phone_id
      * @return \yii\web\Response
-     * @throws NotFoundHttpException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function actionDeletePhone($id, $phone_id)
     {
@@ -160,8 +159,9 @@ class UserController extends Controller
      * @param $id
      * @param $phone_id
      * @return \yii\web\Response
-     * @throws NotFoundHttpException
      * @throws \DomainException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function actionMovePhoneUp($id, $phone_id)
     {
@@ -173,8 +173,9 @@ class UserController extends Controller
      * @param $id
      * @param $phone_id
      * @return \yii\web\Response
-     * @throws NotFoundHttpException
      * @throws \DomainException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function actionMovePhoneDown($id, $phone_id)
     {

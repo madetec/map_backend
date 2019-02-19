@@ -21,7 +21,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model->profile, 'father_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model->profile, 'subdivision_id')->dropDownList($model->profile->subdivisionList()) ?>
             <?= $form->field($model->profile, 'position')->textInput(['maxlength' => true]) ?>
-
+            <?= $form->field($model->profile->phone, 'number')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model->profile->address, 'name')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
 </div>
@@ -43,28 +44,4 @@ use yii\widgets\ActiveForm;
 
             </div>
         </div>
-
-<<<<<<< HEAD
-</div>
-
-<div class="col-md-4" >
-    <div class="box" >
-        <div class="box-header" >
-            <h3>Addresses-Pnones</h3>
-            <div class="box-body" >
-                <?= $form->field($model->profile->phone, 'number')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model->profile->address, 'name')->textInput(['maxlength' => true]) ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="form-group" style="position:relative; float: right; top: 200px;"  >
-        <?= Html::submitButton('Save', ['class' => 'btn btn-telecom-car btn-success']) ?>
-    </div>
-=======
-    </div>
-
-
->>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
 <?php ActiveForm::end(); ?>

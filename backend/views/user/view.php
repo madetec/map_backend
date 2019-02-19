@@ -5,7 +5,6 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model uztelecom\entities\user\User */
-/* @var $phone uztelecom\entities\user\Phone*/
 
 $this->title = $model->profile->fullName;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
@@ -21,37 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::a(Html::tag('i', null, ['class' => 'fa fa-trash']) . ' Удалить',
                 ['delete', 'id' => $model->id],
                 ['class' => 'btn btn-telecom-car-delete pull-right',
-            'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить?',
-                'method' => 'post',
-<<<<<<< HEAD
-            ],
-        ]) ?>
-    </p>
-
-<!--    <pre>-->
-<!--        --><?php //print_r($model)?>
-<!--    </pre>-->
-
-    <?= DetailView::widget([
-        'model' => $model,
-//        'phone' => $phone,
-        'attributes' => [
-            'id',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'username',
-            'status',
-            'role',
-            'created_at',
-            'updated_at',
-//            'phone',
-        ],
-    ]) ?>
-
-=======
-            ]]) ?>
+                    'data' => [
+                        'confirm' => 'Вы уверены, что хотите удалить?',
+                        'method' => 'post',
+                    ]]) ?>
         </div>
         <div class="box-body">
             <div class="row">
@@ -208,8 +180,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
->>>>>>> cafbe82cc8e1bbdbca2472c0c9b13d404442ed2e
-</div>
+    </div>
 <?php
 
 $script = <<<JS
@@ -217,5 +188,4 @@ $script = <<<JS
 JS;
 
 $this->registerJs($script);
-
 

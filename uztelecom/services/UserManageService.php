@@ -60,9 +60,7 @@ class UserManageService
     /**
      * @param $id
      * @throws \DomainException
-     * @throws \Throwable
      * @throws \uztelecom\exceptions\NotFoundException
-     * @throws \yii\db\StaleObjectException
      */
     public function remove($id)
     {
@@ -75,6 +73,7 @@ class UserManageService
      * @param $id
      * @param $phoneId
      * @throws \DomainException
+     * @throws \LogicException
      * @throws \uztelecom\exceptions\NotFoundException
      */
     public function movePhoneUp($id, $phoneId): void
