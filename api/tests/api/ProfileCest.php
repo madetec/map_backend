@@ -28,22 +28,12 @@ class ProfileCest
     public function success(ApiTester $I): void
     {
         $I->sendPOST('/oauth2/token', [
-            'grant_type' => 'password',
-            'username' => 'erau',
-            'password' => 'password_0',
-            'client_id' => 'testclient',
-            'client_secret' => 'testpass'
+            'grant_type' => 'user_credentials',
+            'client_id' => 'ale ale',
+            'client_secret' => 'bla bla',
         ]);
 
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseContainsJson([
-            'expires_in' => 86400,
-            'token_type' => 'Bearer',
-            'scope' => null,
-        ]);
+        VarDumper::dump($I->grabResponse());
 
-        $I->seeResponseJsonMatchesJsonPath('$.access_token');
-        $I->seeResponseJsonMatchesJsonPath('$.refresh_token');
     }
 }
