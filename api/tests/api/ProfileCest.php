@@ -31,6 +31,7 @@ class ProfileCest
             'grant_type' => 'user_credentials',
             'client_id' => 'ale ale',
             'client_secret' => 'bla bla',
+
         ]);
 
         VarDumper::dump($I->grabResponse());
