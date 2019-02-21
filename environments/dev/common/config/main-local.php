@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=yii2',
+            'dsn' => 'mysql:host=localhost;dbname=telecom_car',
             'username' => 'root',
-            'password' => 'vfrtgb45',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [
