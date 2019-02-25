@@ -7,7 +7,7 @@ use yii\rest\Controller;
 /**
  * @SWG\Swagger(
  *     basePath="/",
- *     host="api.map.madetec.uz",
+ *     host="api.telecom-car.uz",
  *     schemes={"http"},
  *     produces={"application/json","application/xml"},
  *     consumes={"application/json","application/xml","application/x-www-form-urlencoded"},
@@ -20,7 +20,7 @@ use yii\rest\Controller;
  *         securityDefinition="OAuth2",
  *         type="oauth2",
  *         flow="password",
- *         tokenUrl="http://api.map.madetec.uz/oauth2/token"
+ *         tokenUrl="http://api.telecom-car.uz/oauth2/token"
  *     ),
  *     @SWG\SecurityScheme(
  *         securityDefinition="Bearer",
