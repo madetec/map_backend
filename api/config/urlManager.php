@@ -10,7 +10,7 @@ return [
     'showScriptName' => false,
     'rules' => [
         '' => 'site/index',
-        'GET profile' => 'user/profile/index',
+        'GET user/profile' => 'user/profile/index',
         'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
     ]
 ];
