@@ -7,6 +7,7 @@ return [
             'username' => 'map.madetec',
             'password' => 'ezDqsL5qpMW7F49D',
             'charset' => 'utf8',
+
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
