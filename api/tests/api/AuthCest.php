@@ -34,7 +34,6 @@ class AuthCest
             'client_id' => 'testclient',
             'client_secret' => 'testpass'
         ]);
-
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
