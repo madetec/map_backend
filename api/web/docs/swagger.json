@@ -40,6 +40,52 @@
                 }
             }
         },
+        "/user/roles": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "description": "Returns roles list",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Role"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/user/role": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "description": "Returns role info",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Role"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/user/profile": {
             "get": {
                 "tags": [
@@ -115,6 +161,17 @@
                 "addresses": {
                     "type": "array",
                     "items": {}
+                }
+            },
+            "type": "object"
+        },
+        "Role": {
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             },
             "type": "object"
