@@ -8,6 +8,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\rbac\Role;
 
 /**
  * User model
@@ -24,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at
  * @property string $password write-only password
  * @property Profile $profile
+ * @property array $roleName
  */
 class User extends ActiveRecord
 {
@@ -86,6 +89,7 @@ class User extends ActiveRecord
         $user->profile = Profile::create($name, $last_name, null, $subdivision_id, $position);
         return $user;
     }
+
 
     public function getProfile(): ActiveQuery
     {

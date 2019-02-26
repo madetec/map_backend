@@ -11,6 +11,8 @@ return [
     'rules' => [
         '' => 'site/index',
         'GET user/profile' => 'user/profile/index',
+        'GET user/role' => 'user/profile/role',
+        'GET user/roles' => 'user/profile/roles',
         'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
     ]
 ];

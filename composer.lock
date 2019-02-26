@@ -99,7 +99,7 @@
             "version": "3.3.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "9e8ec3d10fad04748176144f108d7355662ae75e"
             },
             "dist": {
@@ -2470,16 +2470,16 @@
         },
         {
             "name": "codeception/base",
-            "version": "2.5.3",
+            "version": "2.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/base.git",
-                "reference": "ceff0b4fee4846b6bd8b5a37abbbb1acd6e78f58"
+                "reference": "41f2257227130faa1a43c476c72f8031f9504d7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/base/zipball/ceff0b4fee4846b6bd8b5a37abbbb1acd6e78f58",
-                "reference": "ceff0b4fee4846b6bd8b5a37abbbb1acd6e78f58",
+                "url": "https://api.github.com/repos/Codeception/base/zipball/41f2257227130faa1a43c476c72f8031f9504d7b",
+                "reference": "41f2257227130faa1a43c476c72f8031f9504d7b",
                 "shasum": ""
             },
             "require": {
@@ -2556,7 +2556,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2019-02-02T16:29:38+00:00"
+            "time": "2019-02-20T21:29:36+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -3439,16 +3439,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "2.0.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "8b8454ea6958c3dee38453d3bd571e023108c91f"
+                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b8454ea6958c3dee38453d3bd571e023108c91f",
-                "reference": "8b8454ea6958c3dee38453d3bd571e023108c91f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b389aebe1b8b0578430bda0c7c95a829608e059",
+                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059",
                 "shasum": ""
             },
             "require": {
@@ -3460,7 +3460,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -3484,7 +3484,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2018-02-01T13:07:23+00:00"
+            "time": "2019-02-20T10:12:59+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
