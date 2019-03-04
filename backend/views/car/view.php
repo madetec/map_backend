@@ -14,20 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <div class="box">
-            <div class="box-header">
-                <?= Html::a(Html::tag('i', null, ['class' => 'fa fa-pencil']) . ' Редактировать',
-                    ['update', 'id' => $model->id],
-                    ['class' => 'btn btn-telecom-car']) ?>
-
-                <?= Html::a(Html::tag('i', null, ['class' => 'fa fa-trash']) . ' Удалить',
-                    ['delete', 'id' => $model->id],
-                    ['class' => 'btn btn-telecom-car-delete pull-right',
-                        'data' => [
-                            'confirm' => 'Вы уверены, что хотите удалить?',
-                            'method' => 'post',
-                        ]]) ?>
-            </div>
-            <div class="box-body">
                 <div class="svgCar" data-color="<?= $model->color->hex ?>">
                     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                          width="1280.000000pt" height="640.000000pt" viewBox="0 0 1280.000000 640.000000"
@@ -123,6 +109,20 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
                     </svg>
                 </div>
 
+            <div class="box-header">
+                <?= Html::a(Html::tag('i', null, ['class' => 'fa fa-pencil']) . ' Редактировать',
+                    ['update', 'id' => $model->id],
+                    ['class' => 'btn btn-telecom-car']) ?>
+
+                <?= Html::a(Html::tag('i', null, ['class' => 'fa fa-trash']) . ' Удалить',
+                    ['delete', 'id' => $model->id],
+                    ['class' => 'btn btn-telecom-car-delete pull-right',
+                        'data' => [
+                            'confirm' => 'Вы уверены, что хотите удалить?',
+                            'method' => 'post',
+                        ]]) ?>
+            </div>
+            <div class="box-body">
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
@@ -141,6 +141,7 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
                     ],
                 ]) ?>
             </div>
+
         </div>
     </div>
 </div>

@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="box-body">
         <div class="table-responsive">
-
-
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
