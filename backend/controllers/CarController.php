@@ -5,6 +5,7 @@ namespace backend\controllers;
 use uztelecom\entities\cars\Car;
 use uztelecom\forms\cars\CarForm;
 use uztelecom\forms\cars\CarSearchForm;
+use uztelecom\readModels\CarReadRepository;
 use uztelecom\services\CarManageService;
 use Yii;
 use yii\filters\VerbFilter;
@@ -18,15 +19,43 @@ class CarController extends Controller
 {
 
     private $service;
+    private $cars;
 
     public function __construct(
         string $id, $module,
         CarManageService $carManageService,
+        CarReadRepository $carReadRepository,
         array $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $carManageService;
+        $this->cars = $carReadRepository;
 
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function actionUpdate($id)
+    {
+        $car = $this->cars->find($id);
+        $form = new CarForm($car);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $car = $this->service->edit($car->id, $form);
+                Yii::$app->session->setFlash('success', 'Машина успешно обновлена.');
+                return $this->redirect(['view', 'id' => $car->id]);
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('update', [
+            'car' => $car,
+            'form' => $form,
+        ]);
     }
 
     /**
@@ -90,26 +119,6 @@ class CarController extends Controller
         ]);
     }
 
-
-    /**
-     * Updates an existing Car model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing Car model.

@@ -62,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]) ?>
                 </div>
+                <div class="clearfix"></div>
                 <div class="col-md-6">
                     <?php if ($model->profile->phones): ?>
                         <table class="table table-striped table-bordered detail-view">

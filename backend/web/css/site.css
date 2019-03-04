@@ -223,3 +223,11 @@ a.desc:after {
         /*background-color: #55a0e9;*/
     }
 }
+.svgCar{
+    text-align: center;
+    margin: 0 auto;
+}
+.svgCar svg{
+    width: 50%;
+    height: auto;
+}

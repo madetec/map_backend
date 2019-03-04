@@ -50,4 +50,25 @@ class CarManageService
         $this->cars->save($car);
         return $car;
     }
+
+    /**
+     * @param $id
+     * @param CarForm $form
+     * @return Car
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function edit(int $id, CarForm $form)
+    {
+        $user = $this->users->find($form->user_id);
+        $car = $this->cars->find($id);
+        $car->edit(
+            $form->model,
+            $form->color_id,
+            $form->number,
+            $user->id
+        );
+        $this->cars->save($car);
+        return $car;
+    }
 }

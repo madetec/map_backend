@@ -6,6 +6,7 @@
 
 namespace uztelecom\forms\cars;
 
+use uztelecom\entities\cars\Car;
 use uztelecom\entities\Color;
 use uztelecom\entities\user\User;
 use yii\base\Model;
@@ -22,6 +23,7 @@ use yii\helpers\ArrayHelper;
  * @property  integer $user_id
  * @property  array drivers
  * @property  array colors
+ * @property  Car $_car
  */
 class CarForm extends Model
 {
@@ -30,12 +32,27 @@ class CarForm extends Model
     public $number;
     public $user_id;
 
+    private $_car;
+
+    public function __construct(Car $car = null, array $config = [])
+    {
+        if ($car) {
+            $this->model = $car->model;
+            $this->color_id = $car->color_id;
+            $this->number = $car->number;
+            $this->user_id = $car->user_id;
+            $this->_car = $car;
+        }
+        parent::__construct($config);
+    }
+
     public function rules()
     {
         return [
             [['model', 'number', 'user_id', 'color_id'], 'required'],
             [['user_id', 'color_id'], 'integer'],
             [['model', 'number'], 'string', 'max' => 255],
+            [['number'], 'unique', 'targetClass' => Car::class, 'filter' => $this->_car ? ['<>', 'id', $this->_car->id] : null],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['color_id'], 'exist', 'skipOnError' => true, 'targetClass' => Color::class, 'targetAttribute' => ['color_id' => 'id']],
         ];

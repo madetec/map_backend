@@ -1,21 +1,16 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
-/* @var $model uztelecom\entities\cars\Car */
+/* @var $car uztelecom\entities\cars\Car */
+/* @var $form uztelecom\forms\cars\CarForm */
 
-$this->title = 'Update Car: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Cars', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Редактирование';
+$this->params['breadcrumbs'][] = ['label' => 'Машины', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $car->id, 'url' => ['view', 'id' => $car->id]];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="car-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="row">
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $form,
     ]) ?>
-
 </div>

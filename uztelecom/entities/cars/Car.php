@@ -32,6 +32,14 @@ class Car extends ActiveRecord
         return $car;
     }
 
+    public function edit(string $model, int $color_id, string $number, int $user_id): void
+    {
+        $this->model = $model;
+        $this->color_id = $color_id;
+        $this->number = $number;
+        $this->user_id = $user_id;
+    }
+
     public static function tableName(): string
     {
         return '{{%cars}}';
