@@ -33,8 +33,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attributes' => [
                             'id',
                             'username',
-                            'status',
-                            'role',
+                            [
+                                'attribute' => 'status',
+                                'value' => \uztelecom\helpers\UserHelper::getStatusName($model->status),
+                                'format' => 'raw'
+                            ], [
+                                'attribute' => 'role',
+                                'value' => \uztelecom\helpers\UserHelper::getRoleName($model->role),
+                                'format' => 'raw'
+                            ],
                             'created_at:date',
                             'updated_at:date',
                         ],

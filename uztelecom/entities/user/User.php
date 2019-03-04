@@ -2,14 +2,14 @@
 
 namespace uztelecom\entities\user;
 
+use uztelecom\entities\user\queries\UserQuery;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\forms\user\ProfileEditForm;
 use uztelecom\forms\user\ProfileForm;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
-use yii\rbac\Role;
 
 /**
  * User model
@@ -47,23 +47,23 @@ class User extends ActiveRecord
             $profile->father_name,
             $profile->subdivision_id,
             $profile->position
-            );
+        );
         $user->setPassword($password);
         $user->generateAuthKey();
         return $user;
     }
 
     /**
-     * @param $username
      * @param $password
-     * @param ProfileForm $profileForm
+     * @param ProfileEditForm $profileForm
      * @throws \yii\base\Exception
      */
 
-    public function edit($username, $password, ProfileForm $profileForm): void
+    public function edit($password, ProfileEditForm $profileForm): void
     {
-        $this->username = $username;
-        $this->setPassword($password);
+        if ($password) {
+            $this->setPassword($password);
+        }
         $profile = $this->profile;
         $profile->edit(
             $profileForm->name,
@@ -73,7 +73,6 @@ class User extends ActiveRecord
             $profileForm->position
         );
         $this->updateProfile($profile);
-
     }
 
     public function updateProfile(Profile $profile): void
@@ -196,8 +195,14 @@ class User extends ActiveRecord
             'status' => 'Состояние',
             'role' => 'Роль',
             'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
             'fullName' => 'Ф.И.О',
             'subdivision' => 'Подрозделение',
         ];
+    }
+
+    public static function find(): UserQuery
+    {
+        return new UserQuery(static::class);
     }
 }

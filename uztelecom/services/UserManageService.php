@@ -11,6 +11,7 @@ namespace uztelecom\services;
 
 use uztelecom\entities\user\Profile;
 use uztelecom\entities\user\User;
+use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
 use uztelecom\repositories\UserRepository;
 
@@ -24,10 +25,12 @@ use uztelecom\repositories\UserRepository;
 class UserManageService
 {
     private $users;
+    private $auth;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->users = $userRepository;
+        $this->auth = \Yii::$app->getAuthManager();
     }
 
     /**
@@ -42,19 +45,23 @@ class UserManageService
         $user->profile->addPhone($form->profile->phone->number);
         $user->profile->addAddress($form->profile->address->name);
         $this->users->save($user);
+        $role = $this->auth->getRole($form->role);
+        $this->auth->assign($role, $user->id);
         return $user;
     }
 
     /**
      * @param User $user
-     * @param UserForm $form
+     * @param UserEditForm $form
      * @throws \DomainException
      * @throws \yii\base\Exception
      */
-    public function edit(User $user, UserForm $form): void
+    public function edit(User $user, UserEditForm $form): void
     {
-        $user->edit($form->username, $form->password, $form->profile);
+        $user->edit($form->password, $form->profile);
         $this->users->save($user);
+        $role = $this->auth->getRole($form->role);
+        $this->auth->assign($role, $user->id);
     }
 
     /**

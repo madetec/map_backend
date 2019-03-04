@@ -23,11 +23,13 @@ class UserForm extends CompositeForm
     public $username;
     public $password;
     public $role;
+    private $_user;
 
 
     public function __construct(User $user = null, array $config = [])
     {
         if($user){
+            $this->_user = $user;
             $this->username = $user->username;
             $this->role = $user->role;
             $this->profile = new ProfileForm($user->profile);
@@ -44,6 +46,9 @@ class UserForm extends CompositeForm
         return [
             [['username', 'password'], 'required'],
             [['username', 'password'], 'string'],
+            ['username', 'unique', 'targetClass' => User::class,
+                'filter' => $this->_user ? ['<>', 'id', $this->_user->id] : null
+            ],
             ['username', 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Your username can only contain alphanumeric characters, underscores and dashes.'],
             ['role', 'in', 'range' => $this->rolesFilter]
         ];

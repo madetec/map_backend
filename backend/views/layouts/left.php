@@ -23,6 +23,8 @@
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
                     ['label' => 'Пользователи', 'icon' => 'users', 'url' => ['/user']],
+                    ['label' => 'Машины', 'icon' => 'car', 'url' => ['/car']],
+                    ['label' => 'Заказы', 'icon' => 'list', 'url' => ['/orders']],
                 ],
             ]
         ) ?>

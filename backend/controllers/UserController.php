@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\forms\UserSearch;
+use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
 use uztelecom\readModels\UserReadRepository;
 use uztelecom\services\UserManageService;
@@ -106,7 +107,7 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $user = $this->users->find($id);
-        $form = new UserForm($user);
+        $form = new UserEditForm($user);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try{
                 $this->service->edit($user, $form);
@@ -118,7 +119,7 @@ class UserController extends Controller
         }
         return $this->render('update', [
             'user' => $user,
-            'form' => $form,
+            'model' => $form,
         ]);
     }
 

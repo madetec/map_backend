@@ -190,6 +190,7 @@ a.desc:after {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#55a0e9', endColorstr='#4d87e3', GradientType=0); /* IE6-9 */
     /*background-color: #55a0e9;*/
 }
+
 .skin-blue .main-header .navbar .sidebar-toggle:hover{
     background: #4d87e3; /* Old browsers */
     background: -moz-linear-gradient(top, #4d87e3 3%, #55a0e9 100%); /* FF3.6-15 */
@@ -202,4 +203,23 @@ a.desc:after {
     background: -moz-linear-gradient(top, #4d87e3 3%, #55a0e9 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #4d87e3 3%, #55a0e9 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #4d87e3 3%, #55a0e9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+@media (max-width: 767px){
+    .skin-blue .main-header .navbar,.skin-blue .main-header li.user-header{
+        background: #55a0e9; /* Old browsers */
+        background: -moz-linear-gradient(top, #55a0e9 3%, #4d87e3 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #55a0e9 3%, #4d87e3 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #55a0e9 3%, #4d87e3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#55a0e9', endColorstr='#4d87e3', GradientType=0); /* IE6-9 */
+        /*background-color: #55a0e9;*/
+    }
+    .skin-blue .main-header .navbar .dropdown-menu li a:hover, .skin-blue .main-header .navbar .dropdown-menu li a{
+        background: #55a0e9; /* Old browsers */
+        background: -moz-linear-gradient(top, #55a0e9 3%, #4d87e3 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #55a0e9 3%, #4d87e3 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #55a0e9 3%, #4d87e3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#55a0e9', endColorstr='#4d87e3', GradientType=0); /* IE6-9 */
+        /*background-color: #55a0e9;*/
+    }
 }
