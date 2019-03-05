@@ -11,6 +11,7 @@ namespace uztelecom\services;
 
 use uztelecom\entities\user\Profile;
 use uztelecom\entities\user\User;
+use uztelecom\forms\user\PhoneForm;
 use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
 use uztelecom\repositories\UserRepository;
@@ -73,6 +74,22 @@ class UserManageService
     {
         $user = $this->users->find($id);
         $user->status = User::STATUS_DELETED;
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @param PhoneForm $form
+     * @throws \DomainException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function addPhone($id, PhoneForm $form): void
+    {
+        $user = $this->users->find($id);
+        $profile = $user->profile;
+        $profile->addPhone($form->number);
+        $user->updateProfile($profile);
         $this->users->save($user);
     }
 

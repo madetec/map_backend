@@ -14,6 +14,36 @@ use yii\helpers\Html;
 
 class UserHelper
 {
+    public static function formatPhone($phone)
+    {
+        $code = substr($phone, 0, 2);
+        $prefix = substr($phone, 2, 3);
+        $number = substr($phone, 5, 4);
+
+        $logo = self::getOperatorLogo($code);
+
+        return $logo . " +998 ($code) $prefix $number";
+    }
+
+    public static function getOperatorLogo($code)
+    {
+        switch ((int)$code) {
+            case 90:
+            case 91:
+                return Html::img('/img/operators/beeline.jpg', ['class' => 'img-responsive', 'style' => 'max-width: 30px; display: inline-block;']);
+            case 93:
+            case 94:
+                return Html::img('/img/operators/ucell.jpg', ['class' => 'img-responsive', 'style' => 'max-width: 30px; display: inline-block;']);
+            case 95:
+            case 99:
+                return Html::img('/img/operators/uzmobile.jpg', ['class' => 'img-responsive', 'style' => 'max-width: 30px; display: inline-block;']);
+            case 97:
+                return Html::img('/img/operators/ums.jpg', ['class' => 'img-responsive', 'style' => 'max-width: 30px; display: inline-block;']);
+            default:
+                return null;
+        }
+    }
+
     public static function getName($user): string
     {
         /** @var $user User */

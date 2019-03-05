@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\forms\UserSearch;
+use uztelecom\forms\user\PhoneForm;
 use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
 use uztelecom\readModels\UserReadRepository;
@@ -10,7 +11,6 @@ use uztelecom\services\UserManageService;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -73,8 +73,19 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        $phoneForm = new PhoneForm();
+        if ($phoneForm->load(Yii::$app->request->post()) && $phoneForm->validate()) {
+            try {
+                $this->service->addPhone($id, $phoneForm);
+                Yii::$app->session->setFlash('success', 'Номер телефона успешно добавлен.');
+                $this->refresh();
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
         return $this->render('view', [
             'model' => $this->users->find($id),
+            'phoneForm' => $phoneForm,
         ]);
     }
 

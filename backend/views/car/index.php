@@ -12,7 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
     <div class="box-header">
-        <?= Html::a('Create Car', ['create'], ['class' => 'btn btn-success']) ?>
+        <a href="<?= \yii\helpers\Url::to(['create']) ?>" class="btn btn-telecom-car"><i class="fa fa-car"></i>
+            Добавить машину</a>
     </div>
     <div class="box-body">
         <div class="table-responsive">
@@ -24,16 +25,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'],
                     [
                         'attribute' => 'user_id',
-                        'value' => function (\uztelecom\entities\cars\Car $model) {
-                            return Html::a($model->user->profile->fullName, ['user/view', 'id' => $model->user->id]);
+                        'value' => function (\uztelecom\entities\cars\Car $car) {
+                            return Html::a($car->user->profile->fullName, ['user/view', 'id' => $car->user->id]);
                         },
                         'format' => 'raw'
                     ],
-                    'model',
+                    [
+                        'attribute' => 'model',
+                        'value' => function (\uztelecom\entities\cars\Car $car) {
+                            return Html::a($car->model, ['view', 'id' => $car->id]);
+                        },
+                        'format' => 'raw'
+                    ],
                     [
                         'attribute' => 'color_id',
-                        'value' => function (\uztelecom\entities\cars\Car $model) {
-                            return Html::tag('p', Html::tag('i', null, ['class' => 'fa fa-car', 'style' => 'color: ' . $model->color->hex . ';']) . ' ' . $model->color->name);
+                        'value' => function (\uztelecom\entities\cars\Car $car) {
+                            return Html::tag('p', Html::tag('i', null, ['class' => 'fa fa-car', 'style' => 'color: ' . $car->color->hex . ';']) . ' ' . $car->color->name);
                         },
                         'format' => 'raw'
                     ],

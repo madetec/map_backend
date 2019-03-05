@@ -14,7 +14,7 @@ use yii\base\Model;
 
 /**
  * @property ProfileForm $profile
- *
+ * @property integer $number
  */
 class PhoneForm extends Model
 {

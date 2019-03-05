@@ -1,6 +1,8 @@
 <?php
 
+use uztelecom\helpers\UserHelper;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -74,15 +76,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <tr>
                                     <td>
                                         <?= ($model->profile->isMainPhone($phone->id))
-                                            ? Html::tag('i', null, [
+                                            ? '<b>' . UserHelper::formatPhone($phone->number) . '</b> ' . Html::tag('i', null, [
                                                 'class' => 'fa fa-check text-success',
                                                 'data-toggle' => 'popover',
                                                 'title' => 'Основной номер',
                                                 'data-content' => 'На этот номер будут приходить уведомления',
                                                 'data-placement' => 'top',
                                                 'style' => 'cursor: pointer;'
-                                            ]) . ' <b>' . $phone->number . '</b>'
-                                            : $phone->number; ?>
+                                            ])
+                                            : '<b>' . UserHelper::formatPhone($phone->number) . '</b>'; ?>
                                     </td>
                                     <td>
                                         <div class="btn-group">
@@ -90,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 Html::tag(
                                                     'i',
                                                     null,
-                                                    ['class' => 'fa fa-long-arrow-down text-success']
+                                                    ['class' => 'fa fa-long-arrow-down text-info']
                                                 ),
                                                 ['move-phone-down', 'id' => $model->id, 'phone_id' => $phone->id],
                                                 [
@@ -100,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 Html::tag(
                                                     'i',
                                                     null,
-                                                    ['class' => 'fa  fa-close text-success']
+                                                    ['class' => 'fa  fa-close text-danger']
                                                 ),
                                                 ['delete-phone', 'id' => $model->id, 'phone_id' => $phone->id],
                                                 [
@@ -110,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 Html::tag(
                                                     'i',
                                                     null,
-                                                    ['class' => 'fa fa-long-arrow-up text-success']
+                                                    ['class' => 'fa fa-long-arrow-up text-info']
                                                 ),
                                                 ['move-phone-up', 'id' => $model->id, 'phone_id' => $phone->id],
                                                 [
@@ -123,6 +125,27 @@ $this->params['breadcrumbs'][] = $this->title;
                             </tbody>
                         </table>
                     <?php endif; ?>
+                    <table class="table table-striped table-bordered detail-view">
+                        <tbody>
+                        <tr>
+                            <th colspan="3">Добавить номер:</th>
+                        </tr>
+                        <tr>
+                            <?php $form = ActiveForm::begin(); ?>
+                            <td>
+                                <?= $form->field($phoneForm, 'number')
+                                    ->textInput(['type' => 'number', 'placeholder' => '978828282', 'max' => "999999999"])
+                                    ->label(false) ?>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <?= Html::submitButton('Добавить', ['class' => 'btn btn-telecom-car btn-block btn-success']) ?>
+                                </div>
+                            </td>
+                            <?php ActiveForm::end(); ?>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="col-md-6">
