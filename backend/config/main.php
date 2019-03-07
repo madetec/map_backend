@@ -19,6 +19,17 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => strrev($params['apiKey']),
+                        'language' => 'ru-RU',
+                        'version' => '3.1.18'
+                    ]
+                ]
+            ]
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
