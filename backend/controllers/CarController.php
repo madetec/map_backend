@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\forms\CarSearch;
 use uztelecom\entities\cars\Car;
 use uztelecom\forms\cars\CarForm;
 use uztelecom\forms\cars\CarSearchForm;
@@ -32,6 +33,21 @@ class CarController extends Controller
         $this->cars = $carReadRepository;
 
     }
+
+    /**
+     * @return string
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function actionIndex()
+    {
+        $searchModel = new CarSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 
     /**
      * @param $id
@@ -95,16 +111,6 @@ class CarController extends Controller
     }
 
 
-    public function actionIndex()
-    {
-        $searchModel = new CarSearchForm();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Car model.

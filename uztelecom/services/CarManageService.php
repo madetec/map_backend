@@ -44,7 +44,7 @@ class CarManageService
         $car = Car::create(
             $form->model,
             $form->color_id,
-            $form->number,
+            str_replace(' ', '', strtoupper($form->number)),
             $user->id
         );
         $this->cars->save($car);
@@ -65,7 +65,7 @@ class CarManageService
         $car->edit(
             $form->model,
             $form->color_id,
-            $form->number,
+            str_replace(' ', '', strtoupper($form->number)),
             $user->id
         );
         $this->cars->save($car);

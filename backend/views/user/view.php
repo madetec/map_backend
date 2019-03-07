@@ -134,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php $form = ActiveForm::begin(); ?>
                             <td>
                                 <?= $form->field($phoneForm, 'number')
-                                    ->textInput(['type' => 'number', 'placeholder' => '978828282', 'max' => "999999999"])
+                                    ->textInput(['placeholder' => '+998 (97) 882 8282'])
                                     ->label(false) ?>
                             </td>
                             <td>
@@ -147,7 +147,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tbody>
                     </table>
                 </div>
-
                 <div class="col-md-6">
                     <?php if ($model->profile->addresses): ?>
                         <table class="table table-striped table-bordered detail-view">
@@ -212,11 +211,4 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-<?php
-
-$script = <<<JS
-        $('[data-toggle="popover"]').popover();
-JS;
-
-$this->registerJs($script);
 

@@ -8,8 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<?php $form = ActiveForm::begin(); ?>
-
+<?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
     <div class="col-md-8">
     <div class="box">
         <div class="box-header">

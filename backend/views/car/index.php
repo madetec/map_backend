@@ -40,14 +40,34 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'color_id',
                         'value' => function (\uztelecom\entities\cars\Car $car) {
-                            return Html::tag('p', Html::tag('i', null, ['class' => 'fa fa-car', 'style' => 'color: ' . $car->color->hex . ';']) . ' ' . $car->color->name);
+                            return Html::tag('p', Html::tag('i', null, ['class' => 'fa fa-car', 'data-color' => $car->color->hex, 'style' => 'color: ' . $car->color->hex . ';']) . ' ' . $car->color->name);
+                        },
+                        'filter' => $searchModel->colors,
+                        'format' => 'raw'
+                    ],
+                    [
+                        'attribute' => 'number',
+                        'value' => function (\uztelecom\entities\cars\Car $car) {
+                            return \uztelecom\helpers\CarHelper::formatCarNumber($car->number);
                         },
                         'format' => 'raw'
                     ],
-                    'number',
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]); ?>
         </div>
     </div>
 </div>
+<?php
+
+$script = <<<JS
+var cars  =$('[data-color]');
+console.log(cars);
+
+for (var i=0; i < cars.length; i++){
+    var hex = $(cars[i]).attr('data-color');
+        var invert = invertColor(hex);
+        $(cars[i]).css({"background-color":invert,"padding":"5px","border-radius":"5px"});
+}
+JS;
+$this->registerJs($script);

@@ -19,11 +19,13 @@ use yii\base\Model;
 class PhoneForm extends Model
 {
     public $number;
+    private $_phone;
 
     public function __construct(Phone $phone = null, array $config = [])
     {
         if ($phone) {
-            $this->number = $phone;
+            $this->number = $phone->number;
+            $this->_phone = $phone;
         }
         parent::__construct($config);
     }
@@ -33,7 +35,19 @@ class PhoneForm extends Model
         return [
             ['number', 'required'],
             ['number', 'integer'],
+            [['number'],
+                'unique',
+                'targetClass' => Phone::class,
+                'filter' => $this->_phone ? ['<>', 'id', $this->_phone->id] : null],
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if ($this->number) {
+            $this->number = str_replace(['+998', '(', ')', ' '], '', $this->number);
+        }
+        return parent::beforeValidate();
     }
 
     public function attributeLabels()

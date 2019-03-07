@@ -23,3 +23,18 @@ function padZero(str, len) {
     var zeros = new Array(len).join('0');
     return (zeros + str).slice(-len);
 }
+
+
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+    $('#phoneform-number').inputmask({
+        mask: "+XX8 (##) ### ####",
+        definitions: {
+            'X': {
+                validator: "9",
+                placeholder: "9"
+            }
+        }
+    })
+    $('#carform-number').inputmask("99 999 aaa")
+});

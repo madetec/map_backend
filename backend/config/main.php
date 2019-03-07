@@ -11,6 +11,8 @@ return [
     'aliases' => [
         '@staticRoot' => $params['staticPath'],
         '@static'   => $params['staticHostInfo'],
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
     ],
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',

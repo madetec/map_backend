@@ -132,7 +132,13 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
                             'attribute' => 'color_id',
                             'value' => $model->color->name
                         ],
-                        'number',
+                        [
+                            'attribute' => 'number',
+                            'value' => function (\uztelecom\entities\cars\Car $car) {
+                                return \uztelecom\helpers\CarHelper::formatCarNumber($car->number);
+                            },
+                            'format' => 'raw'
+                        ],
                         [
                             'attribute' => 'user_id',
                             'value' => Html::a($model->user->profile->fullName, ['user/view', 'id' => $model->user->id]),
@@ -145,7 +151,6 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
         </div>
     </div>
 </div>
-
 <?php
 
 $script = <<<JS
