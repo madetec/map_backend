@@ -23,11 +23,11 @@ class SignInCest
         return [
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('login_users.php')
+                'dataFile' => codecept_data_dir('users_data.php')
             ],
             'profile' => [
                 'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('login_profiles.php')
+                'dataFile' => codecept_data_dir('profiles_data.php')
             ]
         ];
     }

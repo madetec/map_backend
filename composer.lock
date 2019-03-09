@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe6a31da089e62190a6e3087023b5c1b",
+    "content-hash": "0e204105ef521bd463d113a557016d98",
     "packages": [
         {
             "name": "2amigos/yii2-google-maps-library",
@@ -1298,6 +1298,64 @@
             "time": "2018-07-02T15:55:56+00:00"
         },
         {
+            "name": "paragraph1/php-fcm",
+            "version": "0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Paragraph1/php-fcm.git",
+                "reference": "17d32dc982ab2d1cfba64a62afd3e5b5c9a41639"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Paragraph1/php-fcm/zipball/17d32dc982ab2d1cfba64a62afd3e5b5c9a41639",
+                "reference": "17d32dc982ab2d1cfba64a62afd3e5b5c9a41639",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.5",
+                "phpunit/phpunit": "4.8.*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "paragraph1\\phpFCM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Albertini",
+                    "email": "pa@paragraph1.de"
+                },
+                {
+                    "name": "Kai Bielenberg",
+                    "email": "kb@paragraph1.de"
+                }
+            ],
+            "description": "PHP application server for google firebase cloud messaging (FCM)",
+            "homepage": "https://github.com/Paragraph1/phpFCM",
+            "keywords": [
+                "FCM",
+                "Firebase Cloud Messaging",
+                "android",
+                "firebase",
+                "gcm",
+                "google",
+                "ios",
+                "notifications",
+                "php"
+            ],
+            "time": "2016-08-18T11:47:56+00:00"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -2052,6 +2110,43 @@
                 "url"
             ],
             "time": "2019-02-23T15:06:07+00:00"
+        },
+        {
+            "name": "understeam/yii2-fcm",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Understeam/yii2-fcm.git",
+                "reference": "ab76ae5c39d6ebf8a82c6d9cfd2de914f93606ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Understeam/yii2-fcm/zipball/ab76ae5c39d6ebf8a82c6d9cfd2de914f93606ff",
+                "reference": "ab76ae5c39d6ebf8a82c6d9cfd2de914f93606ff",
+                "shasum": ""
+            },
+            "require": {
+                "paragraph1/php-fcm": "^0.7",
+                "yiisoft/yii2": "^2"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "understeam\\fcm\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anatoly Rugalev",
+                    "email": "anatoly.rugalev@gmail.com"
+                }
+            ],
+            "description": "Yii2 Firebase Cloud Messaging adapter",
+            "time": "2016-11-11T13:22:11+00:00"
         },
         {
             "name": "yiisoft/yii2",

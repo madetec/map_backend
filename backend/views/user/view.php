@@ -37,11 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             'username',
                             [
                                 'attribute' => 'status',
-                                'value' => \uztelecom\helpers\UserHelper::getStatusName($model->status),
+                                'value' => function ($model) {
+                                    $label = UserHelper::getStatusName($model->status);
+                                    $buttons = UserHelper::getStatusButtons($model->id, $model->status);
+                                    return "$label $buttons";
+                                },
                                 'format' => 'raw'
                             ], [
                                 'attribute' => 'role',
-                                'value' => \uztelecom\helpers\UserHelper::getRoleName($model->role),
+                                'value' => UserHelper::getRoleName($model->role),
                                 'format' => 'raw'
                             ],
                             'created_at:date',

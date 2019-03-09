@@ -82,12 +82,14 @@ class Profile extends ActiveRecord
 
     /**
      * @param string $name
+     * @param float|null $lat
+     * @param float|null $lng
      * @throws \LogicException
      */
-    public function addAddress(string $name): void
+    public function addAddress(string $name, float $lat = null, float $lng = null): void
     {
         $addresses = $this->addresses;
-        $addresses[] = Address::create($name);
+        $addresses[] = Address::create($name, $lat, $lng);
         $this->updateRelations(self::TYPE_ADDRESSES, $addresses);
     }
 

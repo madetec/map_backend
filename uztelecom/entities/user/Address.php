@@ -17,13 +17,17 @@ use yii\db\ActiveRecord;
  * @property integer $name
  * @property integer $sort
  * @property integer $profile_id
+ * @property float $lat
+ * @property float $lng
  */
 class Address extends ActiveRecord
 {
-    public static function create($name): self
+    public static function create(string $name, float $lat = null, float $lng = null): self
     {
         $address = new static();
         $address->name = $name;
+        $address->lat = $lat;
+        $address->lng = $lng;
         return $address;
     }
 

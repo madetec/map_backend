@@ -11,6 +11,7 @@ namespace uztelecom\services;
 
 use uztelecom\entities\user\Profile;
 use uztelecom\entities\user\User;
+use uztelecom\forms\user\AddressForm;
 use uztelecom\forms\user\PhoneForm;
 use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
@@ -137,6 +138,58 @@ class UserManageService
         $user = $this->users->find($id);
         $profile = $user->profile;
         $profile->removeRelation(Profile::TYPE_PHONES, $phoneId);
+        $user->updateProfile($profile);
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function busy($id)
+    {
+        $user = $this->users->find($id);
+        $user->busy();
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function active($id)
+    {
+        $user = $this->users->find($id);
+        $user->active();
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function blocked($id)
+    {
+        $user = $this->users->find($id);
+        $user->blocked();
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $id
+     * @param AddressForm $form
+     * @throws \DomainException
+     * @throws \LogicException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function addAddress($id, AddressForm $form)
+    {
+        $user = $this->users->find($id);
+        $profile = $user->profile;
+        $profile->addAddress($form->name, $form->lat, $form->lng);
         $user->updateProfile($profile);
         $this->users->save($user);
     }

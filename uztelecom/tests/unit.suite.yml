@@ -1,0 +1,7 @@
+suite_namespace: uztelecom\tests\unit
+actor: UnitTester
+modules:
+    enabled:
+        - Yii2:
+            part: [orm, email, fixtures]
+            entryScript: index-test.php

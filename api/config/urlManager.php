@@ -11,8 +11,9 @@ return [
     'rules' => [
         '' => 'site/index',
         'GET user/profile' => 'user/profile/index',
-        'GET user/role' => 'user/profile/role',
-        'GET user/roles' => 'user/profile/roles',
+        'PATCH user/profile/address' => 'user/profile/add-address',
+        'GET user/<_a:(role|roles)>' => 'user/profile/<_a>',
         'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
+        'PATCH driver/status/<_a:\w+>' => 'driver/profile/<_a>',
     ]
 ];

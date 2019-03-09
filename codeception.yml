@@ -1,9 +1,10 @@
 # global codeception file to run tests from all apps
 include:
-    - common
-    - frontend
+  # - common
+  # - frontend
     - backend
     - api
+    - uztelecom
 paths:
     log: console/runtime/logs
 settings:

@@ -2,8 +2,8 @@
 
 namespace uztelecom\entities\user;
 
-use uztelecom\entities\user\queries\UserQuery;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\entities\user\queries\UserQuery;
 use uztelecom\forms\user\ProfileEditForm;
 use uztelecom\forms\user\ProfileForm;
 use Yii;
@@ -33,6 +33,7 @@ class User extends ActiveRecord
     const STATUS_DELETED = 0;
     const STATUS_BLOCKED = 5;
     const STATUS_ACTIVE = 10;
+    const STATUS_BUSY = 15;
 
     const REMEMBER_ME_DURATION = 3600 * 24 * 30;
 
@@ -87,6 +88,54 @@ class User extends ActiveRecord
         $user->status = self::STATUS_ACTIVE;
         $user->profile = Profile::create($name, $last_name, null, $subdivision_id, $position);
         return $user;
+    }
+
+    /**
+     * @throws \DomainException
+     */
+    public function blocked(): void
+    {
+        if ($this->isBlocked()) {
+            throw new \DomainException('User status is blocked');
+        }
+        $this->status = self::STATUS_BLOCKED;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->status === self::STATUS_BLOCKED;
+    }
+
+    /**
+     * @throws \DomainException
+     */
+    public function active(): void
+    {
+        if ($this->isActive()) {
+            throw new \DomainException('User status is active');
+        }
+        $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    /**
+     * @throws \DomainException
+     */
+    public function busy(): void
+    {
+        if ($this->isBusy()) {
+            throw new \DomainException('User status is busy');
+        }
+        $this->status = self::STATUS_BUSY;
+    }
+
+    public function isBusy(): bool
+    {
+        return $this->status === self::STATUS_BUSY;
     }
 
 

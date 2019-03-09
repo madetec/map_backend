@@ -14,6 +14,23 @@ use yii\helpers\Html;
 
 class UserHelper
 {
+    public static function getStatusButtons($user_id, $status)
+    {
+        $active = Html::a('Активировать', ['user/active', 'user_id' => $user_id], ['class' => 'btn btn-success']);
+        $blocked = Html::a('Заблокировать', ['user/blocked', 'user_id' => $user_id], ['class' => 'btn btn-warning']);
+        switch ($status) {
+            case User::STATUS_DELETED:
+                return "$active $blocked";
+            case User::STATUS_BLOCKED:
+                return "$active";
+            case User::STATUS_ACTIVE:
+                return "$blocked";
+            case User::STATUS_BUSY:
+                return "$active $blocked";
+            default:
+                return Html::tag('i', 'Неизвестный', ['class' => 'label label-default']);
+        }
+    }
     public static function formatPhone($phone)
     {
         $code = substr($phone, 0, 2);
@@ -86,8 +103,26 @@ class UserHelper
                 return Html::tag('i', 'Заблокирован', ['class' => 'label label-warning']);
             case User::STATUS_ACTIVE:
                 return Html::tag('i', 'Активный', ['class' => 'label label-success']);
+            case User::STATUS_BUSY:
+                return Html::tag('i', 'Занят', ['class' => 'label label-danger']);
             default:
                 return Html::tag('i', 'Неизвестный', ['class' => 'label label-default']);
+        }
+    }
+
+    public static function getStatusText($status)
+    {
+        switch ($status) {
+            case User::STATUS_DELETED:
+                return 'Удален';
+            case User::STATUS_BLOCKED:
+                return 'Заблокирован';
+            case User::STATUS_ACTIVE:
+                return 'Активный';
+            case User::STATUS_BUSY:
+                return 'Занят';
+            default:
+                return 'Неизвестный';
         }
     }
 
@@ -102,6 +137,31 @@ class UserHelper
             User::STATUS_DELETED => 'Удалённые',
             User::STATUS_BLOCKED => 'Заблокированные',
             User::STATUS_ACTIVE => 'Активные',
+            User::STATUS_BUSY => 'Занятые',
+        ];
+    }
+
+    public static function serializeStatuses()
+    {
+        return [
+            [
+                [
+                    'code' => User::STATUS_DELETED,
+                    'text' => self::getStatusText(User::STATUS_DELETED)
+                ],
+                [
+                    'code' => User::STATUS_BLOCKED,
+                    'text' => self::getStatusText(User::STATUS_BLOCKED)
+                ],
+                [
+                    'code' => User::STATUS_ACTIVE,
+                    'text' => self::getStatusText(User::STATUS_ACTIVE)
+                ],
+                [
+                    'code' => User::STATUS_BUSY,
+                    'text' => self::getStatusText(User::STATUS_BUSY)
+                ],
+            ]
         ];
     }
 

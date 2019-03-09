@@ -53,6 +53,10 @@ return [
     ],
 
     'components' => [
+        'firebase' => [
+            'class' => 'understeam\fcm\Client',
+            'apiKey' => 'your API key',
+        ],
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',

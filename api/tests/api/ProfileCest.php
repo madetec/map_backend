@@ -9,8 +9,6 @@ use api\tests\ApiTester;
 use common\fixtures\OauthAccessTokenFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
-use Composer\Installers\FuelphpInstaller;
-use yii\helpers\VarDumper;
 
 class ProfileCest
 {
@@ -19,11 +17,11 @@ class ProfileCest
         return [
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('login_data.php')
+                'dataFile' => codecept_data_dir('users_data.php')
             ],
             'profile' => [
                 'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('login_profiles.php')
+                'dataFile' => codecept_data_dir('profiles_data.php')
             ],
             'tokens' => [
                 'class' => OauthAccessTokenFixture::class,
@@ -56,5 +54,18 @@ class ProfileCest
         $I->canSeeResponseContainsJson([
             'role' => 'user',
         ]);
+    }
+
+    public function addAddress(ApiTester $I): void
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPATCH('/user/profile/address', [
+            'name' => 'Tashkent',
+            'lat' => 534.23232,
+            'lng' => 764.534,
+        ]);
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/user/profile');
+        $I->seeResponseCodeIs(200);
     }
 }

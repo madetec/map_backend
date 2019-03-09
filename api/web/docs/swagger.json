@@ -40,6 +40,73 @@
                 }
             }
         },
+        "/driver/status/active": {
+            "patch": {
+                "tags": [
+                    "Driver"
+                ],
+                "description": "Sets active status",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/driver/status/busy": {
+            "patch": {
+                "tags": [
+                    "Driver"
+                ],
+                "description": "Sets busy status",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/user/profile/address": {
+            "patch": {
+                "tags": [
+                    "Profile"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AddressForm"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/user/roles": {
             "get": {
                 "tags": [
@@ -161,6 +228,17 @@
                 "addresses": {
                     "type": "array",
                     "items": {}
+                },
+                "status": {
+                    "properties": {
+                        "code": {
+                            "type": "integer"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 }
             },
             "type": "object"
@@ -172,6 +250,20 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "AddressForm": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
                 }
             },
             "type": "object"

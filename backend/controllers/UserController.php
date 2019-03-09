@@ -195,4 +195,34 @@ class UserController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
+    /**
+     * @param $user_id
+     * @return \yii\web\Response
+     * @throws \Exception
+     */
+    public function actionActive($user_id)
+    {
+        try {
+            $this->service->active($user_id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+        return $this->redirect(['view', 'id' => $user_id]);
+    }
+
+    /**
+     * @param $user_id
+     * @return \yii\web\Response
+     * @throws \Exception
+     */
+    public function actionBlocked($user_id)
+    {
+        try {
+            $this->service->blocked($user_id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+        return $this->redirect(['view', 'id' => $user_id]);
+    }
+
 }

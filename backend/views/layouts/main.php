@@ -84,9 +84,6 @@ if (Yii::$app->controller->action->id === 'sign-in' || Yii::$app->controller->ac
         ) ?>
 
     </div>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=<?= strrev(\Yii::$app->params['apiKey']) ?>&callback=initMap"
-            type="text/javascript"></script>
     <?php $this->endBody() ?>
     </body>
     </html>

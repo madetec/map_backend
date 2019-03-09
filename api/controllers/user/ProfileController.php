@@ -3,25 +3,61 @@
 namespace api\controllers\user;
 
 use uztelecom\entities\user\User;
+use uztelecom\forms\user\AddressForm;
 use uztelecom\helpers\UserHelper;
 use uztelecom\readModels\UserReadRepository;
+use uztelecom\services\UserManageService;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Role;
 use yii\rest\Controller;
+use yii\web\BadRequestHttpException;
 
 class ProfileController extends Controller
 {
-    public $users;
+    private $service;
+    private $users;
 
     public function __construct(
         string $id,
         $module,
         UserReadRepository $userReadRepository,
+        UserManageService $userManageService,
         array $config = []
     )
     {
         $this->users = $userReadRepository;
+        $this->service = $userManageService;
         parent::__construct($id, $module, $config);
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/user/profile/address",
+     *     tags={"Profile"},
+     *     @SWG\Parameter(name="body", in="body", required=true, type="object", @SWG\Schema(ref="#/definitions/AddressForm")),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     * @return bool|AddressForm
+     * @throws BadRequestHttpException
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function actionAddAddress()
+    {
+        $form = new AddressForm();
+        $form->load(\Yii::$app->request->bodyParams, '');
+        if ($form->validate()) {
+            try {
+                $this->service->addAddress(\Yii::$app->user->getId(), $form);
+                return true;
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException($e->getMessage());
+            }
+        }
+        return $form;
     }
 
     /**
@@ -99,6 +135,10 @@ class ProfileController extends Controller
             'main_address' => $user->profile->mainAddress ? $user->profile->mainAddress->name : null,
             'phones' => ArrayHelper::getColumn($user->profile->phones,'number'),
             'addresses' => ArrayHelper::getColumn($user->profile->addresses,'name'),
+            'status' => [
+                'code' => $user->status,
+                'text' => UserHelper::getStatusText($user->status),
+            ]
         ];
     }
 }
@@ -117,12 +157,25 @@ class ProfileController extends Controller
  *     @SWG\Property(property="main_phone", type="integer"),
  *     @SWG\Property(property="main_address", type="string"),
  *     @SWG\Property(property="phones", type="array", @SWG\items()),
- *     @SWG\Property(property="addresses", type="array", @SWG\items())
+ *     @SWG\Property(property="addresses", type="array", @SWG\items()),
+ *     @SWG\Property(property="status", type="object",
+ *          @SWG\Property(property="code", type="integer"),
+ *          @SWG\Property(property="text", type="string")
+ *     )
  * )
+ *
  * @SWG\Definition(
  *     definition="Role",
  *     type="object",
  *     @SWG\Property(property="role", type="string"),
  *     @SWG\Property(property="name", type="string")
+ * )
+ *
+ * @SWG\Definition(
+ *     definition="AddressForm",
+ *     type="object",
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="lat", type="number"),
+ *     @SWG\Property(property="lng", type="number"),
  * )
  */

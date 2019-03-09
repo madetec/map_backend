@@ -17,12 +17,15 @@ use yii\base\Model;
 class AddressForm extends Model
 {
     public $name;
+    public $lat;
+    public $lng;
 
     public function rules()
     {
         return [
             ['name', 'required'],
             ['name', 'string'],
+            [['lat', 'lng'], 'double'],
         ];
     }
 

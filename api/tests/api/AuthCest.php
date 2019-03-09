@@ -17,11 +17,11 @@ class AuthCest
         return [
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('login_data.php')
+                'dataFile' => codecept_data_dir('users_data.php')
             ],
             'profile' => [
                 'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('login_profiles.php')
+                'dataFile' => codecept_data_dir('profiles_data.php')
             ]
         ];
     }

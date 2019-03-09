@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel uztelecom\forms\cars\CarSearchForm */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cars';
+$this->title = 'Машины';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
@@ -58,16 +58,3 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<?php
-
-$script = <<<JS
-var cars  =$('[data-color]');
-console.log(cars);
-
-for (var i=0; i < cars.length; i++){
-    var hex = $(cars[i]).attr('data-color');
-        var invert = invertColor(hex);
-        $(cars[i]).css({"background-color":invert,"padding":"5px","border-radius":"5px"});
-}
-JS;
-$this->registerJs($script);

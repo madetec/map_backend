@@ -23,11 +23,11 @@ class UserCest
         return [
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('login_users.php')
+                'dataFile' => codecept_data_dir('users_data.php')
             ],
             'profile' => [
                 'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('login_profiles.php')
+                'dataFile' => codecept_data_dir('profiles_data.php')
             ]
         ];
     }
@@ -47,7 +47,7 @@ class UserCest
         $I->fillField(['id' => 'profileform-last_name'], 'last_test');
         $I->fillField(['id' => 'profileform-father_name'], 'father_test');
         $I->fillField(['id' => 'profileform-position'], 'position_test');
-        $I->fillField(['id' => 'phoneform-number'], '974457018');
+        $I->fillField(['id' => 'phoneform-number'], '+998 (97) 445 7018');
         $I->fillField(['id' => 'addressform-name'], 'address_test');
         $I->fillField(['id' => 'userform-username'], 'username_test');
         $I->fillField(['id' => 'userform-password'], 'password_test');
@@ -55,7 +55,7 @@ class UserCest
         $I->click('[type=submit]');
 
         $I->see('username_test');
-        $I->see('974457018');
+        $I->see('+998 (97) 445 7018');
         $I->see('address_test');
 
     }

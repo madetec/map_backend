@@ -20,11 +20,11 @@ class CarCest
         return [
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('login_users.php')
+                'dataFile' => codecept_data_dir('users_data.php')
             ],
             'profile' => [
                 'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('login_profiles.php')
+                'dataFile' => codecept_data_dir('profiles_data.php')
             ]
         ];
     }
@@ -39,22 +39,16 @@ class CarCest
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 
-        $I->amOnPage('/user/create');
-        $I->fillField(['id' => 'profileform-name'], 'test');
-        $I->fillField(['id' => 'profileform-last_name'], 'last_test');
-        $I->fillField(['id' => 'profileform-father_name'], 'father_test');
-        $I->fillField(['id' => 'profileform-position'], 'position_test');
-        $I->fillField(['id' => 'phoneform-number'], '974457018');
-        $I->fillField(['id' => 'addressform-name'], 'address_test');
-        $I->fillField(['id' => 'userform-username'], 'username_test');
-        $I->fillField(['id' => 'userform-password'], 'password_test');
-        $I->selectOption('select[id=userform-role]', ['value' => 'user']);
+        $I->amOnPage('/car/create');
+        $I->fillField(['id' => 'carform-model'], 'daewoo nexia');
+        $I->selectOption('select[id=carform-color_id]', ['value' => '221']);
+        $I->fillField(['id' => 'carform-number'], '01 222 ABC');
+        $I->selectOption('select[id=carform-user_id]', ['value' => '2']);
         $I->click('[type=submit]');
 
-        $I->see('username_test');
-        $I->see('974457018');
-        $I->see('address_test');
-
+        $I->see('driverov driver driverovich');
+        $I->see('daewoo nexia');
+        $I->see('Чёрный, Чёрный');
     }
 
 }

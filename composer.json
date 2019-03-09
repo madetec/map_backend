@@ -23,7 +23,8 @@
         "filsh/yii2-oauth2-server": "^2.0",
         "guzzlehttp/guzzle": ">=4.1.4 <7.0",
         "consik/yii2-websocket": "^1.0",
-        "2amigos/yii2-google-maps-library" : "*"
+        "2amigos/yii2-google-maps-library" : "*",
+        "understeam/yii2-fcm": "~0.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
