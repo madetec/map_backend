@@ -15,5 +15,8 @@ return [
         'GET user/<_a:(role|roles)>' => 'user/profile/<_a>',
         'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
         'PATCH driver/status/<_a:\w+>' => 'driver/profile/<_a>',
+
+        'GET user/orders' => 'user/order/index',
+        'POST user/order' => 'user/order/create',
     ]
 ];

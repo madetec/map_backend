@@ -3,6 +3,7 @@
 namespace uztelecom\entities\user;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\entities\cars\Car;
 use uztelecom\entities\user\queries\UserQuery;
 use uztelecom\forms\user\ProfileEditForm;
 use uztelecom\forms\user\ProfileForm;
@@ -26,6 +27,7 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at
  * @property string $password write-only password
  * @property Profile $profile
+ * @property Car $car
  * @property array $roleName
  */
 class User extends ActiveRecord
@@ -142,6 +144,11 @@ class User extends ActiveRecord
     public function getProfile(): ActiveQuery
     {
         return $this->hasOne(Profile::class, ['user_id' => 'id']);
+    }
+
+    public function getCar(): ActiveQuery
+    {
+        return $this->hasOne(Car::class, ['user_id' => 'id']);
     }
 
 

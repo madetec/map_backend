@@ -31,6 +31,7 @@ class Order extends ActiveRecord
     const STATUS_BUSY = 10;
     const STATUS_CANCELED = 15;
     const STATUS_COMPLETED = 20;
+    const STATUS_WAIT = 25;
 
     public static function create(
         int $created_by,

@@ -58,16 +58,16 @@
         },
         {
             "name": "almasaeed2010/adminlte",
-            "version": "v2.4.9",
+            "version": "v2.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/almasaeed2010/AdminLTE.git",
-                "reference": "f0edf90f88c9909aaf92de25679507c3fd379985"
+                "reference": "4672183ea06a28d540a1d87900a7b5f84b1a1495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/f0edf90f88c9909aaf92de25679507c3fd379985",
-                "reference": "f0edf90f88c9909aaf92de25679507c3fd379985",
+                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/4672183ea06a28d540a1d87900a7b5f84b1a1495",
+                "reference": "4672183ea06a28d540a1d87900a7b5f84b1a1495",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "theme",
                 "web"
             ],
-            "time": "2019-02-18T12:29:19+00:00"
+            "time": "2019-03-11T18:01:44+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
