@@ -12,6 +12,33 @@ use uztelecom\exceptions\NotFoundException;
 
 class OrderRepository
 {
+
+    /**
+     * @param int $id
+     * @return Order
+     * @throws NotFoundException
+     */
+    public function findBusy(int $id): Order
+    {
+        if (!$order = Order::find()->where(['id' => $id])->busy()->one()) {
+            throw new NotFoundException('Order not found.');
+        }
+        return $order;
+    }
+
+    /**
+     * @param int $id
+     * @return Order
+     * @throws NotFoundException
+     */
+    public function findActive(int $id): Order
+    {
+        if (!$order = Order::find()->where(['id' => $id])->active()->one()) {
+            throw new NotFoundException('Order not found.');
+        }
+        return $order;
+    }
+
     /**
      * @param int $id
      * @return Order

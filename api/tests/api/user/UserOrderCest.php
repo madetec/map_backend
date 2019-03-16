@@ -4,13 +4,16 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace api\tests\api;
+namespace api\tests\api\user;
+
 use api\tests\ApiTester;
 use common\fixtures\OauthAccessTokenFixture;
+use common\fixtures\OrderFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 
-class ProfileCest
+class UserOrderCest
 {
     public function _fixtures(): array
     {
@@ -26,46 +29,48 @@ class ProfileCest
             'tokens' => [
                 'class' => OauthAccessTokenFixture::class,
                 'dataFile' => codecept_data_dir('tokens.php')
+            ],
+            'orders' => [
+                'class' => OrderFixture::class,
+                'dataFile' => codecept_data_dir('orders_data.php')
             ]
         ];
     }
 
-    public function getProfile(ApiTester $I): void
+    public function create(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/user/profile');
+        $I->sendPOST('/user/order', [
+            'from_lat' => 323.23,
+            'from_lng' => 321.23,
+            'from_address' => 'fdsfds fdfsd',
+        ]);
         $I->canSeeResponseContainsJson([
-            'username' => 'erau',
+            'from' => [
+                'lat' => 323.23
+            ],
         ]);
     }
 
-    public function getRole(ApiTester $I): void
+    public function getAllOrders(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/user/role');
+        $I->sendGET('/user/order');
         $I->canSeeResponseContainsJson([
-            'role' => 'user',
-        ]);
-    }
-    public function getRoles(ApiTester $I): void
-    {
-        $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/user/roles');
-        $I->canSeeResponseContainsJson([
-            'role' => 'user',
+            [
+                'from' => [
+                    'lat' => 123.124
+                ],
+            ]
+
         ]);
     }
 
-    public function addAddress(ApiTester $I): void
+    public function cancel(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendPATCH('/user/profile/address', [
-            'name' => 'Tashkent',
-            'lat' => 534.23232,
-            'lng' => 764.534,
-        ]);
-        $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/user/profile');
-        $I->seeResponseCodeIs(200);
+        $I->sendPATCH('/user/order/1/cancel');
+        $I->canSeeResponseCodeIs(200);
     }
+
 }

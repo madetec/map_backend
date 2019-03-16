@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 
 class OrderReadRepository
 {
-    public function findAll($id = null): ActiveDataProvider
+    public function findAll($id = null)
     {
         $query = Order::find();
         if ($id) {

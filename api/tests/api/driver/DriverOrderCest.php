@@ -4,14 +4,16 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace api\tests\api;
+namespace api\tests\api\user;
 
 use api\tests\ApiTester;
 use common\fixtures\OauthAccessTokenFixture;
+use common\fixtures\OrderFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 
-class DriverProfileCest
+class DriverOrderCest
 {
     public function _fixtures(): array
     {
@@ -27,42 +29,32 @@ class DriverProfileCest
             'tokens' => [
                 'class' => OauthAccessTokenFixture::class,
                 'dataFile' => codecept_data_dir('tokens.php')
+            ],
+            'orders' => [
+                'class' => OrderFixture::class,
+                'dataFile' => codecept_data_dir('orders_data.php')
             ]
         ];
     }
 
-    public function busy(ApiTester $I): void
+    public function completed(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/status/busy');
+        $I->sendPATCH('/driver/order/2/completed');
         $I->canSeeResponseCodeIs(200);
     }
 
-    public function active(ApiTester $I): void
+    public function take(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/status/busy');
-        $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/status/active');
+        $I->sendPATCH('/driver/order/1/take');
         $I->canSeeResponseCodeIs(200);
     }
 
-    public function busyError(ApiTester $I): void
+    public function cancel(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/status/busy');
-        $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/status/busy');
-        $I->canSeeResponseCodeIs(400);
+        $I->sendPATCH('/driver/order/1/cancel');
+        $I->canSeeResponseCodeIs(200);
     }
-
-    public function activeError(ApiTester $I): void
-    {
-        $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/status/active');
-        $I->canSeeResponseCodeIs(400);
-    }
-
-
-
 }

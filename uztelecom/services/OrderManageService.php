@@ -73,7 +73,7 @@ class OrderManageService
     public function takeOrder(int $driver_id, int $order_id): Order
     {
         $driver = $this->users->find($driver_id);
-        $order = $this->orders->find($order_id);
+        $order = $this->orders->findActive($order_id);
         $order->takeOrder($driver->id);
         $this->orders->save($order);
         return $order;
@@ -86,7 +86,7 @@ class OrderManageService
      */
     public function completed(int $order_id): void
     {
-        $order = $this->orders->find($order_id);
+        $order = $this->orders->findBusy($order_id);
         $order->completed();
         $this->orders->save($order);
     }
@@ -98,7 +98,7 @@ class OrderManageService
      */
     public function canceled(int $order_id): void
     {
-        $order = $this->orders->find($order_id);
+        $order = $this->orders->findActive($order_id);
         $order->canceled();
         $this->orders->save($order);
     }

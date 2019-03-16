@@ -4,14 +4,13 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace api\tests\api;
-
+namespace api\tests\api\user;
 use api\tests\ApiTester;
 use common\fixtures\OauthAccessTokenFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
 
-class OrderCest
+class UserProfileCest
 {
     public function _fixtures(): array
     {
@@ -31,31 +30,42 @@ class OrderCest
         ];
     }
 
-    public function orders(ApiTester $I): void
+    public function getProfile(ApiTester $I): void
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/user/orders');
+        $I->sendGET('/user/profile');
         $I->canSeeResponseContainsJson([
-            'from' => [
-                'lat' => 323.23
-            ],
+            'username' => 'erau',
         ]);
     }
 
-    public function create(ApiTester $I): void
+    public function getRole(ApiTester $I): void
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendPOST('/user/order', [
-            'from_lat' => 323.23,
-            'from_lng' => 321.23,
-            'from_address' => 'fdsfds fdfsd',
-        ]);
+        $I->sendGET('/user/role');
         $I->canSeeResponseContainsJson([
-            'from' => [
-                'lat' => 323.23
-            ],
+            'role' => 'user',
+        ]);
+    }
+    public function getRoles(ApiTester $I): void
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/user/roles');
+        $I->canSeeResponseContainsJson([
+            'role' => 'user',
         ]);
     }
 
-
+    public function addAddress(ApiTester $I): void
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPATCH('/user/profile/address', [
+            'name' => 'Tashkent',
+            'lat' => 534.23232,
+            'lng' => 764.534,
+        ]);
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/user/profile');
+        $I->seeResponseCodeIs(200);
+    }
 }

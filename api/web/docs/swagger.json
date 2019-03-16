@@ -40,6 +40,61 @@
                 }
             }
         },
+        "/driver/order/{order_id}/take": {
+            "patch": {
+                "tags": [
+                    "Driver Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/serializeOrder"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/driver/order/{order_id}/cancel": {
+            "patch": {
+                "tags": [
+                    "Driver Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/driver/status/active": {
             "patch": {
                 "tags": [
@@ -68,6 +123,85 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/user/order/{order_id}/cancel": {
+            "patch": {
+                "tags": [
+                    "User Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/user/order": {
+            "get": {
+                "tags": [
+                    "User Order"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/serializeOrder"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrderForm"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/serializeOrder"
+                        }
                     }
                 },
                 "security": [
@@ -187,6 +321,115 @@
                     "type": "integer"
                 },
                 "message": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "serializeOrder": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "from": {
+                    "properties": {
+                        "lat": {
+                            "type": "integer"
+                        },
+                        "lng": {
+                            "type": "integer"
+                        },
+                        "address": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "to": {
+                    "properties": {
+                        "lat": {
+                            "type": "integer"
+                        },
+                        "lng": {
+                            "type": "integer"
+                        },
+                        "address": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "driver": {
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "car": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "model": {
+                                    "type": "string"
+                                },
+                                "number": {
+                                    "type": "string"
+                                },
+                                "color": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "hex": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "OrderForm": {
+            "properties": {
+                "from_lat": {
+                    "type": "number"
+                },
+                "from_lng": {
+                    "type": "number"
+                },
+                "from_address": {
+                    "type": "string"
+                },
+                "to_lat": {
+                    "type": "number"
+                },
+                "to_lng": {
+                    "type": "number"
+                },
+                "to_address": {
                     "type": "string"
                 }
             },

@@ -4,11 +4,9 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace api\controllers\user;
+namespace api\controllers\driver;
 
-use api\providers\MapDataProvider;
 use uztelecom\entities\orders\Order;
-use uztelecom\forms\orders\OrderForm;
 use uztelecom\helpers\OrderHelper;
 use uztelecom\readModels\OrderReadRepository;
 use uztelecom\services\OrderManageService;
@@ -34,8 +32,64 @@ class OrderController extends Controller
 
     /**
      * @SWG\Patch(
-     *     path="/user/order/{order_id}/cancel",
-     *     tags={"User Order"},
+     *     path="/driver/order/{order_id}/completed",
+     *     tags={"Driver Order"},
+     *     @SWG\Parameter(name="order_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @param $order_id
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+    public function actionCompleted($order_id)
+    {
+        try {
+            $this->service->completed($order_id);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+        return true;
+    }
+
+
+    /**
+     * @SWG\Patch(
+     *     path="/driver/order/{order_id}/take",
+     *     tags={"Driver Order"},
+     *     @SWG\Parameter(name="order_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/serializeOrder")
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @param $order_id
+     * @return array|bool
+     * @throws BadRequestHttpException
+     */
+    public function actionTake($order_id)
+    {
+        try {
+            $order = $this->service->takeOrder(\Yii::$app->user->getId(), $order_id);
+            return $this->serializeOrder($order);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/driver/order/{order_id}/cancel",
+     *     tags={"Driver Order"},
      *     @SWG\Parameter(name="order_id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
@@ -59,66 +113,6 @@ class OrderController extends Controller
         return true;
     }
 
-    /**
-     * @SWG\Get(
-     *     path="/user/order",
-     *     tags={"User Order"},
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success response",
-     *         @SWG\Schema(@SWG\Items(ref="#/definitions/serializeOrder"))
-     *     ),
-     *     security={{"Bearer": {}, "OAuth2": {}}}
-     * )
-     */
-    /**
-     * @return MapDataProvider
-     */
-    public function actionIndex()
-    {
-        $dataProvider = $this->orders->findAll(\Yii::$app->user->getId());
-        return new MapDataProvider($dataProvider, [$this, 'serializeOrder']);
-    }
-
-    /**
-     * * @SWG\Post(
-     *     path="/user/order",
-     *     tags={"User Order"},
-     *     @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          type="object",
-     *          @SWG\Schema(ref="#/definitions/OrderForm")
-     *     ),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/serializeOrder")
-     *     ),
-     *     security={{"Bearer": {}, "OAuth2": {}}}
-     * )
-     */
-    /**
-     * @return array|OrderForm
-     * @throws BadRequestHttpException
-     * @throws \yii\base\InvalidArgumentException
-     */
-    public function actionCreate()
-    {
-        $form = new OrderForm();
-        $form->load(\Yii::$app->request->bodyParams, '');
-        if ($form->validate()) {
-            try {
-                $order = $this->service->create(\Yii::$app->user->getId(), $form);
-                return $this->serializeOrder($order);
-            } catch (\Exception $e) {
-                throw new BadRequestHttpException($e->getMessage());
-            }
-        }
-        return $form;
-    }
-
 
     /**
      * @param Order $order
@@ -139,7 +133,12 @@ class OrderController extends Controller
                 'address' => $order->to_address,
             ],
             'created_at' => $order->created_at,
+            'completed_at' => $order->completed_at,
             'status' => OrderHelper::serializeStatus($order->status),
+            'user' => [
+                'id' => $order->user->id,
+                'name' => $order->user->profile->fullName,
+            ],
             'driver' => !$order->driver ? null : [
                 'id' => $order->driver->id,
                 'name' => $order->driver->profile->fullName,
@@ -174,9 +173,14 @@ class OrderController extends Controller
  *          @SWG\Property(property="address", type="string"),
  *     ),
  *     @SWG\Property(property="created_at", type="integer"),
+ *     @SWG\Property(property="completed_at", type="integer"),
  *     @SWG\Property(property="status", type="object",
  *          @SWG\Property(property="name", type="string"),
  *          @SWG\Property(property="code", type="integer"),
+ *     ),
+ *     @SWG\Property(property="user", type="object",
+ *          @SWG\Property(property="id", type="integer"),
+ *          @SWG\Property(property="name", type="string"),
  *     ),
  *     @SWG\Property(property="driver", type="object",
  *          @SWG\Property(property="id", type="integer"),

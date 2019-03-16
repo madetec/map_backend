@@ -2,6 +2,7 @@
 
 namespace uztelecom\entities\orders;
 
+use uztelecom\entities\orders\queries\OrderQuery;
 use uztelecom\entities\user\User;
 use yii\db\ActiveRecord;
 
@@ -138,5 +139,10 @@ class Order extends ActiveRecord
     public function getDriver()
     {
         return $this->hasOne(User::class, ['id' => 'driver_id']);
+    }
+
+    public static function find(): OrderQuery
+    {
+        return new OrderQuery(static::class);
     }
 }
