@@ -16,4 +16,12 @@ return [
         'subdivision_id' => 1,
         'position' => 'driver',
     ],
+    [
+        'name' => 'user',
+        'last_name' => 'userov',
+        'father_name' => 'userovich',
+        'user_id' => 3,
+        'subdivision_id' => 1,
+        'position' => 'user',
+    ],
 ];

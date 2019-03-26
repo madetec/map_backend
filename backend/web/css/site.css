@@ -231,3 +231,7 @@ a.desc:after {
     width: 50%;
     height: auto;
 }
+
+.box-header>.box-tools{
+    top: 10px;
+}

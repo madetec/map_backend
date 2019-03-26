@@ -111,17 +111,12 @@ class Order extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'status' => 'Status',
-            'from_lat' => 'From Lat',
-            'from_lng' => 'From Lng',
-            'from_address' => 'From Address',
-            'to_lat' => 'To Lat',
-            'to_lng' => 'To Lng',
-            'to_address' => 'To Address',
-            'created_at' => 'Created At',
-            'created_by' => 'Created By',
-            'completed_at' => 'Completed At',
-            'driver_id' => 'Driver ID',
+            'user' => 'Заказчик',
+            'driver' => 'Водитель',
+            'from' => 'Откуда',
+            'to' => 'Куда',
+            'status' => 'Состояние',
+            'created_at' => 'Дата заказа',
         ];
     }
 
