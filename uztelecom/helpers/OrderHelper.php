@@ -15,11 +15,11 @@ class OrderHelper
     public static function getStatusList()
     {
         return [
-            Order::STATUS_ACTIVE => 'Активные',
-            Order::STATUS_WAIT => 'Ожидающие',
-            Order::STATUS_BUSY => 'Занятые',
-            Order::STATUS_CANCELED => 'Отмененые',
-            Order::STATUS_COMPLETED => 'Выполненые',
+            Order::STATUS_ACTIVE => 'Активный',
+            Order::STATUS_WAIT => 'В ожидании',
+            Order::STATUS_BUSY => 'В пути',
+            Order::STATUS_CANCELED => 'Отменен',
+            Order::STATUS_COMPLETED => 'Выполнен',
         ];
     }
 
