@@ -7,6 +7,7 @@
 namespace common\auth;
 
 use filsh\yii2\oauth2server\Module;
+use OAuth2\Storage\RefreshTokenInterface;
 use OAuth2\Storage\UserCredentialsInterface;
 use uztelecom\entities\user\User;
 use uztelecom\readModels\UserReadRepository;
@@ -112,4 +113,21 @@ class Identity implements IdentityInterface, UserCredentialsInterface
     {
         return Yii::$app->getModule('oauth2');
     }
+
+
+//    public function getRefreshToken($refresh_token)
+//    {
+//        $data = self::getOauth()->getServer()->getResourceController()->getToken();
+//        return !empty($data['user_id']) ? static::findIdentity($data['user_id']) : null;
+//    }
+//
+//    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+//    {
+//
+//    }
+//
+//    public function unsetRefreshToken($refresh_token)
+//    {
+//
+//    }
 }

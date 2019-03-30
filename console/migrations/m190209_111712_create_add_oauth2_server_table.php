@@ -121,7 +121,7 @@ class m190209_111712_create_add_oauth2_server_table extends Migration
 
             // insert client data
             $this->batchInsert('{{%oauth_clients}}', ['client_id', 'client_secret', 'redirect_uri', 'grant_types'], [
-                ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit'],
+                ['testclient', 'testpass', 'http://fake/', 'refresh_token client_credentials authorization_code password implicit'],
             ]);
 
             $transaction->commit();

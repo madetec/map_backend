@@ -38,7 +38,7 @@ return [
             'tokenParamName' => 'accessToken',
             'tokenAccessLifetime' => 3600 * 24,
             'storageMap' => [
-                'user_credentials' => 'common\auth\Identity',
+                'user_credentials' => 'common\auth\Identity'
             ],
             'grantTypes' => [
                 'user_credentials' => [
@@ -46,7 +46,7 @@ return [
                 ],
                 'refresh_token' => [
                     'class' => 'OAuth2\GrantType\RefreshToken',
-                    'always_issue_new_refresh_token' => true
+                    'always_issue_new_refresh_token' => false
                 ]
             ]
         ]

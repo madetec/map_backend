@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Telecom Car API",
+        "title": "TelecomCar API",
         "description": "HTTP JSON API",
         "version": "1.0.0"
     },
@@ -38,6 +38,70 @@
                         }
                     }
                 }
+            }
+        },
+        "/oauth2/token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Login OR Refresh token",
+                "parameters": [
+                    {
+                        "name": "login data",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestLogin"
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "name": "refresh token data",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestRefreshToken"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Response data",
+                        "schema": {
+                            "property": "data",
+                            "type": "object",
+                            "$ref": "#/definitions/ResponseAuth"
+                        }
+                    }
+                }
+            }
+        },
+        "/driver/order/{order_id}/completed": {
+            "patch": {
+                "tags": [
+                    "Driver Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
             }
         },
         "/driver/order/{order_id}/take": {
@@ -326,6 +390,98 @@
             },
             "type": "object"
         },
+        "RequestRefreshToken": {
+            "properties": {
+                "grant_type": {
+                    "type": "number",
+                    "enum": "refresh_token"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "client_id": {
+                    "type": "string",
+                    "enum": "testclient"
+                },
+                "client_secret": {
+                    "type": "string",
+                    "enum": "testpass"
+                }
+            },
+            "type": "object"
+        },
+        "RequestLogin": {
+            "properties": {
+                "grant_type": {
+                    "type": "number",
+                    "enum": "password"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "client_id": {
+                    "type": "string",
+                    "enum": "testclient"
+                },
+                "client_secret": {
+                    "type": "string",
+                    "enum": "testpass"
+                }
+            },
+            "type": "object"
+        },
+        "ResponseRefreshToken": {
+            "type": "object"
+        },
+        "ResponseAuth": {
+            "properties": {
+                "refresh token data": {
+                    "properties": {
+                        "access_token": {
+                            "type": "string"
+                        },
+                        "expired_in": {
+                            "type": "integer"
+                        },
+                        "token_type": {
+                            "type": "string",
+                            "enum": "Bearer"
+                        },
+                        "scope": {
+                            "type": "string",
+                            "enum": "null"
+                        }
+                    },
+                    "type": "object"
+                },
+                "login data": {
+                    "properties": {
+                        "access_token": {
+                            "type": "string"
+                        },
+                        "expired_in": {
+                            "type": "integer"
+                        },
+                        "token_type": {
+                            "type": "string",
+                            "enum": "Bearer"
+                        },
+                        "refresh_token": {
+                            "type": "string"
+                        },
+                        "scope": {
+                            "type": "string",
+                            "enum": "null"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "serializeOrder": {
             "properties": {
                 "id": {
@@ -362,6 +518,9 @@
                 "created_at": {
                     "type": "integer"
                 },
+                "completed_at": {
+                    "type": "integer"
+                },
                 "status": {
                     "properties": {
                         "name": {
@@ -369,6 +528,17 @@
                         },
                         "code": {
                             "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "user": {
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
                         }
                     },
                     "type": "object"

@@ -1,5 +1,5 @@
 <?php
-namespace common\fixtures;
+namespace common\fixtures\Oauth20;
 
 use filsh\yii2\oauth2server\models\OauthAccessTokens;
 use yii\test\ActiveFixture;

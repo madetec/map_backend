@@ -13,7 +13,7 @@ use yii\rest\Controller;
  *     consumes={"application/json","application/xml","application/x-www-form-urlencoded"},
  *     @SWG\Info(
  *         version="1.0.0",
- *         title="Telecom Car API",
+ *         title="TelecomCar API",
  *         description="HTTP JSON API",
  *     ),
  *     @SWG\SecurityScheme(
@@ -62,8 +62,76 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return [
-            'name' => 'Telecom Car',
+            'name' => 'TelecomCar',
             'version' => '1.0.0',
         ];
     }
 }
+
+/**
+ * @SWG\Post(
+ *     path="/oauth2/token",
+ *     tags={"Auth"},
+ *     description="Login OR Refresh token",
+ *     @SWG\Parameter(
+ *          name="login data",
+ *          in="body",
+ *          required=false,
+ *          type="object",
+ *          @SWG\Schema(ref="#/definitions/RequestLogin")
+ *     ),
+ *     @SWG\Parameter(
+ *          name="refresh token data",
+ *          in="body",
+ *          required=false,
+ *          type="object",
+ *          @SWG\Schema(ref="#/definitions/RequestRefreshToken")
+ *     ),
+ *     @SWG\Response(
+ *         response="200",
+ *         description="Response data",
+ *         @SWG\Property(property="data", type="object", ref="#/definitions/ResponseAuth"),
+ *     )
+ * )
+ *
+ *
+ * @SWG\Definition(
+ *     definition="RequestRefreshToken",
+ *     type="object",
+ *     @SWG\Property(property="grant_type", type="number", enum="refresh_token"),
+ *     @SWG\Property(property="refresh_token", type="string"),
+ *     @SWG\Property(property="client_id", type="string", enum="testclient"),
+ *     @SWG\Property(property="client_secret", type="string", enum="testpass"),
+ * )
+ * @SWG\Definition(
+ *     definition="RequestLogin",
+ *     type="object",
+ *     @SWG\Property(property="grant_type", type="number", enum="password"),
+ *     @SWG\Property(property="username", type="string"),
+ *     @SWG\Property(property="password", type="string"),
+ *     @SWG\Property(property="client_id", type="string", enum="testclient"),
+ *     @SWG\Property(property="client_secret", type="string", enum="testpass"),
+ * )
+ * @SWG\Definition(
+ *     definition="ResponseRefreshToken",
+ *     type="object",
+ *
+ * )
+ * @SWG\Definition(
+ *     definition="ResponseAuth",
+ *     type="object",
+ *     @SWG\Property(property="refresh token data", type="object",
+ *          @SWG\Property(property="access_token", type="string"),
+ *          @SWG\Property(property="expired_in", type="integer"),
+ *          @SWG\Property(property="token_type", type="string", enum="Bearer"),
+ *          @SWG\Property(property="scope", type="string", enum="null"),
+ *      ),
+ *     @SWG\Property(property="login data", type="object",
+ *          @SWG\Property(property="access_token", type="string"),
+ *          @SWG\Property(property="expired_in", type="integer"),
+ *          @SWG\Property(property="token_type", type="string", enum="Bearer"),
+ *          @SWG\Property(property="refresh_token", type="string"),
+ *          @SWG\Property(property="scope", type="string", enum="null"),
+ *     ),
+ * )
+ */

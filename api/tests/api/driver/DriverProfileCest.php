@@ -7,7 +7,7 @@
 namespace api\tests\api\driver;
 
 use api\tests\ApiTester;
-use common\fixtures\OauthAccessTokenFixture;
+use common\fixtures\Oauth20\OauthAccessTokenFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture;
 
