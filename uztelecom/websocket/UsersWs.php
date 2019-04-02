@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
  * Developer: Mirkhanov Z.S.
  * Class UsersWs
  * @package box\services\WebSocket
- *
+ * @property User $user
  * @property $users
  */
 

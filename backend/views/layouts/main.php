@@ -28,6 +28,7 @@ if (Yii::$app->controller->action->id === 'sign-in' || Yii::$app->controller->ac
     if (class_exists('backend\assets\AppAsset')) {
         backend\assets\AdditionalAsset::register($this);
         backend\assets\AppAsset::register($this);
+        backend\assets\AdminLteAsset::register($this);
     } else {
         app\assets\AppAsset::register($this);
     }

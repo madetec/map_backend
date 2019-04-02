@@ -10,7 +10,7 @@ domains = {
   api: 'api.telecom-car.test',
   static:  'static.telecom-car.test',
   backend:  'telecom-car.test',
-  online:  'online.telecom-car.test',
+  websoket:  'telecom-car.test/ws',
 }
 
 config = {
@@ -76,5 +76,5 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', path: './vagrant/provision/always-as-vagrant.sh', run: 'always', privileged: false
 
   # post-install message (vagrant console)
-  config.vm.post_up_message = "Api URL: http://#{domains[:api]}\nBackend URL: http://#{domains[:backend]}\nStatic URL: http://#{domains[:static]}\nWebSocket URL: http://#{domains[:online]}"
+  config.vm.post_up_message = "Api URL: http://#{domains[:api]}\nBackend URL: http://#{domains[:backend]}\nStatic URL: http://#{domains[:static]}\nWebSocket URL: ws://#{domains[:websoket]}"
 end

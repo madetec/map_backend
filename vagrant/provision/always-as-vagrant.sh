@@ -20,4 +20,6 @@ info "Apply migrations"
 php yii migrate --interactive=0
 php yii_test migrate --interactive=0
 
+info "run websocket server"
+php yii socket/run > /dev/null &
 

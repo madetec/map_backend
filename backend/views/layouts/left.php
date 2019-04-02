@@ -22,9 +22,9 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
-                    ['label' => 'Пользователи', 'icon' => 'users', 'url' => ['/user']],
-                    ['label' => 'Машины', 'icon' => 'car', 'url' => ['/car']],
-                    ['label' => 'Заказы', 'icon' => 'list', 'url' => ['/order']],
+                    ['label' => 'Пользователи', 'icon' => 'ion ion-android-people', 'url' => ['/user']],
+                    ['label' => 'Машины', 'icon' => 'ion ion-android-car', 'url' => ['/car']],
+                    ['label' => 'Заказы', 'icon' => 'ion ion-android-list', 'url' => ['/order']],
                 ],
             ]
         ) ?>

@@ -30,7 +30,7 @@ class AuthComponent implements MessageComponentInterface
     public function onOpen(ConnectionInterface $conn)
     {
         $query = $conn->WebSocket->request->getQuery()->toArray();
-        $token = !empty($query['token']) ? $query['token'] : null;
+        $userId = $query['user_id'] ?? null;
 
         try {
             echo PHP_EOL . 'check mysql' . PHP_EOL;
@@ -44,10 +44,10 @@ class AuthComponent implements MessageComponentInterface
         }
 
         try {
-            if(!$token){
-                throw new \LogicException('Token not found. Unauthorized');
+            if(!$userId){
+                throw new \LogicException('UserId not found. Unauthorized');
             }
-            $user = User::findIdentityByAccessToken($token);
+            $user = User::findOne($userId);
             if ($user) {
                 $this->service->attach($conn, $user);
                 $this->send($conn, 'auth', 'success', 'connected');

@@ -28,9 +28,9 @@ class AppWs extends WebSocketServer
         parent::init();
         $this->on(self::EVENT_CLIENT_CONNECTED, function (WSClientEvent $e) {
             $query = $e->client->WebSocket->request->getQuery()->toArray();
-            $token = !empty($query['token']) ? $query['token'] : null;
+            $user_id = $query['user_id'] ?? null;
             try {
-                $user = User::findIdentityByAccessToken($token);
+                $user = User::findOne($user_id);
                 if ($user) {
                     $this->service->attach($e->client, $user);
                     $client = $this->service->getClient($e->client->resourceId);

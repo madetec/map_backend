@@ -11,6 +11,16 @@ use uztelecom\entities\user\User;
 
 class UserReadRepository
 {
+    public function getAllDriverCount()
+    {
+        return User::find()->driver()->count();
+    }
+
+    public function getAllUsersCount()
+    {
+        return User::find()->user()->count();
+    }
+
     public function find($id): ?User
     {
         return User::findOne($id);

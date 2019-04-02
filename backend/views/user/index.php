@@ -1,6 +1,7 @@
 <?php
 
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\UserSearch */
@@ -8,17 +9,31 @@ use yii\grid\GridView;
 
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="box">
-    <div class="box-header">
-        <a href="<?= \yii\helpers\Url::to(['create']) ?>" class="btn btn-telecom-car"><i class="fa fa-user-plus"></i>
-            Добавить пользователя</a>
-    </div>
-    <div class="box-body">
-        <div class="table-responsive">
-            <?= GridView::widget([
+
+$templateArr = [
+    Html::beginTag('div', ['class' => 'row']),
+    Html::beginTag('div', ['class' => 'col-md-12']),
+    Html::beginTag('div', ['class' => 'box']),
+    Html::beginTag('div', ['class' => 'box-header']),
+    Html::a(
+            Html::tag('i',null,['class'=>'ion ion-android-person-add']) .' Добавить пользователя',
+            ['create'],
+            ['class' => 'btn btn-telecom-car']
+    ),
+    Html::tag('div', '{pager}', ['class' => 'box-tools']),
+    Html::endTag('div'),
+    Html::beginTag('div', ['class' => 'table-responsive']),
+    Html::tag('div', '{items}', ['class' => 'box-body no-padding']),
+    Html::endTag('div'),
+    Html::endTag('div'),
+    Html::endTag('div'),
+    Html::endTag('div'),
+];
+
+echo  GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                'layout' => implode("\n", $templateArr),
                 'rowOptions' => function (\uztelecom\entities\user\User $model, $index, $widget, $grid){
                     switch ($model->status){
                         case \uztelecom\entities\user\User::STATUS_ACTIVE:
@@ -79,7 +94,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
-            ]); ?>
-        </div>
-    </div>
-</div>
+            ]);

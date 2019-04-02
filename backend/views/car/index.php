@@ -12,10 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box">
     <div class="box-header">
-        <a href="<?= \yii\helpers\Url::to(['create']) ?>" class="btn btn-telecom-car"><i class="fa fa-car"></i>
+        <a href="<?= \yii\helpers\Url::to(['create']) ?>" class="btn btn-telecom-car"><i class="ion ion-android-car"></i>
             Добавить машину</a>
     </div>
-    <div class="box-body">
+    <div class="box-body no-padding">
         <div class="table-responsive">
 
             <?= GridView::widget([
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'color_id',
                         'value' => function (\uztelecom\entities\cars\Car $car) {
-                            return Html::tag('p', Html::tag('i', null, ['class' => 'fa fa-car', 'data-color' => $car->color->hex, 'style' => 'color: ' . $car->color->hex . ';']) . ' ' . $car->color->name);
+                            return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-android-car', 'data-color' => $car->color->hex, 'style' => 'color: ' . $car->color->hex . ';']) . ' ' . $car->color->name);
                         },
                         'filter' => $searchModel->colors,
                         'format' => 'raw'

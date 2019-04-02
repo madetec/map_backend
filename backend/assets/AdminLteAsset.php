@@ -7,13 +7,13 @@ use yii\web\AssetBundle;
 /**
  * Main backend application asset bundle.
  */
-class AdditionalAsset extends AssetBundle
+class AdminLteAsset extends AssetBundle
 {
-    public $sourcePath = '@bower';
+    public $sourcePath = '@vendor/almasaeed2010/adminlte/bower_components';
     public $css = [
+        'Ionicons/css/ionicons.min.css',
     ];
     public $js = [
-        'inputmask/dist/min/jquery.inputmask.bundle.min.js',
     ];
     public $depends = [
     ];

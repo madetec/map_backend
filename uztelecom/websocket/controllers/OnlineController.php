@@ -6,8 +6,9 @@
 
 namespace uztelecom\websocket\controllers;
 
-use uztelecom\repositories\UserRepository;
 use Ratchet\ConnectionInterface;
+use uztelecom\readModels\UserReadRepository;
+use uztelecom\repositories\UserRepository;
 use uztelecom\websocket\components\AuthComponent;
 use yii\helpers\ArrayHelper;
 
@@ -41,6 +42,58 @@ class OnlineController extends AuthComponent
         }
     }
 
+
+    protected function coordinates(ConnectionInterface $from, $coordinates)
+    {
+        $main = $this->service->getClient($from->resourceId);
+        $users = $this->service->getAllWithoutThis($from);
+
+        $message = [
+            'userId' => $main->user->id,
+            'coordinates' => $coordinates,
+        ];
+
+        foreach ($users as $user) {
+            $this->send($user->client, 'coordinates', 'success', $message);
+        }
+    }
+
+
+    protected function onlineUsers(ConnectionInterface $from)
+    {
+        $totalUsers = (new UserReadRepository())->getAllUsersCount();
+        $totalDrivers = (new UserReadRepository())->getAllDriverCount();
+
+        $resultData = [
+            'online' => [
+                'users' => [],
+                'drivers' => []
+            ],
+            'offline' => [
+                'users' => (int)$totalUsers,
+                'drivers' => (int)$totalDrivers
+            ],
+        ];
+
+
+        $users = $this->service->getAllWithoutThis($from);
+        foreach ($users as $user) {
+            if ($user->user->role === 'driver') {
+                $resultData['online']['drivers'][] = [
+                    'id' => $user->user->id
+                ];
+                $resultData['offline']['drivers']--;
+            } elseif ($user->user->role === 'user') {
+                $resultData['online']['users'][] = [
+                    'id' => $user->user->id
+                ];
+                $resultData['offline']['users']--;
+            }
+
+        }
+        $this->send($from, 'onlineUsers', 'success', $resultData);
+    }
+
     /**
      * @param ConnectionInterface $from
      * @throws \yii\base\InvalidArgumentException
@@ -60,6 +113,8 @@ class OnlineController extends AuthComponent
     {
         return [
             'ping' => 'ping',
+            'onlineUsers' => 'onlineUsers',
+            'coordinates' => 'coordinates',
         ];
     }
 }

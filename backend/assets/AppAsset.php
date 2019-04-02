@@ -17,6 +17,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'vendor/leaflet/leaflet.js',
+        'vendor/leaflet/MovingMarker.js',
         'js/site.js',
     ];
     public $depends = [
