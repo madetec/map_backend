@@ -15,33 +15,22 @@ class UserProfileCest
     public function _fixtures(): array
     {
         return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profile' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ],
-            'tokens' => [
-                'class' => OauthAccessTokenFixture::class,
-                'dataFile' => codecept_data_dir('tokens.php')
-            ]
+            OauthAccessTokenFixture::class
         ];
     }
 
     public function getProfile(ApiTester $I): void
     {
-        $I->amBearerAuthenticated('token-correct');
+        $I->amBearerAuthenticated('token-correct-user');
         $I->sendGET('/user/profile');
         $I->canSeeResponseContainsJson([
-            'username' => 'erau',
+            'username' => 'user',
         ]);
     }
 
     public function getRole(ApiTester $I): void
     {
-        $I->amBearerAuthenticated('token-correct');
+        $I->amBearerAuthenticated('token-correct-user');
         $I->sendGET('/user/role');
         $I->canSeeResponseContainsJson([
             'role' => 'user',

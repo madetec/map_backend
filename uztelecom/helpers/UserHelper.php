@@ -81,13 +81,13 @@ class UserHelper
         $name = ' ' . $role->description;
         switch ($roleName) {
             case 'user':
-                return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-android-person']) . $name);
+                return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-ios-person']) . $name);
             case 'driver':
-                return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-android-car']) . $name);
+                return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-model-s']) . $name);
             case 'dispatcher':
-                return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-android-contact']) . $name);
+                return Html::tag('p', Html::tag('i', null, ['class' => 'ion-person-stalker']) . $name);
             case 'administrator':
-                return Html::tag('p', Html::tag('i', null, ['class' => 'ion ion-android-contact']) . $name);
+                return Html::tag('p', Html::tag('i', null, ['class' => 'ion-person']) . $name);
             default:
                 return 'Пользователь';
         }

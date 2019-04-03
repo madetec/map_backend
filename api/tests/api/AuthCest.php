@@ -7,8 +7,7 @@
 namespace api\tests\api;
 use api\tests\ApiTester;
 use common\fixtures\Oauth20\OauthRefreshTokenFixture;
-use common\fixtures\ProfileFixture;
-use common\fixtures\UserFixture;
+use common\fixtures\user\ProfileFixture;
 use yii\helpers\VarDumper;
 
 class AuthCest
@@ -16,18 +15,8 @@ class AuthCest
     public function _fixtures(): array
     {
         return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profile' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ],
-            'refresh-tokens' => [
-                'class' => OauthRefreshTokenFixture::class,
-                'dataFile' => codecept_data_dir('refresh_tokens.php')
-            ]
+            OauthRefreshTokenFixture::class,
+            ProfileFixture::class,
         ];
     }
 
@@ -51,7 +40,7 @@ class AuthCest
     {
         $I->sendPOST('/oauth2/token', [
             'grant_type' => 'password',
-            'username' => 'erau',
+            'username' => 'user',
             'password' => 'password_0',
             'client_id' => 'testclient',
             'client_secret' => 'testpass'

@@ -9,6 +9,7 @@ return [
         'created_at' => time(),
         'created_by' => 1,
     ],
+
     [
         'id' => 2,
         'status' => \uztelecom\entities\orders\Order::STATUS_BUSY,
@@ -49,5 +50,19 @@ return [
         'created_by' => 1,
         'driver_id' => 2,
         'completed_at' => time() + 40,
+    ],
+    [
+        'id' => 5,
+        'status' => \uztelecom\entities\orders\Order::STATUS_WAIT,
+        'from_lat' => 312.13,
+        'from_lng' => 31.23,
+        'from_address' => 'tashkent',
+        'to_lat' => 322.13,
+        'to_lng' => 41.23,
+        'to_address' => 'samarkand',
+        'created_at' => time(),
+        'created_by' => 3,
+        'completed_at' => null,
+        'driver_id' => 2,
     ],
 ];

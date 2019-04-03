@@ -8,6 +8,42 @@
 $this->title = 'Панель управления, TelecomCar';
 ?>
     <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-teal"><i class="ion-ios-location"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Заказов</span>
+                    <span class="info-box-number"><?= $cars->totalCount ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="ion-model-s"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Автомобилей</span>
+                    <span class="info-box-number"><?= $cars->totalCount ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-blue"><i class="ion-ios-people"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Водителей</span>
+                    <span class="info-box-number"><?= $users->getAllDriverCount() ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-orange"><i class="ion-ios-people"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Пользователей</span>
+                    <span class="info-box-number"><?= $users->getAllUsersCount() ?></span>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -16,13 +52,13 @@ $this->title = 'Панель управления, TelecomCar';
                         отчет в реальном времени
                     </h3>
                     <div class="box-title" style="margin-left: 10px; border-left: 1px solid #ccc; padding-left: 10px;">
-                        <i class="ion ion-android-car text-green"></i>
+                        <i class="ion ion-model-s text-green"></i>
                         <span class="description-header" id="onlineDrivers">0</span>
-                        <i class="ion ion-android-car text-red"></i>
+                        <i class="ion ion-model-s text-red"></i>
                         <span id="offlineDrivers"><?= $users->getAllDriverCount() ?></span>
-                        <i class="ion ion-android-people text-green"></i>
+                        <i class="ion ion-ios-people text-green"></i>
                         <span id="onlineUsers">0</span>
-                        <i class="ion ion-android-people text-red"></i>
+                        <i class="ion ion-ios-people text-red"></i>
                         <span id="offlineUsers"><?= $users->getAllUsersCount() ?></span>
                     </div>
                     <div class="box-tools pull-right">
@@ -52,28 +88,6 @@ $this->title = 'Панель управления, TelecomCar';
                 </div>
                 <!-- /.box-body -->
             </div>
-
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-aqua"><i class="ion ion-android-car"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Автомобилей</span>
-                            <span class="info-box-number"><?= $cars->totalCount ?></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-blue"><i class="ion ion-android-people"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Водителей</span>
-                            <span class="info-box-number"><?= $users->getAllDriverCount() ?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -81,19 +95,13 @@ $this->title = 'Панель управления, TelecomCar';
 $userId = Yii::$app->user ? Yii::$app->user->getId() : null;
 $script = <<<JS
 $('#map').css('height','500px');
-let icons = {
-            user:null,
-            driver:null,
-        },
-        map,
-        userId = $userId
-    initMap();
+let icons = { user:null, driver:null};
+let map;
+let userId = $userId;
+let markers = [];
+initMap();
 
-// var myMovingMarker = L.Marker.movingMarker([[0,0]],
-				// 		[20000],{icon: aIcon}).addTo(map);
-              // }
-
-let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId,'json');
+let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
   ws.addEventListener('open',function(e){
     setInterval(function(){
         ws.send(prepareMessage("ping",null))
@@ -101,7 +109,7 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId,'json');
     
     setInterval(function(){
           ws.send(prepareMessage("onlineUsers",null))
-    },1000)
+    },10000)
     
     onlineMark()
   });
@@ -113,16 +121,46 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId,'json');
       if(isEqualTo(response.status,'success')){
             if(isEqualTo(response.action,'onlineUsers'))
             {
+              let onlineUsers = response.data.online.users;
+              let onlineDrivers = response.data.online.drivers;
+              
               $('#offlineDrivers').text(response.data.offline.drivers);
               $('#offlineUsers').text(response.data.offline.users);
-              $('#onlineDrivers').text((response.data.online.drivers).length);
-              $('#onlineUsers').text((response.data.online.users).length);
-              
+              $('#onlineDrivers').text(onlineDrivers.length);
+              $('#onlineUsers').text(onlineUsers.length);
+              for (let i=0; i < onlineUsers.length; i++){
+                  for(let l=0; l < markers.length; l++){
+                      if(isEqualTo(markers[l].id,onlineUsers[i].id)){
+                          map.removeLayer(markers[l].marker);
+                      }
+                  }
+                  let userMarker = L.Marker.movingMarker([[41.275548, 69.270124]],[20000],{icon: icons.user}).addTo(map);
+                  markers.push({
+                     id: onlineUsers[i].id,
+                     marker: userMarker
+                  });
+              }
+              for (let i=0; i < onlineDrivers.length; i++){
+                  for(let l=0; l < markers.length; l++){
+                      if(isEqualTo(markers[l].id,onlineDrivers[i].id)){
+                          map.removeLayer(markers[l].marker);
+                      }
+                  }
+                  let driverMarker = L.Marker.movingMarker([[41.275548, 69.270124]],[20000],{icon: icons.driver}).addTo(map);
+                  markers.push({
+                     id: onlineDrivers[i].id,
+                     marker: driverMarker
+                  });
+              }
+            }
             if(isEqualTo(response.action,'coordinates')) 
             {
                 let data = response.data;
-                
-                console.log(icons)
+                for(let j=0; j < markers.length; j++){
+                    if(markers[j].id === data.userId){
+                        markers[j].marker.moveTo([data.coordinates.lat, data.coordinates.lng],500);
+                    }
+                }
             }
       }
   });
@@ -171,9 +209,9 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId,'json');
       });
   }
   
-  var user1 = new WebSocket('ws://telecom-car.test/ws?user_id=2','json');
-  var user2 = new WebSocket('ws://telecom-car.test/ws?user_id=3','json');
-  var driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4','json');
+  var user1 = new WebSocket('ws://telecom-car.test/ws?user_id=2');
+  var user2 = new WebSocket('ws://telecom-car.test/ws?user_id=3');
+  var driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4');
   
   var coordinatesDriver = [
       {lat: 41.275548, lng:69.270124},
@@ -186,7 +224,7 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId,'json');
  setTimeout(function() {
    driver1.close();
    setTimeout(function() {
-        var driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4','json');
+        var driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4');
         setInterval(function(){
             for (var i=0; i<coordinatesDriver.length;i++){
                 driver1.send(prepareMessage("coordinates",coordinatesDriver[i]))
@@ -195,7 +233,7 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId,'json');
    },4000)
  },4000)
  
- for (var i=0; i<coordinatesDriver.length;i++){
+   for (var i=0; i<coordinatesDriver.length;i++){
        setTimeout(function(){
            user1.send(prepareMessage("coordinates",coordinatesDriver[i]))
        },50000);

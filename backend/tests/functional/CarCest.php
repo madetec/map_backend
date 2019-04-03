@@ -3,8 +3,7 @@
 namespace backend\tests\functional;
 
 use backend\tests\FunctionalTester;
-use common\fixtures\ProfileFixture;
-use common\fixtures\UserFixture;
+use common\fixtures\user\ProfileFixture;
 
 class CarCest
 {
@@ -18,14 +17,7 @@ class CarCest
     public function _fixtures()
     {
         return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profile' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ]
+            ProfileFixture::class,
         ];
     }
 

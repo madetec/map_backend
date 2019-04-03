@@ -235,3 +235,7 @@ a.desc:after {
 .box-header>.box-tools{
     top: 10px;
 }
+
+.btn-social>:first-child{
+    margin-left: 5px;
+}

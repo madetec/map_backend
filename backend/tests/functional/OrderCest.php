@@ -3,9 +3,9 @@
 namespace backend\tests\functional;
 
 use backend\tests\FunctionalTester;
-use common\fixtures\OrderFixture;
-use common\fixtures\ProfileFixture;
-use common\fixtures\UserFixture;
+use common\fixtures\order\OrderFixture;
+use common\fixtures\user\ProfileFixture;
+use common\fixtures\user\UserFixture;
 
 class OrderCest
 {
@@ -19,18 +19,7 @@ class OrderCest
     public function _fixtures()
     {
         return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profile' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ],
-            'order' => [
-                'class' => OrderFixture::class,
-                'dataFile' => codecept_data_dir('orders_data.php')
-            ]
+            OrderFixture::class,
         ];
     }
 

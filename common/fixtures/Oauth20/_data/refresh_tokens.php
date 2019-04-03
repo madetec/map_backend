@@ -1,13 +1,13 @@
 <?php
 return [
     [
-        'access_token' => 'token-correct',
+        'refresh_token' => 'refresh_token',
         'client_id' => 'testclient',
         'user_id' => 1,
-        'expires' => date('Y-m-d H:i:s',time()+3600)
+        'expires' => date('Y-m-d H:i:s', time() + 3600)
     ],
     [
-        'access_token' => 'token-correct-driver',
+        'refresh_token' => 'refresh_token_driver',
         'client_id' => 'testclient',
         'user_id' => 2,
         'expires' => date('Y-m-d H:i:s', time() + 3600)

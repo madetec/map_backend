@@ -5,6 +5,7 @@ namespace uztelecom\entities\user;
 
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\constants\Types;
 use uztelecom\entities\Subdivision;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -32,11 +33,8 @@ use yii\db\ActiveRecord;
  * @property Subdivision $subdivision
  *
  */
-class Profile extends ActiveRecord
+class Profile extends ActiveRecord implements Types
 {
-
-    const TYPE_PHONES = 5;
-    const TYPE_ADDRESSES = 10;
 
     public static function create($name, $last_name, $father_name, $subdivision_id, $position)
     {

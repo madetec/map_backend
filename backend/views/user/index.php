@@ -16,9 +16,9 @@ $templateArr = [
     Html::beginTag('div', ['class' => 'box']),
     Html::beginTag('div', ['class' => 'box-header']),
     Html::a(
-            Html::tag('i',null,['class'=>'ion ion-android-person-add']) .' Добавить пользователя',
+            Html::tag('i',null,['class'=>'ion ion-ios-personadd']) .' Добавить пользователя',
             ['create'],
-            ['class' => 'btn btn-telecom-car']
+            ['class' => 'btn btn-social btn-telecom-car']
     ),
     Html::tag('div', '{pager}', ['class' => 'box-tools']),
     Html::endTag('div'),

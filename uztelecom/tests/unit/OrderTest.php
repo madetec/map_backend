@@ -7,9 +7,7 @@
 namespace uztelecom\tests\unit;
 
 use Codeception\Test\Unit;
-use common\fixtures\OrderFixture;
-use common\fixtures\ProfileFixture;
-use common\fixtures\UserFixture;
+use common\fixtures\order\OrderFixture;
 use uztelecom\entities\orders\Order;
 
 class OrderTest extends Unit
@@ -17,18 +15,7 @@ class OrderTest extends Unit
     public function _fixtures()
     {
         return [
-            'users' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profiles' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ],
-            'orders' => [
-                'class' => OrderFixture::class,
-                'dataFile' => codecept_data_dir('orders_data.php')
-            ],
+            OrderFixture::class,
         ];
     }
 

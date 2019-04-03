@@ -85,7 +85,7 @@ $gridColumns = [
         'attribute' => 'view-map',
         'label' => 'Карта',
         'value' => function (Order $order) {
-            return Html::a(Html::tag('i', null, ['class' => 'fa fa-map-marker']) . ' Посмотреть', Url::to(['order/view-map', 'id' => $order->id]));
+            return Html::a(Html::tag('i', null, ['class' => 'ion-ios-location']) . ' Посмотреть', Url::to(['order/view-map', 'id' => $order->id]));
         },
         'format' => 'html'
     ]
@@ -93,7 +93,7 @@ $gridColumns = [
 
 
 try {
-    $exportMenu = Html::tag('b', 'Экспорт данных: ') . \kartik\export\ExportMenu::widget([
+    $exportMenu = \kartik\export\ExportMenu::widget([
             'dataProvider' => $dataProvider,
             'columns' => $gridColumns,
             'fontAwesome' => true,
@@ -102,11 +102,15 @@ try {
                 'Html' => false,
                 'Txt' => false,
             ],
+            'container' =>['class' => 'pull-left'],
+            'filename' => "TelecomCar_Заказы_".date('d-m-Y'),
             'columnSelectorOptions' => [
-                'class' => 'btn-sm'
+                'class' => 'btn-social btn-telecom-car',
+                'icon' => '<i class="ion-ios-checkmark-outline"></i>'
             ],
             'dropdownOptions' => [
-                'class' => 'btn-sm'
+                'class' => 'btn-social btn-telecom-car',
+                'icon' => '<i class="ion-ios-download-outline"></i>'
             ]
         ]);
 

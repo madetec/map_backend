@@ -3,6 +3,7 @@
 namespace uztelecom\entities\user;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use uztelecom\constants\Status;
 use uztelecom\entities\cars\Car;
 use uztelecom\entities\user\queries\UserQuery;
 use uztelecom\forms\user\ProfileEditForm;
@@ -30,15 +31,10 @@ use yii\db\ActiveRecord;
  * @property Car $car
  * @property array $roleName
  */
-class User extends ActiveRecord
+class User extends ActiveRecord implements Status
 {
-    const STATUS_DELETED = 0;
-    const STATUS_BLOCKED = 5;
-    const STATUS_ACTIVE = 10;
-    const STATUS_BUSY = 15;
 
     const REMEMBER_ME_DURATION = 3600 * 24 * 30;
-
 
     public static function create($username, $password, ProfileForm $profile)
     {

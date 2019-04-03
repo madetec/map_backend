@@ -2,6 +2,7 @@
 
 namespace uztelecom\entities\orders;
 
+use uztelecom\constants\Status;
 use uztelecom\entities\orders\queries\OrderQuery;
 use uztelecom\entities\user\User;
 use yii\db\ActiveRecord;
@@ -26,14 +27,8 @@ use yii\db\ActiveRecord;
  * @property User $user
  * @property User $driver
  */
-class Order extends ActiveRecord
+class Order extends ActiveRecord implements Status
 {
-    const STATUS_ACTIVE = 5;
-    const STATUS_BUSY = 10;
-    const STATUS_CANCELED = 15;
-    const STATUS_COMPLETED = 20;
-    const STATUS_WAIT = 25;
-
     public static function create(
         int $created_by,
         float $from_lat,

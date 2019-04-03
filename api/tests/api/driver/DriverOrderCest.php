@@ -8,32 +8,15 @@ namespace api\tests\api\user;
 
 use api\tests\ApiTester;
 use common\fixtures\Oauth20\OauthAccessTokenFixture;
-use common\fixtures\OrderFixture;
-use common\fixtures\ProfileFixture;
-use common\fixtures\UserFixture;
-use yii\helpers\VarDumper;
+use common\fixtures\order\OrderFixture;
 
 class DriverOrderCest
 {
     public function _fixtures(): array
     {
         return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profile' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ],
-            'tokens' => [
-                'class' => OauthAccessTokenFixture::class,
-                'dataFile' => codecept_data_dir('tokens.php')
-            ],
-            'orders' => [
-                'class' => OrderFixture::class,
-                'dataFile' => codecept_data_dir('orders_data.php')
-            ]
+            OauthAccessTokenFixture::class,
+            OrderFixture::class,
         ];
     }
 

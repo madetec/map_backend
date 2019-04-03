@@ -16,18 +16,7 @@ class DriverProfileCest
     public function _fixtures(): array
     {
         return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir('users_data.php')
-            ],
-            'profile' => [
-                'class' => ProfileFixture::class,
-                'dataFile' => codecept_data_dir('profiles_data.php')
-            ],
-            'tokens' => [
-                'class' => OauthAccessTokenFixture::class,
-                'dataFile' => codecept_data_dir('tokens.php')
-            ]
+            OauthAccessTokenFixture::class,
         ];
     }
 
