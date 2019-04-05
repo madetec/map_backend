@@ -6,9 +6,9 @@
 
 namespace uztelecom\websocket\components;
 
-use uztelecom\entities\user\User;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
+use uztelecom\entities\user\User;
 use uztelecom\websocket\UsersWs;
 use yii\helpers\Json;
 
@@ -31,6 +31,8 @@ class AuthComponent implements MessageComponentInterface
     {
         $query = $conn->WebSocket->request->getQuery()->toArray();
         $userId = $query['user_id'] ?? null;
+        $lat = $query['lat'] ?? 0;
+        $lng = $query['lng'] ?? 0;
 
         try {
             echo PHP_EOL . 'check mysql' . PHP_EOL;
@@ -49,7 +51,7 @@ class AuthComponent implements MessageComponentInterface
             }
             $user = User::findOne($userId);
             if ($user) {
-                $this->service->attach($conn, $user);
+                $this->service->attach($conn, $user, $lat, $lng);
                 $this->send($conn, 'auth', 'success', 'connected');
             } else {
                 $this->send($conn, 'auth', 'error', 'Unauthorized!');

@@ -11,6 +11,7 @@ use uztelecom\readModels\UserReadRepository;
 use uztelecom\repositories\UserRepository;
 use uztelecom\websocket\components\AuthComponent;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 
 class OnlineController extends AuthComponent
@@ -46,16 +47,9 @@ class OnlineController extends AuthComponent
     protected function coordinates(ConnectionInterface $from, $coordinates)
     {
         $main = $this->service->getClient($from->resourceId);
-        $users = $this->service->getAllWithoutThis($from);
-
-        $message = [
-            'userId' => $main->user->id,
-            'coordinates' => $coordinates,
-        ];
-
-        foreach ($users as $user) {
-            $this->send($user->client, 'coordinates', 'success', $message);
-        }
+        $coordinates = (object)$coordinates;
+        $main->coordinates->lat = $coordinates->lat;
+        $main->coordinates->lng = $coordinates->lng;
     }
 
 
@@ -74,18 +68,24 @@ class OnlineController extends AuthComponent
                 'drivers' => (int)$totalDrivers
             ],
         ];
-
-
         $users = $this->service->getAllWithoutThis($from);
         foreach ($users as $user) {
             if ($user->user->role === 'driver') {
                 $resultData['online']['drivers'][] = [
-                    'id' => $user->user->id
+                    'id' => $user->user->id,
+                    'coordinates' => [
+                        'lat' => $user->coordinates->lat,
+                        'lng' => $user->coordinates->lng,
+                    ]
                 ];
                 $resultData['offline']['drivers']--;
             } elseif ($user->user->role === 'user') {
                 $resultData['online']['users'][] = [
-                    'id' => $user->user->id
+                    'id' => $user->user->id,
+                    'coordinates' => [
+                        'lat' => $user->coordinates->lat,
+                        'lng' => $user->coordinates->lng,
+                    ]
                 ];
                 $resultData['offline']['users']--;
             }

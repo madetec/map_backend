@@ -103,13 +103,12 @@ initMap();
 
 let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
   ws.addEventListener('open',function(e){
-    setInterval(function(){
-        ws.send(prepareMessage("ping",null))
-    },10000)
+    ws.send(prepareMessage("onlineUsers",null))
     
     setInterval(function(){
-          ws.send(prepareMessage("onlineUsers",null))
-    },10000)
+        ws.send(prepareMessage("ping",null))
+        ws.send(prepareMessage("onlineUsers",null))
+    },1000)
     
     onlineMark()
   });
@@ -117,50 +116,20 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
   
   ws.addEventListener('message', function(e){
       let response = JSON.parse(e.data);
-      
       if(isEqualTo(response.status,'success')){
             if(isEqualTo(response.action,'onlineUsers'))
             {
               let onlineUsers = response.data.online.users;
               let onlineDrivers = response.data.online.drivers;
-              
+             
               $('#offlineDrivers').text(response.data.offline.drivers);
               $('#offlineUsers').text(response.data.offline.users);
               $('#onlineDrivers').text(onlineDrivers.length);
               $('#onlineUsers').text(onlineUsers.length);
-              for (let i=0; i < onlineUsers.length; i++){
-                  for(let l=0; l < markers.length; l++){
-                      if(isEqualTo(markers[l].id,onlineUsers[i].id)){
-                          map.removeLayer(markers[l].marker);
-                      }
-                  }
-                  let userMarker = L.Marker.movingMarker([[41.275548, 69.270124]],[20000],{icon: icons.user}).addTo(map);
-                  markers.push({
-                     id: onlineUsers[i].id,
-                     marker: userMarker
-                  });
-              }
-              for (let i=0; i < onlineDrivers.length; i++){
-                  for(let l=0; l < markers.length; l++){
-                      if(isEqualTo(markers[l].id,onlineDrivers[i].id)){
-                          map.removeLayer(markers[l].marker);
-                      }
-                  }
-                  let driverMarker = L.Marker.movingMarker([[41.275548, 69.270124]],[20000],{icon: icons.driver}).addTo(map);
-                  markers.push({
-                     id: onlineDrivers[i].id,
-                     marker: driverMarker
-                  });
-              }
-            }
-            if(isEqualTo(response.action,'coordinates')) 
-            {
-                let data = response.data;
-                for(let j=0; j < markers.length; j++){
-                    if(markers[j].id === data.userId){
-                        markers[j].marker.moveTo([data.coordinates.lat, data.coordinates.lng],500);
-                    }
-                }
+             
+              markers = setMarkers(onlineUsers, markers, {icon: icons.user});
+              markers = setMarkers(onlineDrivers, markers, {icon: icons.driver});
+             
             }
       }
   });
@@ -186,7 +155,7 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
         center: [41.275548,69.270124],
         zoom: 11
       });
-    L.tileLayer('https://map.uztelecom.uz/hot/{z}/{x}/{y}.png').addTo(map);
+      L.tileLayer('https://map.uztelecom.uz/hot/{z}/{x}/{y}.png').addTo(map);
   }
   
   function offlineMark(){
@@ -209,35 +178,87 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
       });
   }
   
-  var user1 = new WebSocket('ws://telecom-car.test/ws?user_id=2');
-  var user2 = new WebSocket('ws://telecom-car.test/ws?user_id=3');
-  var driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4');
+  // imitation 
+  //
+  //
+  // let lat1= 41.344794,
+  //     lng1= 69.257859,
+  //     lat2= 41.281911,
+  //     lng2= 69.276368,
+  //     lat3= 41.275548,
+  //     lng3= 69.270124;
+  //
+  // let user1 = new WebSocket('ws://telecom-car.test/ws?user_id=2&lat='+lat1+'&lng='+lng1);
+  // let user2 = new WebSocket('ws://telecom-car.test/ws?user_id=3&lat='+lat2+'&lng='+lng2);
+  // let driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4&lat='+lat3+'&lng='+lng3);
+  //
+  // driver1.onopen = function(){
+  //     setInterval(function(){
+  //           driver1.send(prepareMessage("coordinates",{lat: lat1, lng: lng1}))
+  //           user2.send(prepareMessage("coordinates",{lat: lat2, lng: lng2}))
+  //           user1.send(prepareMessage("coordinates",{lat: lat3, lng: lng3}))
+  //           lat1 -= .00005;
+  //           lng1 -= .00005;
+  //           lat2 += .00005;
+  //           lng2 -= .00005;
+  //           lat3 += .00005;
+  //           lng3 += .00005;
+  //     },1000)
+  // }
+  //
   
-  var coordinatesDriver = [
-      {lat: 41.275548, lng:69.270124},
-      {lat: 41.281911, lng:69.276368},
-      {lat: 41.283494, lng:69.277802},
-      {lat: 41.286748, lng:69.280648},
-      {lat: 41.290151, lng:69.282962},
-      {lat: 41.291537, lng:69.285736},
-  ];
- setTimeout(function() {
-   driver1.close();
-   setTimeout(function() {
-        var driver1 = new WebSocket('ws://telecom-car.test/ws?user_id=4');
-        setInterval(function(){
-            for (var i=0; i<coordinatesDriver.length;i++){
-                driver1.send(prepareMessage("coordinates",coordinatesDriver[i]))
-            }
-        },10000)
-   },4000)
- },4000)
- 
-   for (var i=0; i<coordinatesDriver.length;i++){
-       setTimeout(function(){
-           user1.send(prepareMessage("coordinates",coordinatesDriver[i]))
-       },50000);
-   }
+  
+  
+  function setMarkers(users, inputMarkers, icon)
+  {
+      let Marker=null;
+      for (let i=0; i < users.length; i++){
+          if(isEqualTo(inputMarkers.length, 0)){
+              Marker = L.Marker.movingMarker([
+                  [
+                      users[i].coordinates.lat,
+                      users[i].coordinates.lng
+                  ],
+                  [
+                      users[i].coordinates.lat,
+                      users[i].coordinates.lng
+                  ],
+              ],[20000],icon).addTo(map);
+              Marker.start();
+              inputMarkers.push({
+                 id: users[i].id,
+                 marker: Marker
+              });
+          }else{
+              let equal = inputMarkers.find(function(element, index, array){
+                  return element.id === users[i].id;
+              })
+              
+              if(equal === undefined){
+                   Marker = L.Marker.movingMarker([
+                          [
+                              users[i].coordinates.lat,
+                              users[i].coordinates.lng
+                          ],
+                      ],[20000],icon).addTo(map);
+                      // Marker.start();
+                      inputMarkers.push({
+                         id: users[i].id,
+                         marker: Marker
+                      });
+              }else{
+                  inputMarkers.forEach(function(element) {
+                      if(element.id === users[i].id){
+                          element.marker.moveTo([users[i].coordinates.lat,users[i].coordinates.lng],1000);
+                      }
+                  })
+              }
+              
+          }
+      }
+      
+      return inputMarkers;
+  }
 JS;
 
 $this->registerJs($script);

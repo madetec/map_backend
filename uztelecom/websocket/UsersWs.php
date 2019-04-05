@@ -7,8 +7,8 @@
 namespace uztelecom\websocket;
 
 
-use uztelecom\entities\user\User;
 use Ratchet\ConnectionInterface;
+use uztelecom\entities\user\User;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -26,11 +26,15 @@ class UsersWs
     public $count;
 
 
-    public function attach(ConnectionInterface $client, User $user)
+    public function attach(ConnectionInterface $client, User $user, float $lat = 0, float $lng = 0)
     {
         $object = new \stdClass();
         $object->client = $client;
         $object->user = $user;
+        $object->coordinates = (object)[
+            'lat' => $lat,
+            'lng' => $lng,
+        ];
         $this->users[$client->resourceId] = $object;
     }
 
