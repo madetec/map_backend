@@ -8,7 +8,9 @@ namespace uztelecom\tests\unit;
 
 use Codeception\Test\Unit;
 use common\fixtures\order\OrderFixture;
+use uztelecom\entities\notification\Notification;
 use uztelecom\entities\orders\Order;
+use yii\helpers\VarDumper;
 
 class OrderTest extends Unit
 {
@@ -36,6 +38,8 @@ class OrderTest extends Unit
         $this->assertEquals($from_lat, $order->from_lat);
         $this->assertEquals($from_lng, $order->from_lng);
         $this->assertEquals($from_address, $order->from_address);
+
+
     }
 
     /**

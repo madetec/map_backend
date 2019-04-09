@@ -31,7 +31,7 @@ class UserCest
     public function createUser(FunctionalTester $I)
     {
         $I->amOnPage('/auth/sign-in');
-        $I->fillField(['id' => 'signinform-username'], 'userAdmin');
+        $I->fillField(['id' => 'signinform-username'], 'admin');
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 

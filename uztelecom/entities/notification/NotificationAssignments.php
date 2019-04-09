@@ -46,8 +46,13 @@ class NotificationAssignments extends ActiveRecord implements Status
         return $this->status == self::STATUS_READ;
     }
 
-    public function isForNotificationId($notification_id): bool
+    public function isEqualTo($notification_id, $to_id)
     {
-        return $this->notification_id == $notification_id;
+        return $this->notification_id === $notification_id &&  $this->to_id === $to_id;
+    }
+
+    public static function tableName()
+    {
+        return '{{%notification_assignments}}';
     }
 }

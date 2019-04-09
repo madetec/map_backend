@@ -27,7 +27,7 @@ class CarCest
     public function createCar(FunctionalTester $I)
     {
         $I->amOnPage('/auth/sign-in');
-        $I->fillField(['id' => 'signinform-username'], 'userAdmin');
+        $I->fillField(['id' => 'signinform-username'], 'admin');
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 
@@ -35,7 +35,7 @@ class CarCest
         $I->fillField(['id' => 'carform-model'], 'daewoo nexia');
         $I->selectOption('select[id=carform-color_id]', ['value' => '221']);
         $I->fillField(['id' => 'carform-number'], '01 222 ABC');
-        $I->selectOption('select[id=carform-user_id]', ['value' => '2']);
+        $I->selectOption('select[id=carform-user_id]', ['value' => '3']);
         $I->click('[type=submit]');
 
         $I->see('driverov driver driverovich');

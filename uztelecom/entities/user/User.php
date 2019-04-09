@@ -29,6 +29,7 @@ use yii\db\ActiveRecord;
  * @property string $password write-only password
  * @property Profile $profile
  * @property Car $car
+ * @property Device[] $devices
  * @property array $roleName
  */
 class User extends ActiveRecord implements Status
@@ -72,6 +73,21 @@ class User extends ActiveRecord implements Status
             $profileForm->position
         );
         $this->updateProfile($profile);
+    }
+
+    public function assignDevice($uid, $firebase_token, $name)
+    {
+        $devices = $this->devices;
+        foreach ($devices as $k => $device) {
+            if ($device->isEqualTo($uid, $firebase_token)) {
+                $device->firebase_token = $firebase_token;
+                $devices[$k] = $device;
+                $this->devices = $devices;
+                return;
+            }
+        }
+        $devices[] = Device::create($firebase_token, $uid, $name);
+        $this->devices = $devices;
     }
 
     public function updateProfile(Profile $profile): void
@@ -136,6 +152,10 @@ class User extends ActiveRecord implements Status
         return $this->status === self::STATUS_BUSY;
     }
 
+    public function getDevices(): ActiveQuery
+    {
+        return $this->hasMany(Device::class, ['user_id' => 'id']);
+    }
 
     public function getProfile(): ActiveQuery
     {
@@ -159,7 +179,7 @@ class User extends ActiveRecord implements Status
             TimestampBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['profile']
+                'relations' => ['profile', 'devices']
             ]
         ];
     }

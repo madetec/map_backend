@@ -7,9 +7,11 @@
 namespace api\tests\api\user;
 
 use api\tests\ApiTester;
+use common\fixtures\notification\NotificationAssignmentsFixture;
+use common\fixtures\notification\NotificationFixture;
 use common\fixtures\Oauth20\OauthAccessTokenFixture;
 use common\fixtures\order\OrderFixture;
-use yii\helpers\VarDumper;
+use uztelecom\entities\notification\NotificationAssignments;
 
 class UserOrderCest
 {
@@ -18,12 +20,13 @@ class UserOrderCest
         return [
             OauthAccessTokenFixture::class,
             OrderFixture::class,
+            NotificationAssignmentsFixture::class
         ];
     }
 
     public function create(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct');
+        $I->amBearerAuthenticated('token-correct-user');
         $I->sendPOST('/user/order', [
             'from_lat' => 323.23,
             'from_lng' => 321.23,
@@ -34,11 +37,12 @@ class UserOrderCest
                 'lat' => 323.23
             ],
         ]);
+
     }
 
     public function getAllOrders(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct');
+        $I->amBearerAuthenticated('token-correct-user');
         $I->sendGET('/user/order');
         $I->canSeeResponseContainsJson([
             [
@@ -52,7 +56,7 @@ class UserOrderCest
 
     public function cancel(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct');
+        $I->amBearerAuthenticated('token-correct-user');
         $I->sendPATCH('/user/order/1/cancel');
         $I->canSeeResponseCodeIs(200);
     }

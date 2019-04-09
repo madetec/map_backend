@@ -47,5 +47,12 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "scripts": {
+        "serve_api": "php -S 127.0.0.1:8080 -t api/web",
+        "test_all": "php vendor/bin/codecept run",
+        "test_api": "php vendor/bin/codecept run -- -c api",
+        "test_uztelecom": "php vendor/bin/codecept run -- -c uztelecom",
+        "test_backend": "php vendor/bin/codecept run -- -c backend"
+    }
 }

@@ -7,6 +7,7 @@
 namespace api\tests\api\user;
 
 use api\tests\ApiTester;
+use common\fixtures\car\CarFixture;
 use common\fixtures\Oauth20\OauthAccessTokenFixture;
 use common\fixtures\order\OrderFixture;
 
@@ -17,6 +18,7 @@ class DriverOrderCest
         return [
             OauthAccessTokenFixture::class,
             OrderFixture::class,
+            CarFixture::class,
         ];
     }
 

@@ -7,15 +7,18 @@
 namespace uztelecom\tests\unit;
 
 use Codeception\Test\Unit;
+use common\fixtures\car\CarFixture;
 use common\fixtures\order\OrderFixture;
 use common\fixtures\user\ProfileFixture;
 use common\fixtures\user\UserFixture;
+use uztelecom\entities\notification\Notification;
 use uztelecom\entities\orders\Order;
 use uztelecom\forms\orders\OrderForm;
 use uztelecom\repositories\CarRepository;
 use uztelecom\repositories\OrderRepository;
 use uztelecom\repositories\UserRepository;
 use uztelecom\services\OrderManageService;
+use yii\helpers\VarDumper;
 
 class OrderManageServiceTest extends Unit
 {
@@ -35,6 +38,7 @@ class OrderManageServiceTest extends Unit
     {
         return [
             OrderFixture::class,
+            CarFixture::class,
         ];
     }
 
@@ -46,7 +50,7 @@ class OrderManageServiceTest extends Unit
      */
     public function testCreateWithoutToLocation()
     {
-        $created_by = 1;
+        $created_by = 4;
         $from_lat = 12.412;
         $from_lng = 31.3123;
         $from_address = 'Tashkent';
@@ -62,6 +66,7 @@ class OrderManageServiceTest extends Unit
         $this->assertEquals($from_lat, $order->from_lat);
         $this->assertEquals($from_lng, $order->from_lng);
         $this->assertEquals($from_address, $order->from_address);
+
     }
 
     /**
@@ -72,7 +77,7 @@ class OrderManageServiceTest extends Unit
      */
     public function testCreateWithToLocation()
     {
-        $created_by = 1;
+        $created_by = 4;
         $from_lat = 12.412;
         $from_lng = 31.3123;
         $from_address = 'Tashkent, Mirzo-ulugbek, 10';
@@ -104,7 +109,7 @@ class OrderManageServiceTest extends Unit
      */
     public function testTakeOrder()
     {
-        $driver_id = 2;
+        $driver_id = 3;
         $order = Order::findOne(1);
         $order = $this->service->takeOrder($driver_id, $order->id);
         $this->assertEquals($driver_id, $order->driver_id);

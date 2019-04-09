@@ -8,7 +8,11 @@
 
 namespace uztelecom\services;
 
+use uztelecom\entities\notification\Notification;
 use uztelecom\entities\orders\Order;
+use uztelecom\entities\user\User;
+use uztelecom\events\notification\NotificationEvent;
+use uztelecom\exceptions\NotFoundException;
 use uztelecom\forms\orders\OrderForm;
 use uztelecom\repositories\CarRepository;
 use uztelecom\repositories\OrderRepository;
@@ -49,7 +53,7 @@ class OrderManageService
      */
     public function create(int $user_id, OrderForm $form): Order
     {
-        $user = $this->users->find($user_id);
+        $user = $this->users->findRoleUser($user_id);
         $order = Order::create(
             $user->id,
             $form->from_lat,
@@ -60,6 +64,16 @@ class OrderManageService
             $form->to_address
         );
         $this->orders->save($order);
+
+        $notificationEvent = NotificationEvent::create(
+            $user->id,
+            null,
+            Notification::TYPE_NEW_ORDER,
+            $order->id
+        );
+
+        $order->trigger(Order::EVENT_NEW_ORDER, $notificationEvent);
+
         return $order;
     }
 
@@ -72,7 +86,8 @@ class OrderManageService
      */
     public function takeOrder(int $driver_id, int $order_id): Order
     {
-        $driver = $this->users->find($driver_id);
+        $driver = $this->users->findRoleDriver($driver_id);
+        $this->thisDriverHasCar($driver);
         $order = $this->orders->findActive($order_id);
         $order->takeOrder($driver->id);
         $this->orders->save($order);
@@ -101,5 +116,14 @@ class OrderManageService
         $order = $this->orders->findActive($order_id);
         $order->canceled();
         $this->orders->save($order);
+    }
+
+    /**
+     * @param User $driver
+     * @throws NotFoundException
+     */
+    protected function thisDriverHasCar(User $driver): void
+    {
+        if (!$driver->car) throw new  NotFoundException('This driver has no car');
     }
 }

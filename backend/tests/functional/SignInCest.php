@@ -31,7 +31,7 @@ class SignInCest
     public function signInUser(FunctionalTester $I)
     {
         $I->amOnPage('/auth/sign-in');
-        $I->fillField(['id' => 'signinform-username'], 'userAdmin');
+        $I->fillField(['id' => 'signinform-username'], 'admin');
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 
@@ -42,7 +42,7 @@ class SignInCest
     public function SignInIsAccessDenied(FunctionalTester $I)
     {
         $I->amOnPage('/auth/sign-in');
-        $I->fillField(['id' => 'signinform-username'], 'userDriver');
+        $I->fillField(['id' => 'signinform-username'], 'driver');
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 

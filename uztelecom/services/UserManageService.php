@@ -12,6 +12,7 @@ namespace uztelecom\services;
 use uztelecom\entities\user\Profile;
 use uztelecom\entities\user\User;
 use uztelecom\forms\user\AddressForm;
+use uztelecom\forms\user\DeviceForm;
 use uztelecom\forms\user\PhoneForm;
 use uztelecom\forms\user\UserEditForm;
 use uztelecom\forms\user\UserForm;
@@ -191,6 +192,23 @@ class UserManageService
         $profile = $user->profile;
         $profile->addAddress($form->name, $form->lat, $form->lng);
         $user->updateProfile($profile);
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $user_id
+     * @param DeviceForm $form
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function addDevice($user_id, DeviceForm $form): void
+    {
+        $user = $this->users->find($user_id);
+        $user->assignDevice(
+            $form->uid,
+            $form->firebase_token,
+            $form->name
+        );
         $this->users->save($user);
     }
 

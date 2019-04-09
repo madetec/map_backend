@@ -2,7 +2,10 @@
 
 namespace uztelecom\entities\orders;
 
+use uztelecom\constants\Event;
 use uztelecom\constants\Status;
+use uztelecom\entities\notification\Notification;
+use uztelecom\entities\notification\NotificationAssignments;
 use uztelecom\entities\orders\queries\OrderQuery;
 use uztelecom\entities\user\User;
 use yii\db\ActiveRecord;
@@ -26,9 +29,16 @@ use yii\db\ActiveRecord;
  *
  * @property User $user
  * @property User $driver
+ * @property Notification[] $notifications
  */
-class Order extends ActiveRecord implements Status
+class Order extends ActiveRecord implements Status, Event
 {
+    public function init()
+    {
+        $this->on(self::EVENT_NEW_ORDER, [\Yii::$app->notification, self::EVENT_NEW_ORDER]);
+        parent::init();
+    }
+
     public static function create(
         int $created_by,
         float $from_lat,
@@ -134,5 +144,11 @@ class Order extends ActiveRecord implements Status
     public static function find(): OrderQuery
     {
         return new OrderQuery(static::class);
+    }
+
+    public function getNotifications()
+    {
+        return $this->hasMany(Notification::class,['item_id' => 'id'])
+            ->where(['type' => Notification::TYPE_NEW_ORDER]);
     }
 }

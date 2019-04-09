@@ -24,6 +24,7 @@ use yii\db\ActiveRecord;
  * @property integer $created_at
  * @property NotificationAssignments[] $assignments
  * @property User[] $toUsers
+ * @property User $from
  */
 
 class Notification extends ActiveRecord implements Types
@@ -44,7 +45,7 @@ class Notification extends ActiveRecord implements Types
     {
         $assignments = $this->assignments;
         foreach ($assignments as $assignment) {
-            if ($assignment->isForNotificationId($this->id)) {
+            if ($assignment->isEqualTo($this->id, $to_id)) {
                 return;
             }
         }
@@ -55,6 +56,11 @@ class Notification extends ActiveRecord implements Types
     public function getAssignments(): ActiveQuery
     {
         return $this->hasMany(NotificationAssignments::class, ['notification_id' => 'id']);
+    }
+
+    public function getFrom(): ActiveQuery
+    {
+        return $this->hasOne(User::class,['id' => 'from_id']);
     }
 
     public function getToUsers(): ActiveQuery

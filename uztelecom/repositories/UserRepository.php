@@ -11,6 +11,40 @@ use uztelecom\exceptions\NotFoundException;
 
 class UserRepository
 {
+    /**
+     * @param $id
+     * @return User
+     * @throws NotFoundException
+     */
+    public function findRoleDriver($id): User
+    {
+        if (!$user = User::find()->where(['id' => $id])->driver()->one()) {
+            throw new NotFoundException('User not found.');
+        }
+
+        return $user;
+    }
+    /**
+     * @param $id
+     * @return User
+     * @throws NotFoundException
+     */
+    public function findRoleUser($id): User
+    {
+        if (!$user = User::find()->where(['id' => $id])->user()->one()) {
+            throw new NotFoundException('User not found.');
+        }
+
+        return $user;
+    }
+
+    public function findAllFreeDrivers()
+    {
+        return User::find()
+            ->where(['status' => User::STATUS_ACTIVE])
+            ->driver()
+            ->all();
+    }
 
     public function count()
     {

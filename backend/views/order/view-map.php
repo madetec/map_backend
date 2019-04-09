@@ -59,7 +59,7 @@ bLayer = L.marker($LocationB, {icon: bIcon})
 map = L.map('map', {
   center: [0, 0],
   zoom: 0,
-    layers: [aLayer, bLayer]
+  layers: [aLayer, bLayer]
 });
 overlayMaps = {
   $imgLayerA: aLayer,

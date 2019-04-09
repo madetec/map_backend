@@ -18,21 +18,12 @@ class m190403_194203_create_notification_assignments_table extends Migration
             'status' => $this->integer()->notNull()
         ]);
 
-        $this->addPrimaryKey(
-            '{{%pk-notification_assignments}}',
+        $this->createIndex(
+            '{{%idx-notification_assignments}}',
             '{{%notification_assignments}}',
+            ['to_id', 'notification_id'],
             ['to_id', 'notification_id']
         );
-
-        $this->createIndex(
-            '{{%idx-notification_assignments-to_id}}',
-            '{{%notification_assignments}}',
-            'to_id');
-
-        $this->createIndex(
-            '{{%idx-notification_assignments-notification_id}}',
-            '{{%notification_assignments}}',
-            'notification_id');
 
         $this->addForeignKey(
             '{{%fk-notification_assignments-to_id}}',
@@ -41,7 +32,7 @@ class m190403_194203_create_notification_assignments_table extends Migration
             '{{%users}}',
             'id',
             'CASCADE',
-            'RESTRICT');
+            'CASCADE');
 
         $this->addForeignKey(
             '{{%fk-notification_assignments-notification_id}}',
@@ -50,7 +41,7 @@ class m190403_194203_create_notification_assignments_table extends Migration
             '{{%notifications}}',
             'id',
             'CASCADE',
-            'RESTRICT');
+            'CASCADE');
     }
 
     /**
