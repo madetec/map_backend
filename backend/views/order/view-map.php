@@ -5,79 +5,62 @@
  * @var $this \yii\web\View
  * @var $order \uztelecom\entities\orders\Order
  */
-use yii\helpers\Html;
+
+use dosamigos\leaflet\layers\Marker;
+use dosamigos\leaflet\layers\TileLayer;
+use dosamigos\leaflet\LeafLet;
+use dosamigos\leaflet\types\Icon;
+use dosamigos\leaflet\types\LatLng;
+use dosamigos\leaflet\types\LatLngBounds;
+use dosamigos\leaflet\types\Point;
+use dosamigos\leaflet\widgets\Map;
+
 
 $this->title = 'Маршрут на карте';
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$LocationA = json_encode([
-    $order->from_lat,
-    $order->from_lng,
+$center = new LatLng(['lat' => $order->from_lat, 'lng' => $order->from_lng]);
+$marker = new Marker(['latLng' => $center, 'popupContent' => $order->from_address]);
+$icon = new Icon(['iconUrl' => '/img/dotA.png']);
+$icon->setIconSize(new Point(['x' => 31, 'y' => 40]));
+$icon->setIconAnchor(new Point(['x' => 16, 'y' => 5]));
+$marker->setIcon($icon);
+$markers[] = $marker;
+
+if ($order->to_lat && $order->to_lng) {
+    $center = new LatLng(['lat' => $order->to_lat, 'lng' => $order->to_lng]);
+    $marker = new Marker(['latLng' => $center, 'popupContent' => $order->to_address]);
+    $icon = new Icon(['iconUrl' => '/img/dotB.png']);
+    $icon->setIconSize(new Point(['x' => 41, 'y' => 52]));
+    $icon->setIconAnchor(new Point(['x' => 16, 'y' => 5]));
+    $marker->setIcon($icon);
+    $markers[] = $marker;
+    $bounds = new LatLngBounds([
+        'southWest' => new LatLng(['lat' => $order->from_lat, 'lng' => $order->from_lng]),
+        'northEast' => new LatLng(['lat' => $order->to_lat, 'lng' => $order->to_lng])
+    ]);
+}
+
+$tileLayer = new TileLayer([
+    'urlTemplate' => 'https://map.uztelecom.uz/hot/{z}/{x}/{y}.png',
 ]);
 
-$LocationB = json_encode([
-    $order->to_lat,
-    $order->to_lng,
+$leaflet = new LeafLet([
+    'center' => $center,
+    'clientOptions' => [
+        'bounds' => !empty($bounds) ? $bounds->encode() : null
+    ],
 ]);
 
-$imgLayerA = (string)"'" . Html::img('/img/dotA.png', ['style' => 'height: 24px;']) . ' ' . $order->from_address . "'";
-$imgLayerB = (string)"'" . Html::img('/img/dotB.png', ['style' => 'height: 24px;']) . ' ' . $order->to_address . "'";
+foreach ($markers as $marker) {
+    $leaflet->addLayer($marker);
+}
+$leaflet->addLayer($tileLayer);
 
-echo Html::tag('div', null, ['id' => 'map']);
-
-$script = <<<JS
-$('#map').css('height','500px');
-let aIcon,
-    bIcon,
-    aLayer,
-    bLayer,
-    map,
-    overlayMaps;
-
-aIcon = L.icon({
-  iconUrl: '/img/dotA.png',
-  iconSize: [31, 40],
-  iconAnchor: [16, 37],
-  popupAnchor: [0, -37]
-}),
-
-bIcon = L.icon({
-  iconUrl: '/img/dotB.png',
-  iconSize: [41, 52],
-  iconAnchor: [16, 37],
-  popupAnchor: [0, -37]
-});
-aLayer = L.marker($LocationA, {icon: aIcon})
-.bindPopup($imgLayerA)
-.openPopup();
-
-bLayer = L.marker($LocationB, {icon: bIcon})
-.bindPopup($imgLayerB)
-.openPopup();
-
-map = L.map('map', {
-  center: [0, 0],
-  zoom: 0,
-  layers: [aLayer, bLayer]
-});
-overlayMaps = {
-  $imgLayerA: aLayer,
-  $imgLayerB: bLayer
-};
-
-L.control.layers(null, overlayMaps, {
-  collapsed: false
-}).addTo(map);
-
-L.tileLayer('https://map.uztelecom.uz/hot/{z}/{x}/{y}.png').addTo(map);
-
-var bounds = new L.LatLngBounds([$LocationA,$LocationB]);
-map.fitBounds(bounds);
-var zoom = map.getBoundsZoom(bounds);
-
-map.setZoom(zoom-1)
-JS;
-
-$this->registerJs($script);
+try {
+    echo Map::widget(['leafLet' => $leaflet, 'height' => '550px']);
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
 
