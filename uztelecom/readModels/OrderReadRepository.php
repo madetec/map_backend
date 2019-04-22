@@ -12,7 +12,7 @@ class OrderReadRepository
 {
     public function findAll($id = null)
     {
-        $query = Order::find();
+        $query = Order::find()->orderBy(['created_at' => SORT_DESC]);
         if ($id) {
             $query->andWhere(['created_by' => $id]);
         }
