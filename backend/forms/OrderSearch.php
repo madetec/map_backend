@@ -33,6 +33,7 @@ class OrderSearch extends Model
     public function search(array $params): ActiveDataProvider
     {
         $query = Order::find()->orderBy(['created_at' => SORT_DESC])->alias('o');
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
