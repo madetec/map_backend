@@ -5,6 +5,7 @@ namespace uztelecom\entities\user;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use uztelecom\constants\Status;
 use uztelecom\entities\cars\Car;
+use uztelecom\entities\orders\Order;
 use uztelecom\entities\user\queries\UserQuery;
 use uztelecom\forms\user\ProfileEditForm;
 use uztelecom\forms\user\ProfileForm;
@@ -31,6 +32,8 @@ use yii\db\ActiveRecord;
  * @property Car $car
  * @property Device[] $devices
  * @property array $roleName
+ * @property Order[] $orders
+ * @property Order $activeOrder
  */
 class User extends ActiveRecord implements Status
 {
@@ -150,6 +153,16 @@ class User extends ActiveRecord implements Status
     public function isBusy(): bool
     {
         return $this->status === self::STATUS_BUSY;
+    }
+
+    public function getActiveOrder(): ActiveQuery
+    {
+        return $this->getOrders()->andWhere(['status' => Order::STATUS_ACTIVE]);
+    }
+
+    public function getOrders(): ActiveQuery
+    {
+        return $this->hasMany(Order::class, ['created_by' => 'id']);
     }
 
     public function getDevices(): ActiveQuery

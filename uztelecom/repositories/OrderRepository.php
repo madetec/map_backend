@@ -9,9 +9,21 @@ namespace uztelecom\repositories;
 
 use uztelecom\entities\orders\Order;
 use uztelecom\exceptions\NotFoundException;
+use yii\db\ActiveRecord;
 
 class OrderRepository
 {
+    /**
+     * @param $user_id
+     * @return Order|null|ActiveRecord
+     */
+    public function getActiveOrder($user_id): ?Order
+    {
+        return Order::find()
+            ->where(['created_by' => $user_id])
+            ->andWhere(['!=', 'status', Order::STATUS_CANCELED])
+            ->one();
+    }
 
     /**
      * @param int $id
@@ -33,7 +45,7 @@ class OrderRepository
      */
     public function findActive(int $id): Order
     {
-        if (!$order = Order::find()->where(['id' => $id])->active()->one()) {
+        if (!$order = Order::find()->where(['id' => $id])->one()) {
             throw new NotFoundException('Order not found.');
         }
         return $order;

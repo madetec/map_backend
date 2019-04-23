@@ -48,12 +48,13 @@ class OrderManageService
      * @param int $user_id
      * @param OrderForm $form
      * @return Order
+     * @throws NotFoundException
      * @throws \DomainException
-     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function create(int $user_id, OrderForm $form): Order
     {
         $user = $this->users->findRoleUser($user_id);
+        $this->haveActiveOrder($user->id);
         $order = Order::create(
             $user->id,
             $form->from_lat,
@@ -125,5 +126,16 @@ class OrderManageService
     protected function thisDriverHasCar(User $driver): void
     {
         if (!$driver->car) throw new  NotFoundException('This driver has no car');
+    }
+
+    /**
+     * @param $user_id
+     * @throws \DomainException
+     */
+    protected function haveActiveOrder($user_id)
+    {
+        if ($this->orders->getActiveOrder($user_id)) {
+            throw new \DomainException('You already have an active order.');
+        }
     }
 }

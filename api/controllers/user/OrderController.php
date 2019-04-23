@@ -33,6 +33,26 @@ class OrderController extends Controller
     }
 
     /**
+     * @SWG\Get(
+     *     path="/user/order/active",
+     *     tags={"User Order"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @return array|\yii\db\ActiveRecord|null
+     */
+    public function actionActive()
+    {
+        $order = $this->orders->findActiveOrder(\Yii::$app->user->getId());
+        return $this->serializeOrder($order);
+    }
+
+    /**
      * @SWG\Patch(
      *     path="/user/order/{order_id}/cancel",
      *     tags={"User Order"},

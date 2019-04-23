@@ -19,6 +19,7 @@ return [
         'GET user/order' => 'user/order/index',
         'POST user/order' => 'user/order/create',
         'PATCH user/order/<order_id:\d+>/cancel' => 'user/order/cancel',
+        'GET user/order/active' => 'user/order/active',
 
         'PATCH driver/order/<order_id:\d+>/cancel' => 'driver/order/cancel',
         'PATCH driver/order/<order_id:\d+>/take' => 'driver/order/take',

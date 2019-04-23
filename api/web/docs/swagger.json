@@ -197,6 +197,24 @@
                 ]
             }
         },
+        "/user/order/active": {
+            "get": {
+                "tags": [
+                    "User Order"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/user/order/{order_id}/cancel": {
             "patch": {
                 "tags": [
