@@ -19,11 +19,7 @@ class OrderReadRepository
         /** @var Order $order */
         $order = Order::find()
             ->where(['created_by' => $user_id])
-            ->andWhere([
-                'or',
-                ['!=', 'status', Order::STATUS_CANCELED],
-                ['!=', 'status', Order::STATUS_COMPLETED]
-            ])
+            ->andWhere(['!=', 'status', [Order::STATUS_CANCELED, Order::STATUS_COMPLETED]])
             ->one();
         return $order;
     }
