@@ -6,6 +6,7 @@
 
 namespace uztelecom\readModels;
 use uztelecom\entities\orders\Order;
+use uztelecom\exceptions\NotFoundException;
 use yii\data\ActiveDataProvider;
 
 class OrderReadRepository
@@ -13,14 +14,20 @@ class OrderReadRepository
     /**
      * @param $user_id
      * @return Order|null
+     * @throws NotFoundException
      */
     public function findActiveOrder($user_id): ?Order
     {
         /** @var Order $order */
-        $order = Order::find()
+        if (!$user_id) {
+            throw new  NotFoundException('User not found.');
+        }
+        if (!$order = Order::find()
             ->where(['created_by' => $user_id])
             ->andWhere(['!=', 'status', [Order::STATUS_CANCELED, Order::STATUS_COMPLETED]])
-            ->one();
+            ->one()) {
+            throw new  NotFoundException('Order not found.');
+        }
         return $order;
     }
 
