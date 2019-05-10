@@ -6,11 +6,22 @@
 
 namespace uztelecom\repositories;
 
+use uztelecom\entities\user\Device;
 use uztelecom\entities\user\User;
 use uztelecom\exceptions\NotFoundException;
 
 class UserRepository
 {
+
+    public function findUserByDevice($uid): ?User
+    {
+        $query = User::find()->alias('u');
+        $query->innerJoin(Device::tableName() . ' d', 'd.user_id = u.id');
+        $query->where(['d.uid' => $uid]);
+        $query->one();
+        return $query;
+    }
+
     /**
      * @param $id
      * @return User
@@ -24,6 +35,7 @@ class UserRepository
 
         return $user;
     }
+
     /**
      * @param $id
      * @return User

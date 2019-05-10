@@ -204,6 +204,17 @@ class UserManageService
     public function addDevice($user_id, DeviceForm $form): void
     {
         $user = $this->users->find($user_id);
+        $owner = $this->users->findUserByDevice($form->uid);
+        if ($owner) {
+            $devices = $owner->devices;
+            foreach ($devices as $k => $device) {
+                if ($device->uid === $form->uid) {
+                    unset($devices[$k]);
+                }
+            }
+            $owner->devices = $devices;
+            $this->users->save($owner);
+        }
         $user->assignDevice(
             $form->uid,
             $form->firebase_token,
