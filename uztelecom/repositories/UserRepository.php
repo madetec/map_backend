@@ -13,13 +13,16 @@ use uztelecom\exceptions\NotFoundException;
 class UserRepository
 {
 
-    public function findUserByDevice($uid): ?User
+    /**
+     * @param $uid
+     * @return array|\yii\db\ActiveRecord|null
+     */
+    public function findUserByDevice($uid)
     {
         $query = User::find()->alias('u');
         $query->innerJoin(Device::tableName() . ' d', 'd.user_id = u.id');
         $query->where(['d.uid' => $uid]);
-        $query->one();
-        return $query;
+        return $query->one();
     }
 
     /**
