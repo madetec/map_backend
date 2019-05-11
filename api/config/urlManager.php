@@ -26,7 +26,6 @@ return [
         'PATCH driver/order/<order_id:\d+>/completed' => 'driver/order/completed',
 
         'POST device/add' => 'common/device/add',
-
-        'GET notifications' => 'notification/index'
+        'GET notifications' => 'common/notification/index'
     ]
 ];
