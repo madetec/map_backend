@@ -42,8 +42,10 @@ class NotificationController extends Controller
             'from' => [
                 'name' => $notification->from->profile->getFullName(),
                 'role' => $notification->from->role,
-                'main_phone' => $notification->from->profile->mainPhone,
+                'main_phone' => $notification->from->profile->mainPhone ? $notification->from->profile->mainPhone->number : null,
                 'car' => $notification->from->car,
+                'position' => $notification->from->profile->position,
+                'subdivision' => $notification->from->profile->subdivision->name
             ],
             'body' => $notification->typeData,
             'created_at' => $notification->created_at

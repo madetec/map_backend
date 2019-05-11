@@ -30,7 +30,7 @@ use yii\db\ActiveRecord;
  * @property Car $car
  * @property User $user
  * @property Order $order
- * @property Order|User|Car|null $typeData
+ * @property Order|User|Car|null $item
  */
 
 class Notification extends ActiveRecord implements Types
@@ -77,7 +77,7 @@ class Notification extends ActiveRecord implements Types
     /**
      * @return Car|Order|User|null
      */
-    public function getTypeData()
+    public function getItem()
     {
         switch ($this->type) {
             case self::TYPE_NEW_ORDER:
