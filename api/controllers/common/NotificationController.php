@@ -24,6 +24,9 @@ class NotificationController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    /**
+     * @return \yii\data\ActiveDataProvider
+     */
     public function actionIndex()
     {
         return $this->notifications->findAllByUserId(\Yii::$app->user->getId());

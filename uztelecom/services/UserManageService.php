@@ -205,6 +205,7 @@ class UserManageService
     {
         $user = $this->users->find($user_id);
         $owner = $this->users->findUserByDevice($form->uid);
+        /** @var User $owner */
         if ($owner) {
             $devices = $owner->devices;
             foreach ($devices as $k => $device) {
