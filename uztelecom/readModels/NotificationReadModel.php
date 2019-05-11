@@ -34,11 +34,11 @@ class NotificationReadModel
 
     public function findAllByUserId($user_id)
     {
-        $query = Notification::find()->alias('notification');
+        $query = Notification::find()->alias('n');
         $query->innerJoin(
-            NotificationAssignments::tableName() . ' assignments',
-            'assignments.notification_id = notification.id');
-        $query->andWhere(['assignments.to_id' => $user_id]);
+            NotificationAssignments::tableName() . ' a',
+            'a.notification_id = n.id');
+        $query->andWhere(['a.to_id' => $user_id]);
         return $this->getProvider($query);
     }
 

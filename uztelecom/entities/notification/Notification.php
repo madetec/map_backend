@@ -8,6 +8,8 @@ namespace uztelecom\entities\notification;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use uztelecom\constants\Types;
+use uztelecom\entities\cars\Car;
+use uztelecom\entities\orders\Order;
 use uztelecom\entities\user\User;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -25,6 +27,10 @@ use yii\db\ActiveRecord;
  * @property NotificationAssignments[] $assignments
  * @property User[] $toUsers
  * @property User $from
+ * @property Car $car
+ * @property User $user
+ * @property Order $order
+ * @property Order|User|Car|null $typeData
  */
 
 class Notification extends ActiveRecord implements Types
@@ -68,6 +74,38 @@ class Notification extends ActiveRecord implements Types
         return $this->hasMany(User::class, ['id' => 'to_id'])->via('assignments');
     }
 
+    /**
+     * @return Car|Order|User|null
+     */
+    public function getTypeData()
+    {
+        switch ($this->type) {
+            case self::TYPE_NEW_ORDER:
+                return $this->order;
+            case self::TYPE_NEW_USER:
+                return $this->user;
+            case self::TYPE_NEW_CAR:
+                return $this->car;
+            default:
+                return null;
+        }
+    }
+
+    public function getOrder(): ActiveQuery
+    {
+        return $this->hasOne(Order::class, ['id' => 'item_id']);
+    }
+
+    public function getCar(): ActiveQuery
+    {
+        return $this->hasOne(Car::class, ['id' => 'item_id']);
+    }
+
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'item_id']);
+    }
+
     public function behaviors()
     {
         return [
@@ -81,5 +119,23 @@ class Notification extends ActiveRecord implements Types
     public static function tableName(): string
     {
         return '{{%notifications}}';
+    }
+
+    private function getTypeList()
+    {
+        return [
+            [
+                'name' => 'new order',
+                'code' => self::TYPE_NEW_ORDER
+            ],
+            [
+                'name' => 'new user',
+                'code' => self::TYPE_NEW_USER
+            ],
+            [
+                'name' => 'new car',
+                'code' => self::TYPE_NEW_CAR
+            ]
+        ];
     }
 }

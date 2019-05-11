@@ -7,6 +7,8 @@
 namespace api\controllers\common;
 
 
+use api\providers\MapDataProvider;
+use uztelecom\entities\notification\Notification;
 use uztelecom\readModels\NotificationReadModel;
 use yii\rest\Controller;
 
@@ -25,10 +27,26 @@ class NotificationController extends Controller
     }
 
     /**
-     * @return \yii\data\ActiveDataProvider
+     * @return MapDataProvider
      */
     public function actionIndex()
     {
-        return $this->notifications->findAllByUserId(\Yii::$app->user->getId());
+        $dataProvider = $this->notifications->findAllByUserId(\Yii::$app->user->getId());
+        return new MapDataProvider($dataProvider, [$this, 'serializeView']);
+    }
+
+
+    public function serializeView(Notification $notification)
+    {
+        return [
+            'from' => [
+                'name' => $notification->from->profile->getFullName(),
+                'role' => $notification->from->role,
+                'main_phone' => $notification->from->profile->mainPhone,
+                'car' => $notification->from->car,
+            ],
+            'body' => $notification->typeData,
+            'created_at' => $notification->created_at
+        ];
     }
 }
