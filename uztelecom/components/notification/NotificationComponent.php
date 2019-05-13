@@ -73,7 +73,8 @@ class NotificationComponent extends Component
                     "От {$order->from_address} до {$order->to_address}. Заказчик: {$order->user->profile->getFullName()}",
                     $device->firebase_token,
                     [
-                        'order_id' => $order->id
+                        'id' => $order->id,
+                        'type' => 'new_order',
                     ]
                 );
             }
