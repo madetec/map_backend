@@ -98,9 +98,9 @@ class NotificationComponent extends Component
             ->setSound('default');
 
         $message = $this->fcm->createMessage();
-
+        $message->setNotification($note);
         if ($data) {
-            $message->setNotification($note)->setData($data);
+            $message->setData($data);
         }
 
         $message->addRecipient(new Device($firebase_token));
