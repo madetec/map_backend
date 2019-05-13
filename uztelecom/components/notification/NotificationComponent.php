@@ -107,8 +107,6 @@ class NotificationComponent extends Component
             $message->setData($data);
         }
 
-        $note->setClickAction('/driver/notification');
-
         $message->addRecipient(new Device($firebase_token));
         $response = $this->fcm->send($message);
         $response->getStatusCode();
