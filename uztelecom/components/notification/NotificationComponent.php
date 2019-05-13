@@ -46,6 +46,12 @@ class NotificationComponent extends Component
         parent::__construct($config);
     }
 
+
+    public function cancelOrder(NotificationEvent $event)
+    {
+
+    }
+
     /**
      * @param NotificationEvent $event
      * @throws \DomainException

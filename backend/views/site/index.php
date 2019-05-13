@@ -101,7 +101,7 @@ let userId = $userId;
 let markers = [];
 initMap();
 
-let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
+let ws = new WebSocket('wss://telecom-car.uz/ws?user_id='+userId);
   ws.addEventListener('open',function(e){
     ws.send(prepareMessage("onlineUsers",null))
     
@@ -178,9 +178,9 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
       });
   }
   
-  // imitation 
-  //
-  //
+  //imitation 
+
+
   // let lat1= 41.344794,
   //     lng1= 69.257859,
   //     lat2= 41.281911,
@@ -205,7 +205,7 @@ let ws = new WebSocket('ws://telecom-car.test/ws?user_id='+userId);
   //           lng3 += .00005;
   //     },1000)
   // }
-  //
+
   
   
   

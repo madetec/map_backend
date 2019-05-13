@@ -125,6 +125,7 @@ class ProfileController extends Controller
     private function serializeUser(User $user)
     {
         return [
+            'user_id' => $user->id,
             'username' => $user->username,
             'name' => $user->profile->name,
             'last_name' => $user->profile->last_name,
@@ -148,6 +149,7 @@ class ProfileController extends Controller
  *     definition="Profile",
  *     type="object",
  *     required={"id"},
+ *     @SWG\Property(property="user_id", type="integer"),
  *     @SWG\Property(property="username", type="string"),
  *     @SWG\Property(property="name", type="string"),
  *     @SWG\Property(property="last_name", type="string"),
