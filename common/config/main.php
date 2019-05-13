@@ -10,7 +10,7 @@ return [
     'components' => [
         'firebase' => [
             'class' => 'understeam\fcm\Client',
-            'apiKey' => 'AAAAeBjY4rQ:APA91bG7gxX_Th-x0JiBQ-muLRdCGjdm4SoUOjrJvu7lbWAFrdhvtP_MOH_cC0PCOf0qZTTxqDU3ilCQKqPFANGP0m4qCFhagxgKClUEMHvmWm2RltJhllhfN0LbTKUO777PKC4IeN-k',
+            'apiKey' => 'AAAAeBjY4rQ:APA91bEzg1-zcVNrXoD2FJRNMjBvPzAYdwX1s6sgFCXHw0HuY_ZzxDGlehAYJwbY_LvdbOwrteM7OgdW7FXRdllNCghs3bArNlLsF5Ld2pYGcWMcvQJWzdvodTx5ML0XzD02P6QjTifB',
         ],
         'notification' => [
             'class' => 'uztelecom\components\notification\NotificationComponent'
