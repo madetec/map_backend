@@ -107,6 +107,8 @@ class NotificationComponent extends Component
             $message->setData($data);
         }
 
+        $note->setClickAction('FCM_PLUGIN_ACTIVITY');
+
         $message->addRecipient(new Device($firebase_token));
         $response = $this->fcm->send($message);
         $response->getStatusCode();
