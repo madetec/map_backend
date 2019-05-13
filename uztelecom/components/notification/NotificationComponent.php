@@ -107,8 +107,22 @@ class NotificationComponent extends Component
             $message->setData($data);
         }
 
+        $note->setClickAction('/driver/notification');
+
         $message->addRecipient(new Device($firebase_token));
         $response = $this->fcm->send($message);
         $response->getStatusCode();
+
+        /*
+         actions: [
+          {
+            icon: 'emailGuests',
+            title: 'EMAIL GUESTS',
+            callback: 'emailGuests',
+            foreground: true
+          },
+          { icon: 'snooze', title: 'SNOOZE', callback: 'snooze', foreground: false }
+        ]
+         */
     }
 }
