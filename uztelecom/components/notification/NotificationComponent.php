@@ -70,8 +70,11 @@ class NotificationComponent extends Component
             foreach ($driver->devices as $device) {
                 $this->sendPushNotificationToDevice(
                     'Новый заказ',
-                    "От {$order->from_address} до {$order->to_address}\n Заказчик: {$order->user->profile->getFullName()}",
-                    $device->firebase_token
+                    "От {$order->from_address} до {$order->to_address}. Заказчик: {$order->user->profile->getFullName()}",
+                    $device->firebase_token,
+                    [
+                        'order_id' => $order->id
+                    ]
                 );
             }
         }
