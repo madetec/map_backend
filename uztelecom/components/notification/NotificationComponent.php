@@ -30,6 +30,7 @@ class NotificationComponent extends Component
     private $notifications;
     private $users;
     private $fcm;
+    private $orders;
 
     public function __construct(
         UserRepository $userRepository,
