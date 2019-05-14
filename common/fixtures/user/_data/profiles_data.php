@@ -32,4 +32,12 @@ return [
         'subdivision_id' => 1,
         'position' => 'user',
     ],
+    [
+        'name' => 'user_2',
+        'last_name' => 'userov_2',
+        'father_name' => 'userovich_2',
+        'user_id' => 5,
+        'subdivision_id' => 1,
+        'position' => 'user',
+    ],
 ];

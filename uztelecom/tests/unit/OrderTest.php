@@ -84,7 +84,7 @@ class OrderTest extends Unit
         $order->takeOrder($driver_id);
         $this->assertTrue($order->save());
         $this->assertEquals($driver_id, $order->driver_id);
-        $this->assertEquals(Order::STATUS_BUSY, $order->status);
+        $this->assertEquals(Order::STATUS_DRIVER_ON_THE_ROAD, $order->status);
     }
 
     /**

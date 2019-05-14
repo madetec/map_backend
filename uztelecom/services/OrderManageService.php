@@ -21,7 +21,7 @@ use uztelecom\repositories\UserRepository;
 /**
  * Created by Madetec-Solution.
  * Developer: Mirkhanov Z.S.
- * Class CarManageService
+ * Class OrderManageService
  * @package uztelecom\services
  * @property  CarRepository $cars
  * @property  UserRepository $users
@@ -42,6 +42,60 @@ class OrderManageService
         $this->cars = $carRepository;
         $this->users = $userRepository;
         $this->orders = $orderRepository;
+    }
+
+    /**
+     * @param int $driver_id
+     * @param int $order_id
+     * @return Order
+     * @throws NotFoundException
+     * @throws \DomainException
+     */
+    public function isWaiting(int $driver_id, int $order_id)
+    {
+        $driver = $this->users->findRoleDriver($driver_id);
+        $this->thisDriverHasCar($driver);
+        $order = $this->orders->findActive($order_id);
+        $order->driverIsWaiting();
+        $this->orders->save($order);
+
+        $notificationEvent = NotificationEvent::create(
+            $driver->id,
+            $order->created_by,
+            Notification::TYPE_DRIVER_IS_WAITING,
+            $order->id
+        );
+
+        $order->trigger(Order::EVENT_DRIVER_IS_WAITING, $notificationEvent);
+
+        return $order;
+    }
+
+    /**
+     * @param int $driver_id
+     * @param int $order_id
+     * @return Order
+     * @throws NotFoundException
+     * @throws \DomainException
+     */
+    public function started(int $driver_id, int $order_id)
+    {
+        $driver = $this->users->findRoleDriver($driver_id);
+        $this->thisDriverHasCar($driver);
+        $order = $this->orders->findActive($order_id);
+        $order->driverStartedTheRide();
+        $this->orders->save($order);
+
+        $notificationEvent = NotificationEvent::create(
+            $driver->id,
+            $order->created_by,
+            Notification::TYPE_DRIVER_STARTED_THE_RIDE,
+            $order->id
+        );
+
+        $order->trigger(Order::EVENT_DRIVER_STARTED_THE_RIDE, $notificationEvent);
+
+        return $order;
     }
 
     /**
@@ -92,6 +146,16 @@ class OrderManageService
         $order = $this->orders->findActive($order_id);
         $order->takeOrder($driver->id);
         $this->orders->save($order);
+
+        $notificationEvent = NotificationEvent::create(
+            $driver->id,
+            $order->created_by,
+            Notification::TYPE_TAKE_ORDER,
+            $order->id
+        );
+
+        $order->trigger(Order::EVENT_TAKE_ORDER, $notificationEvent);
+
         return $order;
     }
 
@@ -105,18 +169,41 @@ class OrderManageService
         $order = $this->orders->findBusy($order_id);
         $order->completed();
         $this->orders->save($order);
+        $notificationEvent = NotificationEvent::create(
+            $order->driver->id,
+            $order->created_by,
+            Notification::TYPE_COMPLETED,
+            $order->id
+        );
+        $order->trigger(Order::EVENT_COMPLETED, $notificationEvent);
     }
 
     /**
      * @param int $order_id
+     * @throws NotFoundException
      * @throws \DomainException
-     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function canceled(int $order_id): void
     {
         $order = $this->orders->findActive($order_id);
         $order->canceled();
         $this->orders->save($order);
+        if ($order->driver) {
+            if ($order->driver->id === \Yii::$app->user->getId()) {
+                $fromId = $order->driver->id;
+                $toId = $order->created_by;
+            } else {
+                $fromId = $order->created_by;
+                $toId = $order->driver->id;
+            }
+            $notificationEvent = NotificationEvent::create(
+                $fromId,
+                $toId,
+                Notification::TYPE_CANCEL_ORDER,
+                $order->id
+            );
+            $order->trigger(Order::EVENT_CANCEL_ORDER, $notificationEvent);
+        }
     }
 
     /**

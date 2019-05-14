@@ -24,8 +24,9 @@ class OrderHelper
     {
         return [
             Order::STATUS_ACTIVE => 'Активный',
-            Order::STATUS_WAIT => 'В ожидании',
-            Order::STATUS_BUSY => 'В пути',
+            Order::STATUS_DRIVER_IS_WAITING => 'В ожидании',
+            Order::STATUS_DRIVER_ON_THE_ROAD => 'В пути',
+            Order::STATUS_DRIVER_STARTED_THE_RIDE => 'Водитель начал поездку',
             Order::STATUS_CANCELED => 'Отменен',
             Order::STATUS_COMPLETED => 'Выполнен',
         ];
@@ -37,10 +38,10 @@ class OrderHelper
             case Order::STATUS_ACTIVE:
                 $class = 'info';
                 break;
-            case Order::STATUS_WAIT:
+            case Order::STATUS_DRIVER_IS_WAITING:
                 $class = 'warning';
                 break;
-            case Order::STATUS_BUSY:
+            case Order::STATUS_DRIVER_ON_THE_ROAD:
                 $class = 'danger';
                 break;
             case Order::STATUS_CANCELED:
@@ -64,17 +65,20 @@ class OrderHelper
             case Order::STATUS_ACTIVE:
                 $name = 'Активный';
                 break;
-            case Order::STATUS_WAIT:
-                $name = 'Ожидает';
+            case Order::STATUS_DRIVER_IS_WAITING:
+                $name = 'Водитель ожидает пользователя';
                 break;
-            case Order::STATUS_BUSY:
-                $name = 'Занят';
+            case Order::STATUS_DRIVER_ON_THE_ROAD:
+                $name = 'Водитель в пути';
                 break;
             case Order::STATUS_CANCELED:
                 $name = 'Отменен';
                 break;
             case Order::STATUS_COMPLETED:
                 $name = 'Выполнен';
+                break;
+            case Order::STATUS_DRIVER_STARTED_THE_RIDE:
+                $name = 'Водитель начал поездку';
                 break;
             default:
                 $name = 'Неизвестен';

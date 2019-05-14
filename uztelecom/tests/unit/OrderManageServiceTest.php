@@ -50,7 +50,7 @@ class OrderManageServiceTest extends Unit
      */
     public function testCreateWithoutToLocation()
     {
-        $created_by = 4;
+        $created_by = 5;
         $from_lat = 12.412;
         $from_lng = 31.3123;
         $from_address = 'Tashkent';
@@ -77,7 +77,7 @@ class OrderManageServiceTest extends Unit
      */
     public function testCreateWithToLocation()
     {
-        $created_by = 4;
+        $created_by = 5;
         $from_lat = 12.412;
         $from_lng = 31.3123;
         $from_address = 'Tashkent, Mirzo-ulugbek, 10';
@@ -113,7 +113,7 @@ class OrderManageServiceTest extends Unit
         $order = Order::findOne(1);
         $order = $this->service->takeOrder($driver_id, $order->id);
         $this->assertEquals($driver_id, $order->driver_id);
-        $this->assertEquals(Order::STATUS_BUSY, $order->status);
+        $this->assertEquals(Order::STATUS_DRIVER_ON_THE_ROAD, $order->status);
     }
 
     /**

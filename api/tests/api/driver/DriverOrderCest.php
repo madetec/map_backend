@@ -10,6 +10,7 @@ use api\tests\ApiTester;
 use common\fixtures\car\CarFixture;
 use common\fixtures\Oauth20\OauthAccessTokenFixture;
 use common\fixtures\order\OrderFixture;
+use common\fixtures\user\DeviceFixture;
 
 class DriverOrderCest
 {
@@ -19,6 +20,7 @@ class DriverOrderCest
             OauthAccessTokenFixture::class,
             OrderFixture::class,
             CarFixture::class,
+            DeviceFixture::class
         ];
     }
 
@@ -26,6 +28,20 @@ class DriverOrderCest
     {
         $I->amBearerAuthenticated('token-correct-driver');
         $I->sendPATCH('/driver/order/2/completed');
+        $I->canSeeResponseCodeIs(200);
+    }
+
+    public function started(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct-driver');
+        $I->sendPATCH('/driver/order/2/started');
+        $I->canSeeResponseCodeIs(200);
+    }
+
+    public function isWaiting(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct-driver');
+        $I->sendPATCH('/driver/order/2/waiting');
         $I->canSeeResponseCodeIs(200);
     }
 
@@ -39,7 +55,7 @@ class DriverOrderCest
     public function cancel(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-driver');
-        $I->sendPATCH('/driver/order/1/cancel');
+        $I->sendPATCH('/driver/order/2/cancel');
         $I->canSeeResponseCodeIs(200);
     }
 }

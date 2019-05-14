@@ -5,9 +5,9 @@ namespace uztelecom\entities\orders;
 use uztelecom\constants\Event;
 use uztelecom\constants\Status;
 use uztelecom\entities\notification\Notification;
-use uztelecom\entities\notification\NotificationAssignments;
 use uztelecom\entities\orders\queries\OrderQuery;
 use uztelecom\entities\user\User;
+use Yii;
 use yii\db\ActiveRecord;
 
 
@@ -35,7 +35,12 @@ class Order extends ActiveRecord implements Status, Event
 {
     public function init()
     {
-        $this->on(self::EVENT_NEW_ORDER, [\Yii::$app->notification, self::EVENT_NEW_ORDER]);
+        $this->on(self::EVENT_NEW_ORDER, [Yii::$app->notification, self::EVENT_NEW_ORDER]);
+        $this->on(self::EVENT_TAKE_ORDER, [Yii::$app->notification, self::EVENT_TAKE_ORDER]);
+        $this->on(self::EVENT_DRIVER_IS_WAITING, [Yii::$app->notification, self::EVENT_DRIVER_IS_WAITING]);
+        $this->on(self::EVENT_DRIVER_STARTED_THE_RIDE, [Yii::$app->notification, self::EVENT_DRIVER_STARTED_THE_RIDE]);
+        $this->on(self::EVENT_CANCEL_ORDER, [Yii::$app->notification, self::EVENT_CANCEL_ORDER]);
+        $this->on(self::EVENT_COMPLETED, [Yii::$app->notification, self::EVENT_COMPLETED]);
         parent::init();
     }
 
@@ -61,9 +66,19 @@ class Order extends ActiveRecord implements Status, Event
         return $order;
     }
 
+    public function driverStartedTheRide()
+    {
+        $this->status = self::STATUS_DRIVER_STARTED_THE_RIDE;
+    }
+
+    public function driverIsWaiting()
+    {
+        $this->status = self::STATUS_DRIVER_IS_WAITING;
+    }
+
     public function takeOrder($driver_id)
     {
-        $this->status = self::STATUS_BUSY;
+        $this->status = self::STATUS_DRIVER_ON_THE_ROAD;
         $this->driver_id = $driver_id;
     }
 

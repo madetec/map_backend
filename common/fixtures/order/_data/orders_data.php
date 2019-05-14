@@ -12,7 +12,7 @@ return [
 
     [
         'id' => 2,
-        'status' => \uztelecom\entities\orders\Order::STATUS_BUSY,
+        'status' => \uztelecom\entities\orders\Order::STATUS_DRIVER_ON_THE_ROAD,
         'from_lat' => 41.324740,
         'from_lng' => 69.272871,
         'from_address' => 'test from address',
@@ -53,7 +53,7 @@ return [
     ],
     [
         'id' => 5,
-        'status' => \uztelecom\entities\orders\Order::STATUS_WAIT,
+        'status' => \uztelecom\entities\orders\Order::STATUS_DRIVER_IS_WAITING,
         'from_lat' => 312.13,
         'from_lng' => 31.23,
         'from_address' => 'tashkent',

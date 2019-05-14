@@ -44,7 +44,8 @@ class OrderController extends Controller
      * )
      */
     /**
-     * @return array|\yii\db\ActiveRecord|null
+     * @return array
+     * @throws \uztelecom\exceptions\NotFoundException
      */
     public function actionActive()
     {

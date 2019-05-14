@@ -24,6 +24,8 @@ return [
         'PATCH driver/order/<order_id:\d+>/cancel' => 'driver/order/cancel',
         'PATCH driver/order/<order_id:\d+>/take' => 'driver/order/take',
         'PATCH driver/order/<order_id:\d+>/completed' => 'driver/order/completed',
+        'PATCH driver/order/<order_id:\d+>/waiting' => 'driver/order/is-waiting',
+        'PATCH driver/order/<order_id:\d+>/started' => 'driver/order/started',
 
         'POST device/add' => 'common/device/add',
         'GET notifications' => 'common/notification/index'

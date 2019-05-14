@@ -30,6 +30,37 @@ class OrderController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+
+    /**
+     * @param $order_id
+     * @return array
+     * @throws BadRequestHttpException
+     */
+    public function actionIsWaiting($order_id)
+    {
+        try {
+            $order = $this->service->isWaiting(\Yii::$app->user->getId(), $order_id);
+            return $this->serializeOrder($order);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param $order_id
+     * @return array
+     * @throws BadRequestHttpException
+     */
+    public function actionStarted($order_id)
+    {
+        try {
+            $order = $this->service->started(\Yii::$app->user->getId(), $order_id);
+            return $this->serializeOrder($order);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
     /**
      * @SWG\Patch(
      *     path="/driver/order/{order_id}/completed",

@@ -27,7 +27,7 @@ class OrderRepository
 
     /**
      * @param int $id
-     * @return Order
+     * @return Order|ActiveRecord
      * @throws NotFoundException
      */
     public function findBusy(int $id): Order
@@ -45,7 +45,7 @@ class OrderRepository
      */
     public function findActive(int $id): Order
     {
-        if (!$order = Order::find()->where(['id' => $id])->one()) {
+        if (!$order = Order::findOne($id)) {
             throw new NotFoundException('Order not found.');
         }
         return $order;

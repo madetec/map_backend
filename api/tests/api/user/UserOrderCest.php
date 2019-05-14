@@ -10,6 +10,7 @@ use api\tests\ApiTester;
 use common\fixtures\notification\NotificationAssignmentsFixture;
 use common\fixtures\Oauth20\OauthAccessTokenFixture;
 use common\fixtures\order\OrderFixture;
+use common\fixtures\user\DeviceFixture;
 
 class UserOrderCest
 {
@@ -18,7 +19,8 @@ class UserOrderCest
         return [
             OauthAccessTokenFixture::class,
             OrderFixture::class,
-            NotificationAssignmentsFixture::class
+            NotificationAssignmentsFixture::class,
+            DeviceFixture::class
         ];
     }
 
@@ -28,6 +30,7 @@ class UserOrderCest
         $I->sendGET('/user/order/active');
         $I->seeResponseCodeIs(200);
     }
+
     public function create(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-user');
@@ -43,7 +46,7 @@ class UserOrderCest
         $I->sendPOST('/user/order', [
             'from_lat' => 323.23,
             'from_lng' => 321.23,
-            'from_address' => 'fdsfds fdfsd',
+            'from_address' => 'uzbekistan',
         ]);
 
         $I->canSeeResponseContainsJson([

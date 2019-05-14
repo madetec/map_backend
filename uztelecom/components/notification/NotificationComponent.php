@@ -46,10 +46,194 @@ class NotificationComponent extends Component
         parent::__construct($config);
     }
 
+    /**
+     * @param NotificationEvent $event
+     * @throws \DomainException
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \uztelecom\exceptions\NotFoundException
+     * @throws \yii\base\InvalidParamException
+     */
+    public function completedOrder(NotificationEvent $event)
+    {
+        $from = $this->users->find($event->from_id);
+        $to = $this->users->find($event->to_id);
 
+        $notification = Notification::create(
+            $event->type,
+            $event->type_id,
+            $event->from_id
+        );
+        $notification->assign($to->id);
+        $order = $this->orders->find($event->type_id);
+
+        $title = "Водитель выполнил заказ!";
+        $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
+        $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        foreach ($to->devices as $device) {
+            $this->sendPushNotificationToDevice(
+                $title,
+                $body,
+                $device->firebase_token,
+                [
+                    'id' => $order->id,
+                    'type' => 'completed_order',
+                ]
+            );
+        }
+        $this->notifications->save($notification);
+    }
+
+    /**
+     * @param NotificationEvent $event
+     * @throws \DomainException
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \uztelecom\exceptions\NotFoundException
+     * @throws \yii\base\InvalidParamException
+     */
     public function cancelOrder(NotificationEvent $event)
     {
+        $from = $this->users->find($event->from_id);
+        $to = $this->users->find($event->to_id);
 
+        $notification = Notification::create(
+            $event->type,
+            $event->type_id,
+            $event->from_id
+        );
+        $notification->assign($to->id);
+        $order = $this->orders->find($event->type_id);
+
+        $title = "Водитель отменил заказ!";
+        $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
+        $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        foreach ($to->devices as $device) {
+            $this->sendPushNotificationToDevice(
+                $title,
+                $body,
+                $device->firebase_token,
+                [
+                    'id' => $order->id,
+                    'type' => 'cancel_order',
+                ]
+            );
+        }
+        $this->notifications->save($notification);
+    }
+
+    /**
+     * @param NotificationEvent $event
+     * @throws \DomainException
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \uztelecom\exceptions\NotFoundException
+     * @throws \yii\base\InvalidParamException
+     */
+    public function takeOrder(NotificationEvent $event)
+    {
+        $from = $this->users->find($event->from_id);
+        $to = $this->users->find($event->to_id);
+
+        $notification = Notification::create(
+            $event->type,
+            $event->type_id,
+            $event->from_id
+        );
+        $notification->assign($to->id);
+        $order = $this->orders->find($event->type_id);
+
+        $title = "Водитель в пути";
+        $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
+        $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        foreach ($to->devices as $device) {
+            $this->sendPushNotificationToDevice(
+                $title,
+                $body,
+                $device->firebase_token,
+                [
+                    'id' => $order->id,
+                    'type' => 'take_order',
+                ]
+            );
+        }
+        $this->notifications->save($notification);
+    }
+
+    /**
+     * @param NotificationEvent $event
+     * @throws \DomainException
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \uztelecom\exceptions\NotFoundException
+     * @throws \yii\base\InvalidParamException
+     */
+    public function driverIsWaiting(NotificationEvent $event)
+    {
+        $from = $this->users->find($event->from_id);
+        $to = $this->users->find($event->to_id);
+
+        $notification = Notification::create(
+            $event->type,
+            $event->type_id,
+            $event->from_id
+        );
+        $notification->assign($to->id);
+        $order = $this->orders->find($event->type_id);
+
+        $title = "Водитель приехал и ожидает Вас!";
+        $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
+        $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        foreach ($to->devices as $device) {
+            $this->sendPushNotificationToDevice(
+                $title,
+                $body,
+                $device->firebase_token,
+                [
+                    'id' => $order->id,
+                    'type' => 'driver_is_waiting',
+                ]
+            );
+        }
+        $this->notifications->save($notification);
+    }
+
+    /**
+     * @param NotificationEvent $event
+     * @throws \DomainException
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws \uztelecom\exceptions\NotFoundException
+     * @throws \yii\base\InvalidParamException
+     */
+    public function driverStartedTheRide(NotificationEvent $event)
+    {
+        $from = $this->users->find($event->from_id);
+        $to = $this->users->find($event->to_id);
+
+        $notification = Notification::create(
+            $event->type,
+            $event->type_id,
+            $event->from_id
+        );
+        $notification->assign($to->id);
+        $order = $this->orders->find($event->type_id);
+
+        $title = "Водитель начал выполнение заказа";
+        $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
+        $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        foreach ($to->devices as $device) {
+            $this->sendPushNotificationToDevice(
+                $title,
+                $body,
+                $device->firebase_token,
+                [
+                    'id' => $order->id,
+                    'type' => 'take_order',
+                ]
+            );
+        }
+        $this->notifications->save($notification);
     }
 
     /**
@@ -64,19 +248,25 @@ class NotificationComponent extends Component
     {
         $drivers = $this->users->findAllFreeDrivers();
         $notification = Notification::create(
-            Notification::TYPE_NEW_ORDER,
+            $event->type,
             $event->type_id,
             $event->from_id
         );
         $order = $this->orders->find($event->type_id);
+        $title = "Новый заказ";
+        $body = "От: {$order->from_address}" . PHP_EOL;
+        if ($order->to_address) {
+            $body .= "До: {$order->to_address}" . PHP_EOL;
+        }
+        $body .= "Заказчик: {$order->user->profile->getFullName()}" . PHP_EOL;
 
         /** @var User[] $drivers */
         foreach ($drivers as $driver) {
             $notification->assign($driver->id);
             foreach ($driver->devices as $device) {
                 $this->sendPushNotificationToDevice(
-                    'Новый заказ',
-                    "От {$order->from_address} до {$order->to_address}. Заказчик: {$order->user->profile->getFullName()}",
+                    $title,
+                    $body,
                     $device->firebase_token,
                     [
                         'id' => $order->id,
@@ -118,17 +308,5 @@ class NotificationComponent extends Component
         $message->addRecipient(new Device($firebase_token));
         $response = $this->fcm->send($message);
         $response->getStatusCode();
-
-        /*
-         actions: [
-          {
-            icon: 'emailGuests',
-            title: 'EMAIL GUESTS',
-            callback: 'emailGuests',
-            foreground: true
-          },
-          { icon: 'snooze', title: 'SNOOZE', callback: 'snooze', foreground: false }
-        ]
-         */
     }
 }

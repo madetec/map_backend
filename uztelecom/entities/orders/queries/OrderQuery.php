@@ -22,7 +22,7 @@ class OrderQuery extends ActiveQuery
     public function busy($alias = null)
     {
         return $this->andWhere([
-            ($alias ? $alias . '.' : '') . 'status' => Order::STATUS_BUSY,
+            ($alias ? $alias . '.' : '') . 'status' => Order::STATUS_DRIVER_ON_THE_ROAD,
         ]);
     }
 
@@ -43,7 +43,7 @@ class OrderQuery extends ActiveQuery
     public function wait($alias = null)
     {
         return $this->andWhere([
-            ($alias ? $alias . '.' : '') . 'status' => Order::STATUS_WAIT,
+            ($alias ? $alias . '.' : '') . 'status' => Order::STATUS_DRIVER_IS_WAITING,
         ]);
     }
 }
