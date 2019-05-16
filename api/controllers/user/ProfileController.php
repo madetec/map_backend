@@ -176,8 +176,8 @@ class ProfileController extends Controller
  * @SWG\Definition(
  *     definition="AddressForm",
  *     type="object",
- *     @SWG\Property(property="name", type="string"),
- *     @SWG\Property(property="lat", type="number"),
- *     @SWG\Property(property="lng", type="number"),
+ *     @SWG\Property(property="name", type="string", enum="string -> required"),
+ *     @SWG\Property(property="lat", type="number", enum="float -> optional"),
+ *     @SWG\Property(property="lng", type="number", enum="float -> optional"),
  * )
  */

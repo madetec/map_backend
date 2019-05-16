@@ -25,7 +25,19 @@ class NotificationController extends Controller
         $this->notifications = $notificationReadModel;
         parent::__construct($id, $module, $config);
     }
-
+    /**
+     * @SWG\Get(
+     *     path="/notifications",
+     *     tags={"Notifications"},
+     *     description="Returns notifications list",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *          @SWG\Schema(@SWG\Items(ref="#/definitions/Notification"))
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
     /**
      * @return MapDataProvider
      */
@@ -52,3 +64,20 @@ class NotificationController extends Controller
         ];
     }
 }
+
+/**
+ * @SWG\Definition(
+ *     definition="Notification",
+ *     type="object",
+ *     @SWG\Property(property="from", type="object",
+ *          @SWG\Property(property="name", type="string"),
+ *          @SWG\Property(property="role", type="string"),
+ *          @SWG\Property(property="main_phone", type="string"),
+ *          @SWG\Property(property="car", type="string"),
+ *          @SWG\Property(property="position", type="string"),
+ *          @SWG\Property(property="subdivision", type="string"),
+ *     ),
+ *     @SWG\Property(property="body", type="object"),
+ *     @SWG\Property(property="created_at", type="integer"),
+ * )
+ */

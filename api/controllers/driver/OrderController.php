@@ -32,6 +32,18 @@ class OrderController extends Controller
 
 
     /**
+     * @SWG\Patch(
+     *     path="/driver/order/{order_id}/waiting",
+     *     tags={"Driver Order"},
+     *     @SWG\Parameter(name="order_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
      * @param $order_id
      * @return array
      * @throws BadRequestHttpException
@@ -46,6 +58,18 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * @SWG\Patch(
+     *     path="/driver/order/{order_id}/started",
+     *     tags={"Driver Order"},
+     *     @SWG\Parameter(name="order_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
     /**
      * @param $order_id
      * @return array
@@ -231,11 +255,11 @@ class OrderController extends Controller
  * @SWG\Definition(
  *     definition="OrderForm",
  *     type="object",
- *     @SWG\Property(property="from_lat", type="number"),
- *     @SWG\Property(property="from_lng", type="number"),
- *     @SWG\Property(property="from_address", type="string"),
- *     @SWG\Property(property="to_lat", type="number"),
- *     @SWG\Property(property="to_lng", type="number"),
- *     @SWG\Property(property="to_address", type="string"),
+ *     @SWG\Property(property="from_lat", type="number", enum="float -> required"),
+ *     @SWG\Property(property="from_lng", type="number", enum="float -> required"),
+ *     @SWG\Property(property="from_address", type="string", enum="string -> required"),
+ *     @SWG\Property(property="to_lat", type="number", enum="float -> optional"),
+ *     @SWG\Property(property="to_lng", type="number", enum="float -> optional"),
+ *     @SWG\Property(property="to_address", type="string", enum="string -> optional"),
  * )
  */

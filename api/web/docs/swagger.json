@@ -78,6 +78,112 @@
                 }
             }
         },
+        "/device/add": {
+            "post": {
+                "tags": [
+                    "Device"
+                ],
+                "description": "Return boolean",
+                "parameters": [
+                    {
+                        "name": "requst body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/DeviceForm"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "true || false"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/notifications": {
+            "get": {
+                "tags": [
+                    "Notifications"
+                ],
+                "description": "Returns notifications list",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Notification"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/driver/order/{order_id}/waiting": {
+            "patch": {
+                "tags": [
+                    "Driver Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/driver/order/{order_id}/started": {
+            "patch": {
+                "tags": [
+                    "Driver Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/driver/order/{order_id}/completed": {
             "patch": {
                 "tags": [
@@ -500,6 +606,57 @@
             },
             "type": "object"
         },
+        "DeviceForm": {
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "enum": "string -> required"
+                },
+                "firebase_token": {
+                    "type": "string",
+                    "enum": "string -> required"
+                },
+                "name": {
+                    "type": "string",
+                    "enum": "string -> optinal"
+                }
+            },
+            "type": "object"
+        },
+        "Notification": {
+            "properties": {
+                "from": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "role": {
+                            "type": "string"
+                        },
+                        "main_phone": {
+                            "type": "string"
+                        },
+                        "car": {
+                            "type": "string"
+                        },
+                        "position": {
+                            "type": "string"
+                        },
+                        "subdivision": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "body": {
+                    "type": "object"
+                },
+                "created_at": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
         "serializeOrder": {
             "properties": {
                 "id": {
@@ -603,22 +760,28 @@
         "OrderForm": {
             "properties": {
                 "from_lat": {
-                    "type": "number"
+                    "type": "number",
+                    "enum": "float -> required"
                 },
                 "from_lng": {
-                    "type": "number"
+                    "type": "number",
+                    "enum": "float -> required"
                 },
                 "from_address": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": "string -> required"
                 },
                 "to_lat": {
-                    "type": "number"
+                    "type": "number",
+                    "enum": "float -> optional"
                 },
                 "to_lng": {
-                    "type": "number"
+                    "type": "number",
+                    "enum": "float -> optional"
                 },
                 "to_address": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": "string -> optional"
                 }
             },
             "type": "object"
@@ -628,6 +791,9 @@
                 "id"
             ],
             "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
                 "username": {
                     "type": "string"
                 },
@@ -688,13 +854,16 @@
         "AddressForm": {
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": "string -> required"
                 },
                 "lat": {
-                    "type": "number"
+                    "type": "number",
+                    "enum": "float -> optional"
                 },
                 "lng": {
-                    "type": "number"
+                    "type": "number",
+                    "enum": "float -> optional"
                 }
             },
             "type": "object"

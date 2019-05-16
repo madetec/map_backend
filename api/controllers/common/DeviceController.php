@@ -34,6 +34,25 @@ class DeviceController extends Controller
     }
 
     /**
+     * @SWG\Post(
+     *     path="/device/add",
+     *     tags={"Device"},
+     *     description="Return boolean",
+     *      @SWG\Parameter(
+     *          name="requst body",
+     *          in="body",
+     *          required=true,
+     *          type="object",
+     *          @SWG\Schema(ref="#/definitions/DeviceForm")
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="true || false"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
      * @return bool|DeviceForm
      * @throws BadRequestHttpException
      * @throws \yii\base\InvalidArgumentException
@@ -53,3 +72,14 @@ class DeviceController extends Controller
         return $form;
     }
 }
+
+
+/**
+ * @SWG\Definition(
+ *     definition="DeviceForm",
+ *     type="object",
+ *     @SWG\Property(property="uid", type="string", enum="string -> required"),
+ *     @SWG\Property(property="firebase_token", type="string", enum="string -> required"),
+ *     @SWG\Property(property="name", type="string", enum="string -> optinal"),
+ * )
+ */
