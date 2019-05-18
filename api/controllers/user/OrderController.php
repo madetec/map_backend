@@ -34,6 +34,29 @@ class OrderController extends Controller
 
     /**
      * @SWG\Get(
+     *     path="/user/order/{id}",
+     *     tags={"User Order"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/serializeOrder")
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @param $id
+     * @return array
+     */
+    public function actionView($id)
+    {
+        $order = $this->orders->find($id);
+        return $order ? $this->serializeOrder($order) : null;
+    }
+
+    /**
+     * @SWG\Get(
      *     path="/user/order/active",
      *     tags={"User Order"},
      *     @SWG\Response(

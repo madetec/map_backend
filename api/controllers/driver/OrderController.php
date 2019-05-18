@@ -32,6 +32,30 @@ class OrderController extends Controller
 
 
     /**
+     * @SWG\Get(
+     *     path="/driver/order/{id}",
+     *     tags={"Driver Order"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/serializeOrder")
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @param $id
+     * @return array
+     */
+    public function actionView($id)
+    {
+        $order = $this->orders->find($id);
+        return $order ? $this->serializeOrder($order) : null;
+    }
+
+
+    /**
      * @SWG\Patch(
      *     path="/driver/order/{order_id}/waiting",
      *     tags={"Driver Order"},

@@ -139,7 +139,8 @@ class ProfileController extends Controller
             'status' => [
                 'code' => $user->status,
                 'text' => UserHelper::getStatusText($user->status),
-            ]
+            ],
+            'role' => $user->role
         ];
     }
 }

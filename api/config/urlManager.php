@@ -17,10 +17,12 @@ return [
         'PATCH driver/status/<_a:\w+>' => 'driver/profile/<_a>',
 
         'GET user/order' => 'user/order/index',
+        'GET user/order/<id:\d+>' => 'user/order/view',
         'POST user/order' => 'user/order/create',
         'PATCH user/order/<order_id:\d+>/cancel' => 'user/order/cancel',
         'GET user/order/active' => 'user/order/active',
 
+        'GET driver/order/<id:\d+>' => 'driver/order/view',
         'PATCH driver/order/<order_id:\d+>/cancel' => 'driver/order/cancel',
         'PATCH driver/order/<order_id:\d+>/take' => 'driver/order/take',
         'PATCH driver/order/<order_id:\d+>/completed' => 'driver/order/completed',

@@ -229,7 +229,7 @@ class NotificationComponent extends Component
                 $device->firebase_token,
                 [
                     'id' => $order->id,
-                    'type' => 'take_order',
+                    'type' => 'started_order',
                 ]
             );
         }

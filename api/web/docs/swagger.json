@@ -132,6 +132,35 @@
                 ]
             }
         },
+        "/driver/order/{id}": {
+            "get": {
+                "tags": [
+                    "Driver Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/serializeOrder"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/driver/order/{order_id}/waiting": {
             "patch": {
                 "tags": [
@@ -293,6 +322,35 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
+        "/user/order/{id}": {
+            "get": {
+                "tags": [
+                    "User Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/serializeOrder"
+                        }
                     }
                 },
                 "security": [
