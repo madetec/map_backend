@@ -39,6 +39,7 @@ class NotificationReadModel
             NotificationAssignments::tableName() . ' a',
             'a.notification_id = n.id');
         $query->andWhere(['a.to_id' => $user_id]);
+        $query->orderBy(['created_at' => SORT_DESC]);
         return $this->getProvider($query);
     }
 
