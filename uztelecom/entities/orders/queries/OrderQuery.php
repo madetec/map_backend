@@ -46,4 +46,11 @@ class OrderQuery extends ActiveQuery
             ($alias ? $alias . '.' : '') . 'status' => Order::STATUS_DRIVER_IS_WAITING,
         ]);
     }
+
+    public function started($alias = null)
+    {
+        return $this->andWhere([
+            ($alias ? $alias . '.' : '') . 'status' => Order::STATUS_DRIVER_STARTED_THE_RIDE,
+        ]);
+    }
 }

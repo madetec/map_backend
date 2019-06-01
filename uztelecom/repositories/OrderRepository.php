@@ -13,6 +13,8 @@ use yii\db\ActiveRecord;
 
 class OrderRepository
 {
+
+
     /**
      * @param $user_id
      * @return Order|null|ActiveRecord
@@ -30,6 +32,14 @@ class OrderRepository
      * @return Order|ActiveRecord
      * @throws NotFoundException
      */
+    public function findStarted(int $id): Order
+    {
+        if (!$order = Order::find()->where(['id' => $id])->started()->one()) {
+            throw new NotFoundException('Order not found.');
+        }
+        return $order;
+    }
+
     public function findBusy(int $id): Order
     {
         if (!$order = Order::find()->where(['id' => $id])->busy()->one()) {

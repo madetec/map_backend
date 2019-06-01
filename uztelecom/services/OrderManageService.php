@@ -166,7 +166,7 @@ class OrderManageService
      */
     public function completed(int $order_id): void
     {
-        $order = $this->orders->findBusy($order_id);
+        $order = $this->orders->findStarted($order_id);
         $order->completed();
         $this->orders->save($order);
         $notificationEvent = NotificationEvent::create(
