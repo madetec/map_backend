@@ -26,11 +26,12 @@ class OrderReadRepository
             ->where([
                 'and',
                 ['created_by' => $user_id],
-                [
-                    'or',
-                    ['!=', 'status', Order::STATUS_CANCELED],
-                    ['!=', 'status', Order::STATUS_COMPLETED],
-                ]
+                ['status' =>  [
+                    Order::STATUS_ACTIVE,
+                    Order::STATUS_DRIVER_ON_THE_ROAD,
+                    Order::STATUS_DRIVER_IS_WAITING,
+                    Order::STATUS_DRIVER_STARTED_THE_RIDE,
+                ]]
             ])
             ->one()) {
             throw new  NotFoundException('Order not found.');
