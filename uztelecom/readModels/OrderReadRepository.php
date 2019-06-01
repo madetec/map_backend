@@ -23,8 +23,15 @@ class OrderReadRepository
             throw new  NotFoundException('User not found.');
         }
         if (!$order = Order::find()
-            ->where(['created_by' => $user_id])
-            ->andWhere(['!=', 'status', [Order::STATUS_CANCELED, Order::STATUS_COMPLETED]])
+            ->where([
+                'and',
+                ['created_by' => $user_id],
+                [
+                    'or',
+                    ['!=', 'status', Order::STATUS_CANCELED],
+                    ['!=', 'status', Order::STATUS_COMPLETED],
+                ]
+            ])
             ->one()) {
             throw new  NotFoundException('Order not found.');
         }
