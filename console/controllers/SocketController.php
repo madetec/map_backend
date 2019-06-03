@@ -10,8 +10,8 @@ use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 use uztelecom\repositories\UserRepository;
+use uztelecom\services\OrderManageService;
 use uztelecom\websocket\controllers\OnlineController;
-use Ratchet\App;
 use yii\console\Controller;
 
 /**
@@ -21,15 +21,18 @@ use yii\console\Controller;
 class SocketController extends Controller
 {
     private $users;
+    private $orderService;
 
     public function __construct(
         string $id,
         $module,
         UserRepository $users,
+        OrderManageService $orderManageService,
         array $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->users = $users;
+        $this->orderService = $orderManageService;
     }
 
 
@@ -59,7 +62,7 @@ class SocketController extends Controller
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
-                    new OnlineController($this->users)
+                    new OnlineController($this->users, $this->orderService)
                 )
             ),
             8082
