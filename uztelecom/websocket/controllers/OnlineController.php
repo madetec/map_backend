@@ -50,6 +50,11 @@ class OnlineController extends AuthComponent
     }
 
 
+    /**
+     * @param ConnectionInterface $from
+     * @param $data
+     * @throws \yii\base\InvalidArgumentException
+     */
     protected function createOrder(ConnectionInterface $from, $data)
     {
         $result = null;
