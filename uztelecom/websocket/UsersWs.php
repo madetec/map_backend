@@ -19,7 +19,6 @@ use yii\helpers\ArrayHelper;
  * @property User $user
  * @property $users
  */
-
 class UsersWs
 {
     public $users = [];
@@ -28,17 +27,19 @@ class UsersWs
 
     public function attach(ConnectionInterface $client, User $user, float $lat = 0, float $lng = 0)
     {
-        $object = new \stdClass();
+        $object = new ClientUserWs();
         $object->client = $client;
         $object->user = $user;
-        $object->coordinates = (object)[
-            'lat' => $lat,
-            'lng' => $lng,
-        ];
+        $object->coordinates->lat = $lat;
+        $object->coordinates->lnt = $lng;
         $this->users[$client->resourceId] = $object;
     }
 
-    public function getClient($resourceId)
+    /**
+     * @param $resourceId
+     * @return ClientUserWs|null
+     */
+    public function getClient($resourceId): ?ClientUserWs
     {
         return !empty($this->users[$resourceId]) ? $this->users[$resourceId] : null;
     }

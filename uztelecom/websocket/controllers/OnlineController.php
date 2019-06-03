@@ -7,24 +7,30 @@
 namespace uztelecom\websocket\controllers;
 
 use Ratchet\ConnectionInterface;
+use uztelecom\entities\orders\Order;
+use uztelecom\forms\orders\OrderForm;
+use uztelecom\helpers\OrderHelper;
 use uztelecom\readModels\UserReadRepository;
 use uztelecom\repositories\UserRepository;
+use uztelecom\services\OrderManageService;
 use uztelecom\websocket\components\AuthComponent;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 
 class OnlineController extends AuthComponent
 {
     private $users;
+    private $orderService;
 
     public function __construct(
         UserRepository $userRepository,
+        OrderManageService $orderManageService,
         array $config = []
     )
     {
         parent::__construct($config);
         $this->users = $userRepository;
+        $this->orderService = $orderManageService;
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
@@ -41,6 +47,27 @@ class OnlineController extends AuthComponent
         } else {
             $this->send($from, $message->action, 'error', 'action not found!');
         }
+    }
+
+
+    protected function createOrder(ConnectionInterface $from, $data)
+    {
+        $result = null;
+        $main = $this->service->getClient($from->resourceId);
+        $form = new OrderForm();
+        $form->load($data, '');
+        try {
+            $form->validate();
+            try {
+                $order = $this->orderService->create($main->user->id, $form);
+                $this->send($from, 'createOrder', 'success', $this->serializeOrder($order));
+            } catch (\Exception $e) {
+                $this->send($from, 'createOrder', 'error', $e->getMessage());
+            }
+        } catch (\Exception $e) {
+            $this->send($from, 'createOrder', 'error', $e->getMessage());
+        }
+        $this->send($from, 'createOrder', 'error', $form);
     }
 
 
@@ -115,6 +142,45 @@ class OnlineController extends AuthComponent
             'ping' => 'ping',
             'onlineUsers' => 'onlineUsers',
             'coordinates' => 'coordinates',
+            'createOrder' => 'createOrder',
+            'takeOrder' => 'takeOrder',
+            'waitingOrder' => 'waitingOrder',
+            'startedOrder' => 'startedOrder',
+            'completedOrder' => 'completedOrder',
+            'cancelOrder' => 'cancelOrder',
+        ];
+    }
+
+
+    private function serializeOrder(Order $order)
+    {
+        return [
+            'id' => $order->id,
+            'from' => [
+                'lat' => $order->from_lat,
+                'lng' => $order->from_lng,
+                'address' => $order->from_address,
+            ],
+            'to' => [
+                'lat' => $order->to_lat,
+                'lng' => $order->to_lng,
+                'address' => $order->to_address,
+            ],
+            'created_at' => $order->created_at,
+            'status' => OrderHelper::serializeStatus($order->status),
+            'driver' => !$order->driver ? null : [
+                'id' => $order->driver->id,
+                'name' => $order->driver->profile->fullName,
+                'car' => !$order->driver->car ? null : [
+                    'id' => $order->driver->car->id,
+                    'model' => $order->driver->car->model,
+                    'number' => $order->driver->car->number,
+                    'color' => !$order->driver->car->color ? null : [
+                        'name' => $order->driver->car->color->name,
+                        'hex' => $order->driver->car->color->hex,
+                    ],
+                ]
+            ]
         ];
     }
 }

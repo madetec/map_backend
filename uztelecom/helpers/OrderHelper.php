@@ -66,7 +66,7 @@ class OrderHelper
                 $name = 'Активный';
                 break;
             case Order::STATUS_DRIVER_IS_WAITING:
-                $name = 'Водитель ожидает пользователя';
+                $name = 'Водитель ожидает Вас';
                 break;
             case Order::STATUS_DRIVER_ON_THE_ROAD:
                 $name = 'Водитель в пути';
