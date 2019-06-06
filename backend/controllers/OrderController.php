@@ -66,11 +66,11 @@ class OrderController extends Controller
     public function actionDelete($id)
     {
         $order = $this->orders->find($id);
-
-        if(!$order->isCanceled() || !$order->isCompleted()){
-            Yii::$app->session->setFlash('error', "Не возможно удалить! Заказ еще не завершен.");
-        }else{
+        if ($order->isCanceled() || $order->isCompleted()) {
             $order->delete();
+        } else {
+            Yii::$app->session->setFlash('error', "Не возможно удалить! Заказ еще не завершен.");
+
         }
 
         return $this->redirect(['index']);
