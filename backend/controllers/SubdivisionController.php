@@ -4,8 +4,8 @@ namespace backend\controllers;
 
 use backend\forms\SubdivisionSearch;
 use uztelecom\entities\Subdivision;
+use uztelecom\forms\SubdivisionForm;
 use Yii;
-use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -64,14 +64,13 @@ class SubdivisionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Subdivision();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $form = new SubdivisionForm();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $subdivision = Subdivision::create($form);
+            return $this->redirect(['view', 'id' => $subdivision->id]);
         }
-
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -83,14 +82,13 @@ class SubdivisionController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $subdivision = $this->findModel($id);
+        $form = new SubdivisionForm($subdivision);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            return $this->redirect(['view', 'id' => $subdivision->id]);
         }
-
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -104,7 +102,6 @@ class SubdivisionController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
