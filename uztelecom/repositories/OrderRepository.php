@@ -22,8 +22,16 @@ class OrderRepository
     public function getActiveOrder($user_id): ?Order
     {
         return Order::find()
-            ->where(['created_by' => $user_id])
-            ->andWhere(['!=', 'status', Order::STATUS_CANCELED])
+            ->where([
+                'and',
+                ['created_by' => $user_id],
+                ['status' =>  [
+                    Order::STATUS_ACTIVE,
+                    Order::STATUS_DRIVER_ON_THE_ROAD,
+                    Order::STATUS_DRIVER_IS_WAITING,
+                    Order::STATUS_DRIVER_STARTED_THE_RIDE,
+                ]]
+            ])
             ->one();
     }
 
