@@ -12,9 +12,9 @@ use yii\widgets\ActiveForm;
         <div class="box-body">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'lat')->textInput(['type' => 'number', 'step' => "0.0000001"]) ?>
+            <?= $form->field($model, 'lat')->textInput() ?>
 
-            <?= $form->field($model, 'lng')->textInput(['type' => 'number', 'step' => "0.0000001"]) ?>
+            <?= $form->field($model, 'lng')->textInput() ?>
 
             <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 

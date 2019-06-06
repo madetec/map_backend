@@ -85,10 +85,12 @@ class SubdivisionController extends Controller
         $subdivision = $this->findModel($id);
         $form = new SubdivisionForm($subdivision);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $subdivision->edit($form);
             return $this->redirect(['view', 'id' => $subdivision->id]);
         }
         return $this->render('update', [
-            'model' => $form,
+            'form' => $form,
+            'model' => $subdivision,
         ]);
     }
 

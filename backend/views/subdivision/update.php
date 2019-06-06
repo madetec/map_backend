@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="subdivision-update">
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $form,
     ]) ?>
 
 </div>
