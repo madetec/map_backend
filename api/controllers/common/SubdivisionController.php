@@ -18,8 +18,7 @@ class SubdivisionController extends Controller
      *         response=200,
      *         description="Success response",
      *         @SWG\Schema(@SWG\Items(ref="#/definitions/Subdivision"))
-     *     ),
-     *     security={{"Bearer": {}, "OAuth2": {}}}
+     *     )
      * )
      */
     public function actionIndex()
