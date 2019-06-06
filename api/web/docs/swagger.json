@@ -132,6 +132,30 @@
                 ]
             }
         },
+        "/subdivisions": {
+            "get": {
+                "tags": [
+                    "Subdivision"
+                ],
+                "description": "Returns subdivisions list",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Subdivision"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/driver/order/{id}": {
             "get": {
                 "tags": [
@@ -711,6 +735,26 @@
                 },
                 "created_at": {
                     "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "Subdivision": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                },
+                "address": {
+                    "type": "string"
                 }
             },
             "type": "object"
