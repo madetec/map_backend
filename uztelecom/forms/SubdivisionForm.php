@@ -37,8 +37,20 @@ class SubdivisionForm extends Model
     {
         return [
             ['name', 'required'],
-            [['lat', 'lng'], 'number'],
+            [['lat', 'lng'], 'double'],
             [['name', 'address'], 'string']
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Наименование',
+            'lng' => 'Долгота',
+            'lat' => 'Широта',
+            'address' => 'Адрес',
+        ];
+    }
+
 }
