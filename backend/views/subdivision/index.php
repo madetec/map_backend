@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Добавить филиал', ['create'], ['class' => 'btn btn-telecom-car btn-success']) ?>
     </p>
-
+    <div class="table-responsive">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -25,12 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function (\uztelecom\entities\Subdivision $subdivision) {
                     return Html::a($subdivision->name, \yii\helpers\Url::to(['subdivision/view', 'id' => $subdivision->id]));
                 },
-                'format' => 'raw'
+                'format' => 'raw',
+                'contentOptions' => ['style' => 'white-space: normal;'],
             ],
             'lat',
             'lng',
-            'address',
+            [
+                'attribute' => 'address',
+                'contentOptions' => ['style' => 'white-space: normal;'],
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    </div>
 </div>
