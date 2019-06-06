@@ -24,6 +24,7 @@
                     ['label' => 'Пользователи', 'icon' => ' ion-ios-people', 'url' => ['/user']],
                     ['label' => 'Машины', 'icon' => ' ion-model-s', 'url' => ['/car']],
                     ['label' => 'Заказы', 'icon' => ' ion-ios-location', 'url' => ['/order']],
+                    ['label' => 'Филиалы', 'icon' => ' ion-ios-location', 'url' => ['/subdivision'], 'visible' => Yii::$app->user->can('administrator')],
                 ],
             ]
         ) ?>

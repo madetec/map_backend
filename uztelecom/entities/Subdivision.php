@@ -16,6 +16,17 @@ use yii\db\ActiveRecord;
 class Subdivision extends ActiveRecord
 {
 
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Наименование',
+            'lng' => 'Долгота',
+            'lat' => 'Широта',
+            'address' => 'Адрес',
+        ];
+    }
+
     public static function tableName(): string
     {
         return '{{%subdivisions}}';

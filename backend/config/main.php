@@ -73,8 +73,8 @@ return [
         'rules' => [
             [
                 'allow' => true,
-                'roles' => ['dispatcher', 'administrator']
-            ]
+                'roles' => ['administrator', 'dispatcher']
+            ],
         ],
     ],
     'params' => $params,

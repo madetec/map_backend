@@ -28,14 +28,24 @@ class SignInCest
     /**
      * @param FunctionalTester $I
      */
-    public function signInUser(FunctionalTester $I)
+    public function signInAdmin(FunctionalTester $I)
     {
         $I->amOnPage('/auth/sign-in');
         $I->fillField(['id' => 'signinform-username'], 'admin');
         $I->fillField(['id' => 'signinform-password'], 'password_0');
         $I->click('login-button');
 
-//        $I->see('Sign out', 'a[data-method="post"]');
+        $I->see('Выход из системы', 'a[data-method="post"]');
+    }
+
+    public function signInDispatcher(FunctionalTester $I)
+    {
+        $I->amOnPage('/auth/sign-in');
+        $I->fillField(['id' => 'signinform-username'], 'dispatcher');
+        $I->fillField(['id' => 'signinform-password'], 'password_0');
+        $I->click('login-button');
+
+        $I->see('Выход из системы', 'a[data-method="post"]');
     }
 
 

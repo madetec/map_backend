@@ -87,7 +87,12 @@ $gridColumns = [
             return Html::a(Html::tag('i', null, ['class' => 'ion-ios-location']) . ' Посмотреть', Url::to(['order/view-map', 'id' => $order->id]));
         },
         'format' => 'html'
-    ]
+    ],
+    [
+        'class' => 'yii\grid\ActionColumn',
+        'visible' => Yii::$app->user->can('administrator'),
+        'template' => '{delete}'
+    ],
 ];
 
 

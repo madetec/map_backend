@@ -56,4 +56,23 @@ class OrderController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDelete($id)
+    {
+        $order = $this->orders->find($id);
+
+        if(!$order->isCanceled() || !$order->isCompleted()){
+            Yii::$app->session->setFlash('error', "Не возможно удалить! Заказ еще не завершен.");
+        }else{
+            $order->delete();
+        }
+
+        return $this->redirect(['index']);
+    }
 }

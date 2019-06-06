@@ -46,7 +46,7 @@ class AuthService
             throw new \DomainException('Sign in error');
         }
 
-        if (!Yii::$app->user->can('administrator')) {
+        if (!Yii::$app->user->can('dispatcher') && !Yii::$app->user->can('administrator')) {
             Yii::$app->user->logout();
             throw new ForbiddenHttpException('Access is denied!');
         }

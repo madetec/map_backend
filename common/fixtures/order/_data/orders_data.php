@@ -12,7 +12,7 @@ return [
 
     [
         'id' => 2,
-        'status' => \uztelecom\entities\orders\Order::STATUS_DRIVER_ON_THE_ROAD,
+        'status' => \uztelecom\entities\orders\Order::STATUS_DRIVER_STARTED_THE_RIDE,
         'from_lat' => 41.324740,
         'from_lng' => 69.272871,
         'from_address' => 'test from address',

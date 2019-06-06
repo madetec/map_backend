@@ -67,7 +67,7 @@ class AuthController extends Controller
                 $this->service->signIn($form);
                 return $this->goBack();
             } catch (\Exception $e) {
-                Yii::$app->session->setFlash('error',$e->getMessage());
+                Yii::$app->session->setFlash('error', $e->getMessage());
                 return $this->goBack();
             }
         }

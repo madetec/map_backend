@@ -53,9 +53,8 @@ class RbacController extends Controller
 
         $this->stdout(PHP_EOL . 'create role admin done!');
 
-
-        $auth->addChild($dispatcher, $user);
         $auth->addChild($administrator, $dispatcher);
+        $auth->addChild($dispatcher, $user);
 
         $this->stdout(PHP_EOL . 'add child done!');
 
