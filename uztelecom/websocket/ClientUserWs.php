@@ -14,8 +14,13 @@ class ClientUserWs
 {
     public $client;
     public $user;
-    public $coordinates = (object)[
-        'lat' => null,
-        'lng' => null,
-    ];
+    public $coordinates;
+
+    public function __construct()
+    {
+        $this->coordinates = (object)[
+            'lat' => null,
+            'lng' => null
+        ];
+    }
 }

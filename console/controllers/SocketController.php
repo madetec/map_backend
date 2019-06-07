@@ -54,7 +54,7 @@ class SocketController extends Controller
     }
 
     /**
-     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function actionRun()
     {

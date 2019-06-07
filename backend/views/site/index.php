@@ -10,38 +10,46 @@ $this->title = 'Панель управления, TelecomCar';
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-teal"><i class="ion-ios-location"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Заказов</span>
-                    <span class="info-box-number"><?= $cars->totalCount ?></span>
-                </div>
+                <a href="<?= \yii\helpers\Url::to('/order/index') ?>">
+                    <span class="info-box-icon bg-teal"><i class="ion-ios-location"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text text-black">Заказов</span>
+                        <span class="info-box-number text-black"><?= $cars->totalCount ?></span>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="ion-model-s"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Автомобилей</span>
-                    <span class="info-box-number"><?= $cars->totalCount ?></span>
-                </div>
+                <a href="<?= \yii\helpers\Url::to('/order/index') ?>">
+                    <span class="info-box-icon bg-aqua"><i class="ion-model-s"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text text-black">Автомобилей</span>
+                        <span class="info-box-number text-black"><?= $cars->totalCount ?></span>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-blue"><i class="ion-ios-people"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Водителей</span>
-                    <span class="info-box-number"><?= $users->getAllDriverCount() ?></span>
-                </div>
+                <a href="<?= \yii\helpers\Url::to('/order/index') ?>">
+                    <span class="info-box-icon bg-blue"><i class="ion-ios-people"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text text-black">Водителей</span>
+                        <span class="info-box-number text-black"><?= $users->getAllDriverCount() ?></span>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-orange"><i class="ion-ios-people"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Пользователей</span>
-                    <span class="info-box-number"><?= $users->getAllUsersCount() ?></span>
-                </div>
+                <a href="<?= \yii\helpers\Url::to('/order/index') ?>">
+                    <span class="info-box-icon bg-orange"><i class="ion-ios-people"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text text-black">Пользователей</span>
+                        <span class="info-box-number text-black"><?= $users->getAllUsersCount() ?></span>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-12">
@@ -92,23 +100,21 @@ $this->title = 'Панель управления, TelecomCar';
     </div>
 
 <?php
-$userId = Yii::$app->user ? Yii::$app->user->getId() : null;
+$wsUrl = "'" . Yii::$app->params['wsHostInfo'] . "?user_id=" . Yii::$app->user->getId() . "'";
 $script = <<<JS
 $('#map').css('height','500px');
 let icons = { user:null, driver:null};
 let map;
-let userId = $userId;
 let markers = [];
 initMap();
-
-let ws = new WebSocket('wss://telecom-car.uz/ws?user_id='+userId);
+let ws = new WebSocket($wsUrl);
   ws.addEventListener('open',function(e){
     ws.send(prepareMessage("onlineUsers",null))
     
     setInterval(function(){
         ws.send(prepareMessage("ping",null))
         ws.send(prepareMessage("onlineUsers",null))
-    },1000)
+    },10000)
     
     onlineMark()
   });
