@@ -6,10 +6,14 @@
 
 namespace uztelecom\readModels;
 
-
 use uztelecom\entities\user\User;
+use yii\base\Component;
 
-class UserReadRepository
+/**
+ * @property $allDriverCount
+ * @property $allUsersCount
+ */
+class UserReadRepository extends Component
 {
     public function getAllDriverCount()
     {

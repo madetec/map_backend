@@ -14,7 +14,7 @@ $this->title = 'Панель управления, TelecomCar';
                     <span class="info-box-icon bg-teal"><i class="ion-ios-location"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Заказов</span>
-                        <span class="info-box-number text-black"><?= $cars->totalCount ?></span>
+                        <span class="info-box-number text-black"><?= $orders->totalCount ?></span>
                     </div>
                 </a>
             </div>
@@ -36,7 +36,7 @@ $this->title = 'Панель управления, TelecomCar';
                     <span class="info-box-icon bg-blue"><i class="ion-ios-people"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Водителей</span>
-                        <span class="info-box-number text-black"><?= $users->getAllDriverCount() ?></span>
+                        <span class="info-box-number text-black"><?= $users->allDriverCount ?></span>
                     </div>
                 </a>
             </div>
@@ -47,7 +47,7 @@ $this->title = 'Панель управления, TelecomCar';
                     <span class="info-box-icon bg-orange"><i class="ion-ios-people"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Пользователей</span>
-                        <span class="info-box-number text-black"><?= $users->getAllUsersCount() ?></span>
+                        <span class="info-box-number text-black"><?= $users->allUsersCount ?></span>
                     </div>
                 </a>
             </div>

@@ -7,10 +7,19 @@
 namespace uztelecom\readModels;
 use uztelecom\entities\orders\Order;
 use uztelecom\exceptions\NotFoundException;
+use yii\base\Component;
 use yii\data\ActiveDataProvider;
 
-class OrderReadRepository
+/**
+ * @property $totalCount
+ */
+class OrderReadRepository extends Component
 {
+
+    public function getTotalCount()
+    {
+        return Order::find()->count();
+    }
 
     /**
      * @param $user_id
