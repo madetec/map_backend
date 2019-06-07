@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Url;
 /**
  * @var $this yii\web\View
  * @var $users \uztelecom\readModels\UserReadRepository
@@ -10,7 +11,7 @@ $this->title = 'Панель управления, TelecomCar';
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <a href="<?= \yii\helpers\Url::to('/order/index') ?>">
+                <a href="<?= Url::to('/order/index') ?>">
                     <span class="info-box-icon bg-teal"><i class="ion-ios-location"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Заказов</span>
@@ -21,7 +22,7 @@ $this->title = 'Панель управления, TelecomCar';
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <a href="<?= \yii\helpers\Url::to('/car/index') ?>">
+                <a href="<?= Url::to('/car/index') ?>">
                     <span class="info-box-icon bg-aqua"><i class="ion-model-s"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Автомобилей</span>
@@ -32,7 +33,7 @@ $this->title = 'Панель управления, TelecomCar';
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <a href="<?= \yii\helpers\Url::to(['/user/index','UserSearch[role]' => 'driver']) ?>">
+                <a href="<?= Url::to(['/user/index','UserSearch[role]' => 'driver']) ?>">
                     <span class="info-box-icon bg-blue"><i class="ion-ios-people"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Водителей</span>
@@ -43,7 +44,7 @@ $this->title = 'Панель управления, TelecomCar';
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <a href="<?= \yii\helpers\Url::to(['/user/index','UserSearch[role]' => 'user']) ?>">
+                <a href="<?= Url::to(['/user/index','UserSearch[role]' => 'user']) ?>">
                     <span class="info-box-icon bg-orange"><i class="ion-ios-people"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Пользователей</span>
