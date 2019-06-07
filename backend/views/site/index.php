@@ -21,7 +21,7 @@ $this->title = 'Панель управления, TelecomCar';
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <a href="<?= \yii\helpers\Url::to('/user/index') ?>">
+                <a href="<?= \yii\helpers\Url::to('/car/index') ?>">
                     <span class="info-box-icon bg-aqua"><i class="ion-model-s"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Автомобилей</span>
@@ -32,7 +32,7 @@ $this->title = 'Панель управления, TelecomCar';
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <a href="<?= \yii\helpers\Url::to('/car/index') ?>">
+                <a href="<?= \yii\helpers\Url::to('/user/index') ?>">
                     <span class="info-box-icon bg-blue"><i class="ion-ios-people"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text text-black">Водителей</span>
