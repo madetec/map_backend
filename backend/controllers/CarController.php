@@ -18,7 +18,6 @@ use yii\web\NotFoundHttpException;
  */
 class CarController extends Controller
 {
-
     private $service;
     private $cars;
 
@@ -31,7 +30,6 @@ class CarController extends Controller
         parent::__construct($id, $module, $config);
         $this->service = $carManageService;
         $this->cars = $carReadRepository;
-
     }
 
     /**
