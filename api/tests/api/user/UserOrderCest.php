@@ -11,6 +11,7 @@ use common\fixtures\notification\NotificationAssignmentsFixture;
 use common\fixtures\Oauth20\OauthAccessTokenFixture;
 use common\fixtures\order\OrderFixture;
 use common\fixtures\user\DeviceFixture;
+use yii\helpers\VarDumper;
 
 class UserOrderCest
 {
@@ -64,18 +65,17 @@ class UserOrderCest
         $I->canSeeResponseContainsJson([
             [
                 'from' => [
-                    'lat' => 41.2792
+                    'lat' => 41.279174
                 ],
             ]
-
         ]);
     }
 
     public function cancel(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-user');
-        $I->sendPATCH('/user/order/1/cancel');
+        $I->sendPATCH('/user/order/2/cancel');
+        VarDumper::dump($I->grabResponse());
         $I->canSeeResponseCodeIs(200);
     }
-
 }

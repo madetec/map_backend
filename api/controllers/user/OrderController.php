@@ -98,7 +98,7 @@ class OrderController extends Controller
         try {
             $this->service->canceled($order_id);
         } catch (\Exception $e) {
-            throw new BadRequestHttpException($e->getMessage());
+            throw $e;
         }
         return true;
     }

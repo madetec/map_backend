@@ -105,9 +105,17 @@ class NotificationComponent extends Component
         $notification->assign($to->id);
         $order = $this->orders->find($event->type_id);
 
-        $title = "Водитель отменил заказ!";
-        $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
-        $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        if ($from->role === 'user') {
+            $title = "Пльзователь отменил заказ.";
+            $body = $from->car ? "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL : '';
+            $body .= "Пользователь: {$from->profile->getFullName()}" . PHP_EOL;
+        } else {
+            $title = "Водитель отменил заказ.";
+            $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
+            $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+        }
+
+
         foreach ($to->devices as $device) {
             $this->sendPushNotificationToDevice(
                 $title,
