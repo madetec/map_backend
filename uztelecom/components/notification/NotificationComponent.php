@@ -106,7 +106,7 @@ class NotificationComponent extends Component
         $order = $this->orders->find($event->type_id);
 
         if ($from->role === 'user') {
-            $title = "Пльзователь отменил заказ.";
+            $title = "Пользователь отменил заказ.";
             $body = $from->car ? "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL : '';
             $body .= "Пользователь: {$from->profile->getFullName()}" . PHP_EOL;
         } else {
