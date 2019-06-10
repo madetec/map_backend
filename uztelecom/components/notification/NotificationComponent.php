@@ -109,10 +109,12 @@ class NotificationComponent extends Component
             $title = "Пользователь отменил заказ.";
             $body = $from->car ? "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL : '';
             $body .= "Пользователь: {$from->profile->getFullName()}" . PHP_EOL;
+            $who = 'user';
         } else {
             $title = "Водитель отменил заказ.";
             $body = "Машина: {$from->car->model} {$from->car->number}" . PHP_EOL;
             $body .= "Водитель: {$from->profile->getFullName()}" . PHP_EOL;
+            $who = 'driver';
         }
 
 
@@ -124,6 +126,7 @@ class NotificationComponent extends Component
                 [
                     'id' => $order->id,
                     'type' => 'cancel_order',
+                    'who' => $who,
                 ]
             );
         }
