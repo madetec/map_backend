@@ -187,7 +187,9 @@ class OrderController extends Controller
             'driver' => !$order->driver ? null : [
                 'id' => $order->driver->id,
                 'name' => $order->driver->profile->fullName,
-                'phone' => $order->driver->profile->mainPhone ? $order->driver->profile->mainPhone->number : null,
+//                'phone' => $order->driver->profile->mainPhone
+//                    ? $order->driver->profile->mainPhone->number
+//                    : null,
                 'car' => !$order->driver->car ? null : [
                     'id' => $order->driver->car->id,
                     'model' => $order->driver->car->model,
