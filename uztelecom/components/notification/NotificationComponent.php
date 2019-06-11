@@ -117,7 +117,6 @@ class NotificationComponent extends Component
             $who = 'driver';
         }
 
-
         foreach ($to->devices as $device) {
             $this->sendPushNotificationToDevice(
                 $title,
