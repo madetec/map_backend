@@ -3,6 +3,15 @@ body {
     height: 100%;
 }
 
+.login-page footer {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #666;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;

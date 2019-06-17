@@ -1,5 +1,5 @@
 <?php
-use backend\assets\AppAsset;
+
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
@@ -18,11 +18,12 @@ backend\assets\AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body class="login-page">
-
 <?php $this->beginBody() ?>
 
     <?= $content ?>
-
+<footer>
+    <p><?= "AK «UZBEKTELECOM» " . date('Y') . ". All rights reserved" ?></p>
+</footer>
 <?php $this->endBody() ?>
 </body>
 </html>
