@@ -2,6 +2,7 @@
 return [
     'name' => 'Telecom Car',
     'language' => 'ru',
+    'timeZone' => 'Asia/Tashkent',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
