@@ -10,6 +10,7 @@ use uztelecom\entities\cars\Car;
 use uztelecom\entities\Color;
 use uztelecom\entities\user\User;
 use yii\base\Model;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -65,7 +66,14 @@ class CarForm extends Model
 
     public function getDrivers()
     {
-        return ArrayHelper::map(User::find()->active()->driver()->all(), 'id', function (User $user) {
+        $drivers = User::find()->active()->driver()->all();
+        $driversWithoutCar = [];
+        foreach ($drivers as $driver){
+            if(!$driver->car){
+                $driversWithoutCar[] = $driver;
+            }
+        }
+        return ArrayHelper::map($driversWithoutCar, 'id', function (User $user) {
             return $user->profile->getFullName();
         });
     }

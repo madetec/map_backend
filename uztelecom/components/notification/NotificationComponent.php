@@ -302,7 +302,7 @@ class NotificationComponent extends Component
     {
         $note = $this->fcm->createNotification($title, $body);
 
-        $note->setIcon('icon_round.png')
+        $note->setIcon('fcm_push_icon')
             ->setColor('#ffffff')
             ->setBadge(1)
             ->setSound('default');

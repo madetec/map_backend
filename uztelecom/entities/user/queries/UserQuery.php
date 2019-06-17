@@ -47,6 +47,7 @@ class UserQuery extends ActiveQuery
         ]);
     }
 
+
     public function dispatcher($alias = null)
     {
         return $this->andWhere([
