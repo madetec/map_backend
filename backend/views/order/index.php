@@ -40,26 +40,18 @@ $gridColumns = [
     [
         'attribute' => 'from',
         'value' => function (Order $order) {
-            return Html::tag('p',
-                \yii\helpers\StringHelper::truncate($order->from_address, '20'), [
-                "data-toggle" => "tooltip",
-                "data-placement" => "top",
-                "title" => $order->from_address
-            ]);
+            return $order->from_address;
         },
         'format' => 'raw',
+        'contentOptions' => ['style' => 'white-space: normal;'],
     ],
     [
         'attribute' => 'to',
         'value' => function (Order $order) {
-            return Html::tag('p',
-                \yii\helpers\StringHelper::truncate($order->to_address, '20'), [
-                    "data-toggle" => "tooltip",
-                    "data-placement" => "top",
-                    "title" => $order->to_address
-                ]);
+            return $order->to_address;
         },
         'format' => 'raw',
+        'contentOptions' => ['style' => 'white-space: normal;'],
     ],
     [
         'attribute' => 'created_at',
