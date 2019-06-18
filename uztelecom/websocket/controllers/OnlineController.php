@@ -69,11 +69,12 @@ class OnlineController extends AuthComponent
                 } catch (\Exception $e) {
                     $this->send($from, 'createOrder', 'error', $e->getMessage());
                 }
+            } else {
+                $this->send($from, 'createOrder', 'error', $form->getErrorSummary(true));
             }
         } catch (\Exception $e) {
             $this->send($from, 'createOrder', 'error', $e->getMessage());
         }
-        $this->send($from, 'createOrder', 'error', $form->getErrorSummary(true));
     }
 
 
