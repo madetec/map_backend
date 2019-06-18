@@ -62,17 +62,18 @@ class OnlineController extends AuthComponent
         $form = new OrderForm();
         $form->load($data, '');
         try {
-            $form->validate();
-            try {
-                $order = $this->orderService->create($main->user->id, $form);
-                $this->send($from, 'createOrder', 'success', $this->serializeOrder($order));
-            } catch (\Exception $e) {
-                $this->send($from, 'createOrder', 'error', $e->getMessage());
+            if ($form->validate()) {
+                try {
+                    $order = $this->orderService->create($main->user->id, $form);
+                    $this->send($from, 'createOrder', 'success', $this->serializeOrder($order));
+                } catch (\Exception $e) {
+                    $this->send($from, 'createOrder', 'error', $e->getMessage());
+                }
             }
         } catch (\Exception $e) {
             $this->send($from, 'createOrder', 'error', $e->getMessage());
         }
-        $this->send($from, 'createOrder', 'error', $form);
+        $this->send($from, 'createOrder', 'error', $form->getErrorSummary(true));
     }
 
 
