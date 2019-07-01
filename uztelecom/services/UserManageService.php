@@ -197,6 +197,25 @@ class UserManageService
 
     /**
      * @param $user_id
+     * @param $uid
+     * @throws \DomainException
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function removeDevice($user_id, $uid)
+    {
+        $user = $this->users->find($user_id);
+        $devices = $user->devices;
+        foreach ($devices as $k => $device) {
+            if ($device->uid === $uid) {
+                unset($devices[$k]);
+            }
+        }
+        $user->devices = $devices;
+        $this->users->save($user);
+    }
+
+    /**
+     * @param $user_id
      * @param DeviceForm $form
      * @throws \DomainException
      * @throws \uztelecom\exceptions\NotFoundException

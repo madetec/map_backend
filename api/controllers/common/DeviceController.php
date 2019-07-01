@@ -34,6 +34,39 @@ class DeviceController extends Controller
     }
 
     /**
+     * @SWG\Get(
+     *     path="/device/remove/{uid}",
+     *     tags={"Device"},
+     *     description="Return boolean",
+     *      @SWG\Parameter(
+     *          name="uid",
+     *          in="path",
+     *          required=true,
+     *          type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="true || false"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @param $uid
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+    public function actionRemove($uid)
+    {
+        try {
+            $this->userService->removeDevice(\Yii::$app->user->getId(), $uid);
+            return true;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
      * @SWG\Post(
      *     path="/device/add",
      *     tags={"Device"},
