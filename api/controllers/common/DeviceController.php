@@ -59,7 +59,7 @@ class DeviceController extends Controller
     public function actionRemove($uid)
     {
         try {
-            $this->userService->removeDevice(\Yii::$app->user->getId(), $uid);
+            $this->userService->removeDevice($uid);
             return true;
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
