@@ -78,6 +78,33 @@
                 }
             }
         },
+        "/device/remove/{uid}": {
+            "get": {
+                "tags": [
+                    "Device"
+                ],
+                "description": "Return boolean",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "true || false"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": [],
+                        "OAuth2": []
+                    }
+                ]
+            }
+        },
         "/device/add": {
             "post": {
                 "tags": [
