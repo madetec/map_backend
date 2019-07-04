@@ -78,6 +78,7 @@ class NotificationComponent extends Component
                 [
                     'id' => $order->id,
                     'type' => 'completed_order',
+                    'status' => $order->status,
                 ]
             );
         }
@@ -126,6 +127,7 @@ class NotificationComponent extends Component
                     'id' => $order->id,
                     'type' => 'cancel_order',
                     'who' => $who,
+                    'status' => $order->status,
                 ]
             );
         }
@@ -164,6 +166,7 @@ class NotificationComponent extends Component
                 [
                     'id' => $order->id,
                     'type' => 'take_order',
+                    'status' => $order->status,
                 ]
             );
         }
@@ -202,6 +205,7 @@ class NotificationComponent extends Component
                 [
                     'id' => $order->id,
                     'type' => 'driver_is_waiting',
+                    'status' => $order->status,
                 ]
             );
         }
@@ -240,6 +244,7 @@ class NotificationComponent extends Component
                 [
                     'id' => $order->id,
                     'type' => 'started_order',
+                    'status' => $order->status,
                 ]
             );
         }
@@ -281,6 +286,7 @@ class NotificationComponent extends Component
                     [
                         'id' => $order->id,
                         'type' => 'new_order',
+                        'status' => $order->status,
                     ]
                 );
             }
