@@ -16,6 +16,34 @@ use yii\data\ActiveDataProvider;
 class OrderReadRepository extends Component
 {
 
+    /**
+     * @param $user_id
+     * @return Order|null
+     * @throws NotFoundException
+     */
+    public function findActiveOrderForDriver($user_id): ?Order
+    {
+        /** @var Order $order */
+        if (!$user_id) {
+            throw new  NotFoundException('User not found.');
+        }
+        if (!$order = Order::find()
+            ->where([
+                'and',
+                ['driver_id' => $user_id],
+                ['status' => [
+                    Order::STATUS_DRIVER_ON_THE_ROAD,
+                    Order::STATUS_DRIVER_IS_WAITING,
+                    Order::STATUS_DRIVER_STARTED_THE_RIDE,
+                ]]
+            ])
+            ->one()) {
+            throw new  NotFoundException('Order not found.');
+        }
+        return $order;
+    }
+
+
     public function getTotalCount()
     {
         return Order::find()->count();
@@ -35,11 +63,7 @@ class OrderReadRepository extends Component
         if (!$order = Order::find()
             ->where([
                 'and',
-                [
-                    'or',
-                    ['created_by' => $user_id],
-                    ['driver_id' => $user_id]
-                ],
+                ['created_by' => $user_id],
                 ['status' =>  [
                     Order::STATUS_ACTIVE,
                     Order::STATUS_DRIVER_ON_THE_ROAD,

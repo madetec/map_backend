@@ -30,6 +30,27 @@ class OrderController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/driver/order/active",
+     *     tags={"User Order"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
+    /**
+     * @return array
+     * @throws \uztelecom\exceptions\NotFoundException
+     */
+    public function actionActive()
+    {
+        $order = $this->orders->findActiveOrderForDriver(\Yii::$app->user->getId());
+        return $this->serializeOrder($order);
+    }
+
 
     /**
      * @SWG\Get(

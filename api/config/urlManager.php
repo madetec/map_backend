@@ -23,6 +23,7 @@ return [
         'GET user/order/active' => 'user/order/active',
 
         'GET driver/order/<id:\d+>' => 'driver/order/view',
+        'GET driver/order/active' => 'driver/order/active',
         'PATCH driver/order/<order_id:\d+>/cancel' => 'driver/order/cancel',
         'PATCH driver/order/<order_id:\d+>/take' => 'driver/order/take',
         'PATCH driver/order/<order_id:\d+>/completed' => 'driver/order/completed',
