@@ -291,7 +291,7 @@ class NotificationComponent extends Component
                     ]
                 );
 
-                sleep(40);
+                sleep(10);
                 if (Order::find()->where([
                     'and',
                     ['id' => $order->id],
