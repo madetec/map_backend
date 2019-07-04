@@ -189,6 +189,9 @@ class OrderManageService
         $order->canceled();
         $this->orders->save($order);
         if ($order->driver) {
+            if ($order->driver->isBusy()) {
+                $order->driver->active();
+            }
             if ($order->driver->id === \Yii::$app->user->getId()) {
                 $fromId = $order->driver->id;
                 $toId = $order->created_by;
