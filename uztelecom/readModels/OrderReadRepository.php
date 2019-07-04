@@ -35,7 +35,11 @@ class OrderReadRepository extends Component
         if (!$order = Order::find()
             ->where([
                 'and',
-                ['created_by' => $user_id],
+                [
+                    'or',
+                    ['created_by' => $user_id],
+                    ['driver_id' => $user_id]
+                ],
                 ['status' =>  [
                     Order::STATUS_ACTIVE,
                     Order::STATUS_DRIVER_ON_THE_ROAD,

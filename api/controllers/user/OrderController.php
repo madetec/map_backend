@@ -91,7 +91,7 @@ class OrderController extends Controller
     /**
      * @param $order_id
      * @return bool
-     * @throws BadRequestHttpException
+     * @throws \Exception
      */
     public function actionCancel($order_id)
     {
