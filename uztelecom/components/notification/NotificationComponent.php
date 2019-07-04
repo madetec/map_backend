@@ -9,6 +9,7 @@ namespace uztelecom\components\notification;
 use paragraph1\phpFCM\Recipient\Device;
 use understeam\fcm\Client;
 use uztelecom\entities\notification\Notification;
+use uztelecom\entities\orders\Order;
 use uztelecom\entities\user\User;
 use uztelecom\events\notification\NotificationEvent;
 use uztelecom\repositories\NotificationRepository;
@@ -289,6 +290,15 @@ class NotificationComponent extends Component
                         'status' => $order->status,
                     ]
                 );
+            }
+
+            sleep(40);
+            if (Order::find()->where([
+                'and',
+                ['id' => $order->id],
+                ['!=', 'status', Order::STATUS_ACTIVE]
+            ])->one()) {
+                break;
             }
         }
         $this->notifications->save($notification);
