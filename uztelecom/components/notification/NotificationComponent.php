@@ -290,9 +290,16 @@ class NotificationComponent extends Component
                         'status' => $order->status,
                     ]
                 );
-            }
 
-            sleep(40);
+                sleep(40);
+                if (Order::find()->where([
+                    'and',
+                    ['id' => $order->id],
+                    ['!=', 'status', Order::STATUS_ACTIVE]
+                ])->one()) {
+                    break;
+                }
+            }
             if (Order::find()->where([
                 'and',
                 ['id' => $order->id],
